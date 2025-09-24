@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:convert'; // jsonEncode 사용을 위해 추가
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
+import 'package:device_info_plus/device_info_plus.dart'; // ✨ 1. 패키지 import
 
 class ExtractUsageData extends StatefulWidget {
   const ExtractUsageData({Key? key}) : super(key: key);
@@ -12,63 +14,98 @@ class ExtractUsageData extends StatefulWidget {
 class _ExtractUsageDataState extends State<ExtractUsageData> {
   static const platform = MethodChannel('com.example.mili_second/usagestats');
 
-  String _status = '버튼을 눌러 시작하세요';
-  String _jsonOutput = '여기에 JSON이 표시됩니다.'; // JSON 출력을 위한 변수 추가
-  DateTime _startDate = DateTime.now().subtract(const Duration(days: 1));
-  DateTime _endDate = DateTime.now();
-  TimeOfDay _startTime = TimeOfDay.now();
-  TimeOfDay _endTime = TimeOfDay.now();
+  String _status = '오늘의 사용 시간을 불러오는 중...';
+  List<Map<String, dynamic>> _jsonList = [];
+  String _totalUsageTime = '계산 중...';
+  final JsonEncoder _encoder = const JsonEncoder.withIndent('  ');
 
-  Future<void> _extractUsageData() async {
+  // ✨ 2. 기기 정보를 저장할 변수 추가
+  String _sourceInfo = '기기 정보 로딩 중...';
+
+  @override
+  void initState() {
+    super.initState();
+    // 화면 시작 시 기기 정보와 사용 기록을 모두 가져옴
+    _initializeData();
+  }
+
+  // ✨ 3. 기기 정보와 사용 기록을 순차적으로 가져오는 함수 추가
+  Future<void> _initializeData() async {
+    await _initSourceInfo(); // 기기 정보를 먼저 가져오고
+    await _getTodaysUsage(); // 그 다음에 사용 기록을 가져옴
+  }
+
+  // ✨ 4. 기기 정보를 가져와 _sourceInfo 변수에 저장하는 함수 추가
+  Future<void> _initSourceInfo() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     try {
+      // 안드로이드 기기 정보 가져오기
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      final info =
+          '${androidInfo.manufacturer}-${androidInfo.model}-${androidInfo.version.release}';
+      if (mounted) {
+        setState(() {
+          _sourceInfo = info;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _sourceInfo = '정보를 가져올 수 없음';
+        });
+      }
+    }
+  }
+
+  Future<void> _getTodaysUsage() async {
+    final now = DateTime.now();
+    final startTime = DateTime(now.year, now.month, now.day);
+    final endTime = now;
+    await _fetchAndProcessUsageData(startTime, endTime);
+  }
+
+  Future<void> _fetchAndProcessUsageData(
+    DateTime startTime,
+    DateTime endTime,
+  ) async {
+    if (mounted) {
       setState(() {
-        _status = '데이터 수집 중...';
+        _status = '데이터를 새로고침하는 중...';
+        _totalUsageTime = '계산 중...';
+        _jsonList = [];
       });
+    }
 
-      // 선택된 날짜와 시간을 조합하여 시작/종료 DateTime 객체 생성
-      final DateTime startDateTime = DateTime(
-        _startDate.year,
-        _startDate.month,
-        _startDate.day,
-        _startTime.hour,
-        _startTime.minute,
-      );
-      final DateTime endDateTime = DateTime(
-        _endDate.year,
-        _endDate.month,
-        _endDate.day,
-        _endTime.hour,
-        _endTime.minute,
-      );
-
+    try {
       final List<dynamic>? rawData = await platform
           .invokeMethod<List<dynamic>>('getUsageStats', {
-            'startTime': startDateTime.millisecondsSinceEpoch,
-            'endTime': endDateTime.millisecondsSinceEpoch,
+            'startTime': startTime.millisecondsSinceEpoch,
+            'endTime': endTime.millisecondsSinceEpoch,
           });
 
-      if (rawData != null) {
+      if (rawData != null && mounted) {
+        // ✨ 5. Isolate 함수에 기기 정보를 인자로 넘겨주기
+        final arguments = {'rawData': rawData, 'sourceInfo': _sourceInfo};
+        final processedResult = await compute(
+          _processDataInBackground,
+          arguments,
+        );
+
         setState(() {
-          _status = '데이터 가공 중...';
+          _status =
+              '최근 새로고침: ${TimeOfDay.fromDateTime(DateTime.now()).format(context)}';
+          _jsonList = processedResult['jsonList'] ?? [];
+          _totalUsageTime = _formatDuration(
+            processedResult['totalDuration'] ?? 0,
+          );
         });
-
-        List<UsageEventInfo> processedData = _processUsageData(rawData);
-        // 엑셀 생성 대신 JSON 변환 함수 호출
-        String jsonString = _convertDataToJson(processedData);
-
-        setState(() {
-          _status = 'JSON 데이터가 생성되었습니다.';
-          _jsonOutput = jsonString; // 가공된 JSON 데이터를 변수에 저장
-        });
-
-        print('JSON 데이터 생성 성공: $jsonString');
-      } else {
+      } else if (mounted) {
         setState(() {
           _status = '데이터를 가져오지 못했습니다.';
         });
       }
     } on PlatformException catch (e) {
-      // 네이티브에서 result.error()를 호출하면 PlatformException이 발생합니다.
+      if (!mounted) return;
       if (e.code == "PERMISSION_DENIED") {
         setState(() {
           _status = '권한이 필요합니다. 설정 화면에서 권한을 허용해주세요.';
@@ -81,227 +118,171 @@ class _ExtractUsageDataState extends State<ExtractUsageData> {
     }
   }
 
-  List<UsageEventInfo> _processUsageData(List<dynamic> rawData) {
-    // 1. Map을 UsageEventInfo 객체 리스트로 변환
-    List<UsageEventInfo> events = rawData
-        .map((item) => UsageEventInfo.fromMap(item as Map<dynamic, dynamic>))
-        .toList();
-
-    // 2. 시간 순으로 정렬
-    events.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
-
-    // 3. 각 이벤트의 상세 정보 계산
-    for (var event in events) {
-      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(event.timeStamp);
-      event.date =
-          '${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}';
-      event.time =
-          '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}';
-      event.hourOfDay = dateTime.hour;
-
-      // 요일 계산 (1:월요일, 7:일요일)
-      const List<String> days = ['월', '화', '수', '목', '금', '토', '일'];
-      event.dayOfWeek = days[dateTime.weekday - 1];
-
-      // 이벤트 타입 이름 변환
-      switch (event.eventType) {
-        case 1: // ACTIVITY_RESUMED
-          event.eventTypeName = '시작';
-          break;
-        case 2: // ACTIVITY_PAUSED
-          event.eventTypeName = '종료';
-          break;
-        // 필요한 경우 다른 이벤트 타입 추가 (예: 7: USER_INTERACTION, 11: STANDBY_BUCKET_CHANGED)
-        default:
-          event.eventTypeName = '기타';
-          break;
-      }
-    }
-
-    // 4. (심화) 사용 시간(duration) 계산
-    Map<String, UsageEventInfo> lastResumeEvent = {};
-
-    for (var event in events) {
-      if (event.eventType == 1) {
-        // ACTIVITY_RESUMED
-        lastResumeEvent[event.packageName] = event;
-      }
-
-      if (event.eventType == 2) {
-        // ACTIVITY_PAUSED
-        if (lastResumeEvent.containsKey(event.packageName)) {
-          UsageEventInfo resumeEvent = lastResumeEvent[event.packageName]!;
-          event.durationMs = event.timeStamp - resumeEvent.timeStamp;
-          event.durationMinutes = event.durationMs / (1000 * 60);
-
-          // 계산 후에는 맵에서 제거하여 중복 계산 방지
-          lastResumeEvent.remove(event.packageName);
-        }
-      }
-    }
-
-    return events;
-  }
-
-  // 엑셀 생성 함수 대신 JSON 변환 함수를 추가
-  String _convertDataToJson(List<UsageEventInfo> data) {
-    List<Map<String, dynamic>> jsonList = data.map((event) {
-      return {
-        "subject_id": 1,
-        "timestamp": event.timeStamp,
-        "source_type": "PHONE",
-        "source_info": "samsung-SM-N960N-8.1.0",
-        "package_name": event.packageName,
-        "name": event.packageName,
-        "is_system_app": false,
-        "is_updated_system_app": false,
-        "type": event.eventTypeName == '시작'
-            ? 'MOVE_TO_FOREGROUND'
-            : 'MOVE_TO_BACKGROUND',
-      };
-    }).toList();
-
-    // JsonEncoder를 사용하여 들여쓰기된 JSON 문자열 생성
-    // ' ' * 2 는 공백 2칸을 들여쓰기 간격으로 사용하겠다는 의미입니다.
-    // 원하는 만큼 공백이나 탭('\t')으로 변경할 수 있습니다.
-    JsonEncoder encoder = const JsonEncoder.withIndent('  ');
-    return encoder.convert(jsonList);
-  }
-
-  // 날짜 선택기 함수
-  Future<void> _selectDate(BuildContext context, bool isStart) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: isStart ? _startDate : _endDate,
-      firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null) {
-      setState(() {
-        if (isStart) {
-          _startDate = picked;
-        } else {
-          _endDate = picked;
-        }
-      });
-    }
-  }
-
-  // 시간 선택기 함수
-  Future<void> _selectTime(BuildContext context, bool isStart) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: isStart ? _startTime : _endTime,
-    );
-    if (picked != null) {
-      setState(() {
-        if (isStart) {
-          _startTime = picked;
-        } else {
-          _endTime = picked;
-        }
-      });
-    }
-  }
-
-  // 날짜 포맷팅 함수
-  String _formatDate(DateTime date) {
-    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
-  }
-
-  // 시간 포맷팅 함수
-  String _formatTime(TimeOfDay time) {
-    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+  String _formatDuration(int totalMilliseconds) {
+    if (totalMilliseconds < 0) return "계산 오류";
+    final duration = Duration(milliseconds: totalMilliseconds);
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes.remainder(60);
+    final seconds = duration.inSeconds.remainder(60);
+    return '${hours.toString().padLeft(2, '0')}시간 ${minutes.toString().padLeft(2, '0')}분 ${seconds.toString().padLeft(2, '0')}초';
   }
 
   @override
   Widget build(BuildContext context) {
+    // ... UI 코드는 이전과 동일하므로 생략 ...
     return Scaffold(
-      appBar: AppBar(title: const Text('사용자 활동 내역 분석')),
-      body: SingleChildScrollView(
-        // 스크롤 가능하도록 SingleChildScrollView 추가
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // 시작 날짜 선택 버튼
-              ElevatedButton(
-                onPressed: () => _selectDate(context, true),
-                child: Text('시작 날짜: ${_formatDate(_startDate)}'),
+      appBar: AppBar(title: const Text('오늘의 휴대폰 사용 시간')),
+      body: RefreshIndicator(
+        onRefresh: _getTodaysUsage,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  const Text(
+                    '오늘 하루 총 사용 시간',
+                    style: TextStyle(fontSize: 22, color: Colors.black54),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    _totalUsageTime,
+                    style: const TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueAccent,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    _status,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 16),
+                  const Divider(),
+                  const Text(
+                    '생성된 JSON 데이터',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                ],
               ),
-              // 시작 시간 선택 버튼
-              ElevatedButton(
-                onPressed: () => _selectTime(context, true),
-                child: Text('시작 시간: ${_formatTime(_startTime)}'),
-              ),
-              const SizedBox(height: 20),
-              // 종료 날짜 선택 버튼
-              ElevatedButton(
-                onPressed: () => _selectDate(context, false),
-                child: Text('종료 날짜: ${_formatDate(_endDate)}'),
-              ),
-              // 종료 시간 선택 버튼
-              ElevatedButton(
-                onPressed: () => _selectTime(context, false),
-                child: Text('종료 시간: ${_formatTime(_endTime)}'),
-              ),
-              Text(
-                _status, // 상태 메시지를 화면에 표시
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _extractUsageData,
-                child: const Text('데이터 가져와서 JSON 만들기'),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                '생성된 JSON 데이터:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              // JSON 데이터를 화면에 출력
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  _jsonOutput,
-                  style: const TextStyle(fontFamily: 'monospace'),
+            ),
+            Expanded(
+              child: Container(
+                color: Colors.grey[200],
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(12.0),
+                  itemCount: _jsonList.length,
+                  itemBuilder: (context, index) {
+                    final item = _jsonList[index];
+                    final itemJsonString = _encoder.convert(item);
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Text(
+                        itemJsonString,
+                        style: const TextStyle(
+                          fontFamily: 'monospace',
+                          fontSize: 12,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
+// ✨ 6. Isolate 함수가 Map 형태의 인자를 받도록 수정
+Map<String, dynamic> _processDataInBackground(Map<String, dynamic> arguments) {
+  // 인자에서 데이터 분리
+  final List<dynamic> rawData = arguments['rawData'];
+  final String sourceInfo = arguments['sourceInfo'];
+
+  List<UsageEventInfo> events = rawData
+      .map((item) => UsageEventInfo.fromMap(item as Map<dynamic, dynamic>))
+      .toList();
+  events.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
+
+  int totalDurationMs = 0;
+  Map<String, UsageEventInfo> lastResumeEvent = {};
+
+  for (var event in events) {
+    switch (event.eventType) {
+      case 1:
+        event.eventTypeName = 'MOVE_TO_FOREGROUND';
+        break;
+      case 2:
+        event.eventTypeName = 'MOVE_TO_BACKGROUND';
+        break;
+      default:
+        event.eventTypeName = 'OTHER';
+        break;
+    }
+
+    if (event.eventType == 1) {
+      lastResumeEvent[event.packageName] = event;
+    }
+    if (event.eventType == 2) {
+      if (lastResumeEvent.containsKey(event.packageName)) {
+        UsageEventInfo resumeEvent = lastResumeEvent[event.packageName]!;
+        int duration = event.timeStamp - resumeEvent.timeStamp;
+        if (duration > 0) totalDurationMs += duration;
+        lastResumeEvent.remove(event.packageName);
+      }
+    }
+  }
+
+  List<Map<String, dynamic>> jsonList = events.map((event) {
+    return {
+      "subject_id": 1,
+      "timestamp": event.timeStamp,
+      "source_type": "PHONE",
+      "source_info": sourceInfo, // ✨ 7. 고정값 대신 변수 사용
+      "package_name": event.packageName,
+      "name": event.name,
+      "is_system_app": event.isSystemApp,
+      "is_updated_system_app": event.isUpdatedSystemApp,
+      "type": event.eventTypeName,
+    };
+  }).toList();
+
+  return {'jsonList': jsonList, 'totalDuration': totalDurationMs};
+}
+
 class UsageEventInfo {
   final String packageName;
   final int eventType;
   final int timeStamp;
+  String eventTypeName = 'OTHER';
 
-  // 가공해서 추가할 필드들
-  String date = '';
-  String time = '';
-  String eventTypeName = '';
-  String dayOfWeek = '';
-  int hourOfDay = 0;
-  int durationMs = 0;
-  double durationMinutes = 0.0;
+  final String name;
+  final bool isSystemApp;
+  final bool isUpdatedSystemApp;
 
   UsageEventInfo({
     required this.packageName,
     required this.eventType,
     required this.timeStamp,
+    this.name = '',
+    this.isSystemApp = false,
+    this.isUpdatedSystemApp = false,
   });
 
-  // 네이티브에서 받은 Map을 UsageEventInfo 객체로 변환하는 factory 생성자
   factory UsageEventInfo.fromMap(Map<dynamic, dynamic> map) {
     return UsageEventInfo(
       packageName: map['packageName'] ?? '',
       eventType: map['eventType'] ?? -1,
       timeStamp: map['timeStamp'] ?? 0,
+      name: map['name'] ?? map['packageName'] ?? '',
+      isSystemApp: map['isSystemApp'] ?? false,
+      isUpdatedSystemApp: map['isUpdatedSystemApp'] ?? false,
     );
   }
 }

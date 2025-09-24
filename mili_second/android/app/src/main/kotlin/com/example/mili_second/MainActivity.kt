@@ -14,6 +14,9 @@ import android.provider.Settings
 import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 
+import android.content.pm.ApplicationInfo 
+import android.content.pm.PackageManager 
+
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "com.example.mili_second/usagestats"
 
@@ -39,10 +42,27 @@ class MainActivity : FlutterActivity() {
 
         while (usageEvents.hasNextEvent()) {
             usageEvents.getNextEvent(event)
+
+            var appName = event.packageName // 기본값은 패키지 이름
+            var isSystemApp = false
+            var isUpdatedSystemApp = false
+
+            try {
+                val ai: ApplicationInfo = applicationContext.packageManager.getApplicationInfo(event.packageName, 0)
+                appName = applicationContext.packageManager.getApplicationLabel(ai).toString()
+                isSystemApp = (ai.flags and ApplicationInfo.FLAG_SYSTEM) != 0
+                isUpdatedSystemApp = (ai.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
+            } catch (e: PackageManager.NameNotFoundException) {
+                // 앱이 삭제된 경우 등 예외 처리
+            }
+
             val eventMap = mapOf(
                 "packageName" to event.packageName,
                 "timeStamp" to event.timeStamp,
-                "eventType" to event.eventType
+                "eventType" to event.eventType,
+                "name" to appName,
+                "isSystemApp" to isSystemApp,
+                "isUpdatedSystemApp" to isUpdatedSystemApp
             )
             events.add(eventMap)
         }
