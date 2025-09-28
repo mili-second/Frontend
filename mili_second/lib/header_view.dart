@@ -14,7 +14,7 @@ class HeaderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: EdgeInsets.all(5.0.w),
       child: Row(
         children: [
           Stack(
@@ -24,14 +24,14 @@ class HeaderView extends StatelessWidget {
                   // 프로필 수정 화면으로 이동
                 },
                 icon: Image.asset(
-                  'assets/icons/${userProfileImage}',
+                  '${userProfileImage}',
                   width: 70.w,
                   height: 70.h,
                 ),
               ),
               Positioned(
-                left: 50,
-                top: 45,
+                left: 50.w,
+                top: 45.h,
                 child: Image.asset('assets/icons/profileEdit.png'),
               ),
             ],
@@ -46,16 +46,16 @@ class HeaderView extends StatelessWidget {
                     '$userName',
                     style: TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: 24,
+                      fontSize: 24.sp,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 5.h),
                   Text(
                     '오늘의 디지털 습관을 분석했어요',
                     style: TextStyle(
                       color: Color(0xFF524E4E),
-                      fontSize: 12,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
