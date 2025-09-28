@@ -131,7 +131,6 @@ class _ExtractUsageDataState extends State<ExtractUsageData> {
   Widget build(BuildContext context) {
     // ... UI 코드는 이전과 동일하므로 생략 ...
     return Scaffold(
-      appBar: AppBar(title: const Text('오늘의 휴대폰 사용 시간')),
       body: RefreshIndicator(
         onRefresh: _getTodaysUsage,
         child: Column(
