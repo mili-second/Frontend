@@ -8,11 +8,16 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // ✨ 1. 패키지 import
 import '../model/usage_event_info.dart';
+import 'package:http/http.dart' as http;
 
 class UsageDataViewModel extends ChangeNotifier {
   // ... (기존 변수들은 동일) ...
   static const _platform = MethodChannel('com.example.mili_second/usagestats');
   final _encoder = const JsonEncoder.withIndent('  ');
+
+  final _serverUrl = Uri.parse(
+    'https://webhook.site/c6a48bd6-57b8-4ad4-8e9a-f0c2b70ebbdb',
+  );
 
   String _status = '앱 사용 기록을 불러오는 중...';
   final List<Map<String, dynamic>> _jsonList = [];
@@ -24,6 +29,8 @@ class UsageDataViewModel extends ChangeNotifier {
   String get totalUsageTime => _totalUsageTime;
   JsonEncoder get encoder => _encoder;
 
+  int _totalDurationMs = 0;
+
   // ✨ 2. SharedPreferences 인스턴스를 저장할 변수
   late SharedPreferences _prefs;
 
@@ -32,9 +39,63 @@ class UsageDataViewModel extends ChangeNotifier {
     initializeAndFetchData();
   }
 
+  Future<void> _sendDataToServer(List<Map<String, dynamic>> newData) async {
+    // 보낼 데이터가 없으면 함수 종료
+    if (newData.isEmpty) {
+      print('서버로 보낼 새로운 데이터가 없습니다.');
+      return;
+    }
+
+    final body = json.encode({
+      'source_info': _sourceInfo, // 기기 정보
+      'timestamp': DateTime.now().toIso8601String(), // 전송 시간
+      'event_count': newData.length, // 이벤트 개수
+      'events': newData, // 실제 이벤트 데이터 목록
+    });
+
+    try {
+      print('${newData.length}개의 새로운 데이터를 서버로 전송합니다...');
+      final response = await http.post(
+        _serverUrl,
+        headers: {'Content-Type': 'application/json'},
+        body: body,
+      );
+      if (response.statusCode == 200) {
+        print('✅ 서버 전송 성공!');
+      } else {
+        print('❌ 서버 전송 실패: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('🔥 서버 전송 중 오류 발생: $e');
+    }
+  }
+
   // ✨ 3. SharedPreferences 초기화 및 데이터 로딩을 함께 처리하는 함수
   Future<void> initializeAndFetchData() async {
     _prefs = await SharedPreferences.getInstance(); // SharedPreferences 인스턴스화
+
+    // 오늘 날짜를 'YYYY-MM-DD' 형식의 문자열로 만듭니다.
+    final today = DateTime.now();
+    final todayDateString = "${today.year}-${today.month}-${today.day}";
+
+    // 저장된 날짜와 누적 시간을 불러옵니다.
+    final lastDateString = _prefs.getString('last_duration_date');
+    final savedDuration = _prefs.getInt('total_duration_ms') ?? 0;
+
+    if (lastDateString == todayDateString) {
+      // 저장된 날짜가 오늘이면, 저장된 시간을 그대로 사용
+      _totalDurationMs = savedDuration;
+    } else {
+      // 저장된 날짜가 어제거나 그 이전이면, 누적 시간 초기화
+      _totalDurationMs = 0;
+      // 오늘 날짜로 새로 저장 (시간은 0으로)
+      await _prefs.setString('last_duration_date', todayDateString);
+      await _prefs.setInt('total_duration_ms', 0);
+    }
+
+    // UI에 표시될 포맷된 시간 업데이트
+    _totalUsageTime = _formatDuration(_totalDurationMs);
+
     await _initSourceInfo();
     await fetchNewUsageData(); // 기존 함수 대신 새로운 함수 호출
   }
@@ -47,7 +108,7 @@ class UsageDataViewModel extends ChangeNotifier {
       final now = DateTime.now();
       return DateTime(now.year, now.month, now.day).millisecondsSinceEpoch;
     }
-    return lastTimestamp;
+    return lastTimestamp + 1;
   }
 
   // ✨ 5. 새로운 타임스탬프를 저장하는 함수
@@ -97,14 +158,34 @@ class UsageDataViewModel extends ChangeNotifier {
         final List<Map<String, dynamic>> newJsonList =
             processedResult['jsonList'] ?? [];
 
+        // 새로 가져온 데이터의 사용 시간
+        final newDurationMs =
+            (processedResult['totalDuration'] as num?)?.toInt() ?? 0;
+
+        // ✨ 3. 누적 시간 계산 로직
+        final today = DateTime.now();
+        final todayDateString = "${today.year}-${today.month}-${today.day}";
+        final lastDateString = _prefs.getString('last_duration_date');
+
+        if (lastDateString == todayDateString) {
+          // 마지막으로 계산한 날짜가 오늘이면, 기존 시간에 새로운 시간 "누적"
+          _totalDurationMs += newDurationMs;
+        } else {
+          // 날짜가 바뀌었으면 (자정 지남), 새로 가져온 시간으로 "초기화"
+          _totalDurationMs = newDurationMs;
+        }
+
+        // ✨ 4. 계산된 누적 시간과 오늘 날짜를 기기에 저장
+        await _prefs.setString('last_duration_date', todayDateString);
+        await _prefs.setInt('total_duration_ms', _totalDurationMs);
+
+        // ✨ 5. UI에 표시될 문자열 업데이트
+        _totalUsageTime = _formatDuration(_totalDurationMs);
+
+        await _sendDataToServer(newJsonList);
+
         // ✨ 6. 기존 리스트에 새로 가져온 데이터를 추가 (누적)
         _jsonList.addAll(newJsonList);
-
-        // TODO: 총 사용 시간 계산 로직을 누적 방식으로 변경해야 할 수 있음
-        // 현재는 새로 가져온 데이터의 사용 시간만 표시
-        _totalUsageTime = _formatDuration(
-          processedResult['totalDuration'] ?? 0,
-        );
 
         // ✨ 7. 새로 가져온 데이터 중 가장 마지막(최신) 시간을 찾아 저장
         final lastTimestamp = newJsonList
@@ -119,7 +200,7 @@ class UsageDataViewModel extends ChangeNotifier {
         await _saveLastFetchTimestamp(endTime.millisecondsSinceEpoch);
       }
     } on PlatformException catch (e) {
-      // ... (기존 에러 처리 로직 동일) ...
+      _status = '오류: ${e.message}';
     }
     notifyListeners();
   }
