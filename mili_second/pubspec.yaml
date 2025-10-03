@@ -33,6 +33,8 @@ dependencies:
   flutter_screenutil: ^5.9.0
   cupertino_icons: ^1.0.8
   device_info_plus: ^12.1.0
+  provider: ^6.0.0
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
