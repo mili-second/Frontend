@@ -84,8 +84,8 @@ Map<String, dynamic> processDataInBackground(Map<String, dynamic> arguments) {
       "source_info": sourceInfo,
       "package_name": event.packageName,
       "name": event.name,
-      "is_system_app": event.isSystemApp,
-      "is_updated_system_app": event.isUpdatedSystemApp,
+      "is_system_app": event.isSystemApp ? 1 : 0,
+      "is_updated_system_app": event.isUpdatedSystemApp ? 1 : 0,
       "type": event.eventTypeName,
     };
   }).toList();

@@ -108,3 +108,5 @@ flutter:
           weight: 900
   assets:
     - assets/icons/
+    - assets/icons/character/shoppingAddictType_front.png
+    - assets/icons/character/shoppingAddictType_back.png

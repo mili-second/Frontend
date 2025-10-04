@@ -47,7 +47,7 @@ class _MainViewState extends State<MainView> {
         children: [
           Container(height: 1, color: const Color(0xFFCDCBCB)),
           SizedBox(
-            height: 160.h,
+            height: 140.h,
             child: BottomNavigationBar(
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
