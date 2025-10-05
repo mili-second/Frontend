@@ -31,6 +31,12 @@ class _AnalyzeViewState extends State<AnalyzeView> {
   // Top3 앱 사용 트렌드 데이터
   final String _top3AppSummary =
       '현재 게임과 SNS가 주를 이루고 있어요. 오후부터 엔터테인먼트 앱 집중 사용 패턴입니다.';
+  // "rank": 1, "appName": "YouTube", "category": "entertain", "minutes": 300, "state": "활발 사용"
+  final List<List> _top3AppDatas = [
+    ['1', '유튜브', 300, '활발 사용'],
+    ['2', '인스타그램', 180, '꾸준히 사용'],
+    ['3', '카카오톡', 150, '유지(-)'],
+  ];
 
   // 스크린타임 카테고리 분포 데이터
   final String _categoryDistributionSummary =
@@ -57,7 +63,10 @@ class _AnalyzeViewState extends State<AnalyzeView> {
           SizedBox(height: 20.h),
 
           // Top3 앱 사용 트렌드
-          Top3AppUsageTrends(top3AppSummary: _top3AppSummary),
+          Top3AppUsageTrends(
+            top3AppSummary: _top3AppSummary,
+            datas: _top3AppDatas,
+          ),
 
           SizedBox(height: 20.h),
 

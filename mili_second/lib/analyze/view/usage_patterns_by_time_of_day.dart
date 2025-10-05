@@ -216,7 +216,10 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                   SizedBox(width: 30.w),
                   Text(
                     textAlign: TextAlign.center,
-                    widget.timeOfDayPatternSummary.replaceAll('.', '.\n'),
+                    widget.timeOfDayPatternSummary.replaceAllMapped(
+                      RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
+                      (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
+                    ),
                     style: TextStyle(
                       color: Color(0xFF000000),
                       fontSize: 15.sp,

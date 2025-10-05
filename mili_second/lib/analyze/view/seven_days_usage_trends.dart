@@ -22,7 +22,7 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
         border: Border.all(color: Color(0xFFCDCBCB), width: 1.w),
       ),
       child: Padding(
-        padding: EdgeInsets.only(top: 12.h, left: 20.w),
+        padding: EdgeInsets.only(top: 12.h, left: 20.w, right: 20.w),
         child: Column(
           children: [
             Row(
@@ -99,20 +99,20 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
               ],
             ),
             SizedBox(height: 12.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(width: 18.w),
-                Text(
-                  textAlign: TextAlign.center,
-                  widget.sevendaysUsingSummary.replaceAll('.', '.\n'),
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
+
+            SizedBox(
+              width: 310.w,
+              child: Text(
+                widget.sevendaysUsingSummary.replaceAllMapped(
+                  RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
+                  (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
                 ),
-              ],
+                style: TextStyle(
+                  color: Color(0xFF000000),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           ],
         ),

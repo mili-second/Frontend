@@ -53,10 +53,13 @@ class _ScreentimeCategoryDistributionState
             ),
             SizedBox(height: 20.h),
             SizedBox(
+              width: 310.w,
               height: 50.h,
               child: Text(
-                textAlign: TextAlign.center,
-                widget.categoryDistributionSummary.replaceAll('.', '.\n'),
+                widget.categoryDistributionSummary.replaceAllMapped(
+                  RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
+                  (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
+                ),
                 style: TextStyle(
                   color: Color(0xFF000000),
                   fontSize: 15.sp,
