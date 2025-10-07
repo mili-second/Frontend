@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '/user/view/edit_profile.dart';
+import '/user/view/profile_info.dart';
 
 class HeaderView extends StatelessWidget {
   final String userNickName;
