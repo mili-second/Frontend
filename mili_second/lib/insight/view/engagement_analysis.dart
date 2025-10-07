@@ -96,7 +96,7 @@ class EngagementAnalysis extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        '일 평균 SNS시간',
+                        '주간 평균 SNS시간',
                         style: TextStyle(
                           color: Color(0xFF000000),
                           fontSize: 16.sp,
