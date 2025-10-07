@@ -32,7 +32,7 @@ class _MainViewState extends State<MainView> {
     return Scaffold(
       appBar: AppBar(
         title: HeaderView(
-          userName: 'Mili',
+          userNickName: 'Mili',
           userProfileImage: 'assets/icons/profile_default.png',
         ), // 사용자 정보 - 보내기
         toolbarHeight: 125.h,
@@ -47,7 +47,7 @@ class _MainViewState extends State<MainView> {
         children: [
           Container(height: 1, color: const Color(0xFFCDCBCB)),
           SizedBox(
-            height: 140.h,
+            height: 170.h,
             child: BottomNavigationBar(
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
