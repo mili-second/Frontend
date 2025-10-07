@@ -41,6 +41,13 @@ class _AnalyzeViewState extends State<AnalyzeView> {
   // 스크린타임 카테고리 분포 데이터
   final String _categoryDistributionSummary =
       '현재까지 스크린 타임에서 게임이 45%로 가장 높은 비중을 차지하고 있어요.';
+  final List<List> _categoryDistribution = [
+    ['SNS', 30],
+    ['게임', 25],
+    ['C', 20],
+    ['D', 15],
+    ['E', 10],
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +80,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
           // 스크린타임 카테고리 분포
           ScreentimeCategoryDistribution(
             categoryDistributionSummary: _categoryDistributionSummary,
+            chartData: _categoryDistribution,
           ),
 
           SizedBox(height: 30.h),

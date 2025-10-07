@@ -20,7 +20,7 @@ class _Top3AppUsageTrendsState extends State<Top3AppUsageTrends> {
   Widget build(BuildContext context) {
     return Container(
       width: 362.w,
-      height: 351.h,
+      height: 340.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(10.r),
