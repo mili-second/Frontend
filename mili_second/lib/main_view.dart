@@ -31,6 +31,7 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: HeaderView(
           userName: 'Mili',
           userProfileImage: 'assets/icons/profile_default.png',
