@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../viewmodel/usage_data_viewmodel.dart'; // ViewModel import
 import 'dart:math';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mili_second/login_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -157,7 +158,16 @@ class _HomeViewState extends State<HomeView> {
                       Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            test_logout();
+
+                            // 현재까지의 모든 페이지 기록을 삭제하고 LoginView로 이동합니다.
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginView(),
+                              ),
+                              (route) => false, // false를 반환하면 이전 모든 라우트를 제거합니다.
+                            );
                           },
                           child: Text("테스트 로그아웃"),
                         ),
