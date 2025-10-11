@@ -15,7 +15,7 @@ class HeaderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _userGender = '여성';
-    final _userJob = '학생';
+    final _userJob = '주부';
     return Padding(
       padding: EdgeInsets.all(5.0.w),
       child: Row(

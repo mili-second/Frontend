@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '/user/view/edit_profile.dart';
 
 class ProfileInfo extends StatefulWidget {
   final userProfileImage;
@@ -49,7 +50,7 @@ class _EditProfileState extends State<ProfileInfo> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            SizedBox(height: 50.h),
+            SizedBox(height: 40.h),
             Row(
               children: [
                 SizedBox(width: 60.w),
@@ -169,9 +170,21 @@ class _EditProfileState extends State<ProfileInfo> {
                   width: 30.w,
                   height: 30.h,
                 ),
-                SizedBox(width: 10.h),
+                SizedBox(width: 8.h),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfile(
+                          currentUserNickName: widget.userNickName,
+                          currentGender: widget.userGender,
+                          currentJob: widget.userJob,
+                          currentProfilePath: widget.userProfileImage,
+                        ),
+                      ),
+                    );
+                  },
                   child: Column(
                     children: [
                       SizedBox(height: 5.h),
@@ -184,17 +197,17 @@ class _EditProfileState extends State<ProfileInfo> {
                         ),
                       ),
                       SizedBox(height: 5.h),
-                      Container(
-                        width: 120.w,
-                        height: 1.5.h,
-                        decoration: BoxDecoration(color: Color(0xFF212121)),
-                      ),
+                      // Container(
+                      //   width: 120.w,
+                      //   height: 1.5.h,
+                      //   decoration: BoxDecoration(color: Color(0xFF212121)),
+                      // ),
                     ],
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 40.h),
             GestureDetector(
               onTap: () {},
               child: Column(
@@ -209,8 +222,8 @@ class _EditProfileState extends State<ProfileInfo> {
                   ),
                   SizedBox(height: 5.h),
                   Container(
-                    width: 120.w,
-                    height: 1.5.h,
+                    width: 70.w,
+                    height: 1.h,
                     decoration: BoxDecoration(color: Color(0xFF686868)),
                   ),
                 ],
