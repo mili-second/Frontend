@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mili_second/main_view.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mili_second/servay_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -164,9 +165,13 @@ class _LoginViewState extends State<LoginView> {
                   onPressed: id_ok == 2
                       ? () {
                           write_token();
+                          // 최초 회원가입 시 설문조사 페이지로 넘어감
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MainView()),
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  SurveyView(user_id: user_id),
+                            ),
                           );
                         }
                       : null,
