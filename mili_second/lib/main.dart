@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mili_second/login_view.dart';
 import 'package:provider/provider.dart'; // 1. provider import
 import 'main_view.dart';
 import 'home/viewmodel/usage_data_viewmodel.dart'; // 2. ViewModel import (경로는 실제 위치에 맞게 수정)
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: Size(412, 917),
       builder: (_, child) => MaterialApp(
-        home: MainView(), // MaterialApp은 여기서 한번만 사용
+        home: LoginView(), // login부터
         color: Color(0xFFFFFFFF),
       ),
     );
