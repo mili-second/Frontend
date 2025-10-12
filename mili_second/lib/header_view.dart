@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '/user/view/profile_info.dart';
 
 class HeaderView extends StatelessWidget {
-  final String userName;
+  final String userNickName;
   final String userProfileImage;
 
   const HeaderView({
     super.key,
-    required this.userName,
+    required this.userNickName,
     required this.userProfileImage,
   });
 
   @override
   Widget build(BuildContext context) {
+    final _userGender = '여성';
+    final _userJob = '주부';
     return Padding(
       padding: EdgeInsets.all(5.0.w),
       child: Row(
@@ -22,6 +25,17 @@ class HeaderView extends StatelessWidget {
               IconButton(
                 onPressed: () {
                   // 프로필 수정 화면으로 이동
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileInfo(
+                        userNickName: userNickName,
+                        userProfileImage: userProfileImage,
+                        userGender: _userGender,
+                        userJob: _userJob,
+                      ),
+                    ),
+                  );
                 },
                 icon: Image.asset(
                   '${userProfileImage}',
@@ -43,7 +57,7 @@ class HeaderView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '$userName',
+                    '$userNickName',
                     style: TextStyle(
                       color: Color(0xFF000000),
                       fontSize: 24.sp,

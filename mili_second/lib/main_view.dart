@@ -33,7 +33,7 @@ class _MainViewState extends State<MainView> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: HeaderView(
-          userName: 'Mili',
+          userNickName: 'Mili',
           userProfileImage: 'assets/icons/profile_default.png',
         ), // 사용자 정보 - 보내기
         toolbarHeight: 125.h,
