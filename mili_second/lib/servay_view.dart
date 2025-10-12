@@ -51,17 +51,20 @@ class _SurveyViewState extends State<SurveyView> {
                         : "직업",
                     style: TextStyle(
                       color: Colors.blue,
-                      fontSize: 25,
+                      fontSize: 25.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
                     "을 입력해주세요",
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 25.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 10.h),
               Padding(
                 padding: EdgeInsets.all(5),
                 child: Column(
@@ -74,11 +77,11 @@ class _SurveyViewState extends State<SurveyView> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           widget.user_id,
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 18.sp),
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     Text(
                       "닉네임",
                       style: TextStyle(
@@ -86,7 +89,7 @@ class _SurveyViewState extends State<SurveyView> {
                       ),
                     ),
                     SizedBox(
-                      height: 40,
+                      height: 40.h,
                       child: user_step == 0
                           ? TextField(
                               onChanged: (String str) {
@@ -103,11 +106,11 @@ class _SurveyViewState extends State<SurveyView> {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 nickname,
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(fontSize: 18.sp),
                               ),
                             ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10.h),
                     user_step > 0
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,6 +123,7 @@ class _SurveyViewState extends State<SurveyView> {
                                       : Colors.black45,
                                 ),
                               ),
+                              SizedBox(height: 15.h),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -186,7 +190,7 @@ class _SurveyViewState extends State<SurveyView> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 20),
+                              SizedBox(height: 20.h),
                               user_step > 1
                                   ? Column(
                                       crossAxisAlignment:
@@ -200,6 +204,7 @@ class _SurveyViewState extends State<SurveyView> {
                                                 : Colors.black45,
                                           ),
                                         ),
+                                        SizedBox(height: 15.h),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -232,7 +237,7 @@ class _SurveyViewState extends State<SurveyView> {
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                          10.0,
+                                                          10.0.r,
                                                         ),
                                                   ),
                                                   padding: EdgeInsets.all(15),
@@ -268,7 +273,7 @@ class _SurveyViewState extends State<SurveyView> {
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                          10.0,
+                                                          10.0.r,
                                                         ),
                                                   ),
                                                   padding: EdgeInsets.all(15),
@@ -314,6 +319,7 @@ class _SurveyViewState extends State<SurveyView> {
                                             ),
                                           ],
                                         ),
+                                        SizedBox(height: 5.h),
                                         Text("그 외 (직접입력)"),
                                         TextField(
                                           onChanged: (String str) {
@@ -337,7 +343,7 @@ class _SurveyViewState extends State<SurveyView> {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 10.h),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -362,9 +368,9 @@ class _SurveyViewState extends State<SurveyView> {
                     foregroundColor: Colors.white,
                     padding: EdgeInsets.all(15),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.circular(10.0.r),
                     ),
-                    textStyle: TextStyle(color: Colors.white, fontSize: 20),
+                    textStyle: TextStyle(color: Colors.white, fontSize: 20.sp),
                   ),
                   child: Text("확인"),
                 ),
