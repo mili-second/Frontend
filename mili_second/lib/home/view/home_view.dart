@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:provider/provider.dart';
 import '../viewmodel/usage_data_viewmodel.dart'; // ViewModel import
@@ -71,7 +72,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 10.h),
             Padding(
               padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
               child: Container(
@@ -80,7 +81,7 @@ class _HomeViewState extends State<HomeView> {
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
                       Align(
@@ -89,27 +90,27 @@ class _HomeViewState extends State<HomeView> {
                           "실시간 사용 현황",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 20,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             '총 사용 시간',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 15.sp,
                               color: Colors.black54,
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          SizedBox(width: 16.w),
                           Text(
                             viewModel.totalUsageTime, // ViewModel의 데이터 사용
-                            style: const TextStyle(
-                              fontSize: 20,
+                            style: TextStyle(
+                              fontSize: 17.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -118,18 +119,18 @@ class _HomeViewState extends State<HomeView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             '오늘 unlock',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 15.sp,
                               color: Colors.black54,
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          SizedBox(width: 16.w),
                           Text(
                             "test", // ViewModel의 데이터 사용
-                            style: const TextStyle(
-                              fontSize: 20,
+                            style: TextStyle(
+                              fontSize: 17.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -138,18 +139,18 @@ class _HomeViewState extends State<HomeView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             '평균 세션',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 15.sp,
                               color: Colors.black54,
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          SizedBox(width: 16.w),
                           Text(
                             "test", // ViewModel의 데이터 사용
-                            style: const TextStyle(
-                              fontSize: 20,
+                            style: TextStyle(
+                              fontSize: 17.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
