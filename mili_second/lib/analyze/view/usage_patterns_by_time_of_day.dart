@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UsagePatternsByTimeOfDay extends StatefulWidget {
-  final String timeOfDayPatternSummary;
+  //final String timeOfDayPatternSummary;
   final List<List<int>> datas;
   final String timeOfDayPatternPeakTime;
 
   const UsagePatternsByTimeOfDay({
     super.key,
-    required this.timeOfDayPatternSummary,
+    //required this.timeOfDayPatternSummary,
     required this.timeOfDayPatternPeakTime,
     required this.datas,
   });
@@ -36,7 +36,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
   Widget build(BuildContext context) {
     return Container(
       width: 362.w,
-      height: 290.h,
+      height: 240.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(10.r),
@@ -108,6 +108,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                         ),
                       ),
                       SizedBox(height: 5.h),
+                      // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
                         '0 분',
                         style: TextStyle(
@@ -137,6 +138,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                         ),
                       ),
                       SizedBox(height: 5.h),
+                      // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
                         '2시간',
                         style: TextStyle(
@@ -165,6 +167,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                         ),
                       ),
                       SizedBox(height: 5.h),
+                      // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
                         '1.2시간',
                         style: TextStyle(
@@ -207,29 +210,29 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                 ],
               ),
             ),
-            SizedBox(height: 5.h),
-            SizedBox(
-              height: 50.h,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(width: 30.w),
-                  Text(
-                    textAlign: TextAlign.center,
-                    widget.timeOfDayPatternSummary.replaceAllMapped(
-                      RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
-                      (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
-                    ),
-                    style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            //SizedBox(height: 5.h),
 
+            // SizedBox(
+            //   height: 50.h,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.start,
+            //     children: [
+            //       SizedBox(width: 30.w),
+            //       Text(
+            //         textAlign: TextAlign.center,
+            //         widget.timeOfDayPatternSummary.replaceAllMapped(
+            //           RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
+            //           (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
+            //         ),
+            //         style: TextStyle(
+            //           color: Color(0xFF000000),
+            //           fontSize: 15.sp,
+            //           fontWeight: FontWeight.w500,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(height: 10.h),
             SizedBox(
               child: Row(

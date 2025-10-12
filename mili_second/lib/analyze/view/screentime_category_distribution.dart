@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class ScreentimeCategoryDistribution extends StatefulWidget {
-  final String categoryDistributionSummary;
+  //final String categoryDistributionSummary;
 
   final List<List> chartData;
 
   const ScreentimeCategoryDistribution({
     super.key,
-    required this.categoryDistributionSummary,
+    //required this.categoryDistributionSummary,
     required this.chartData,
   });
 
@@ -52,7 +52,7 @@ class _ScreentimeCategoryDistributionState
 
     return Container(
       width: 362.w,
-      height: 500.h,
+      height: 420.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(10.r),
@@ -81,22 +81,22 @@ class _ScreentimeCategoryDistributionState
                     ),
                   ],
                 ),
-                SizedBox(height: 375.h),
-                SizedBox(
-                  width: 310.w,
-                  height: 50.h,
-                  child: Text(
-                    widget.categoryDistributionSummary.replaceAllMapped(
-                      RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
-                      (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
-                    ),
-                    style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
+                SizedBox(height: 275.h),
+                // SizedBox(
+                //   width: 310.w,
+                //   height: 50.h,
+                //   child: Text(
+                //     widget.categoryDistributionSummary.replaceAllMapped(
+                //       RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
+                //       (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
+                //     ),
+                //     style: TextStyle(
+                //       color: Color(0xFF000000),
+                //       fontSize: 15.sp,
+                //       fontWeight: FontWeight.w500,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             Positioned(
