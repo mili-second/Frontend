@@ -31,6 +31,11 @@ class _InsightViewState extends State<InsightView> {
   final String _weeklyChangingTrendsComment =
       '새로운 관심사가 기존 패턴을 자연스럽게 변화시키고 있어요!';
   final String _totalUsageTime = '+2.3 시간';
+  final List<List> _categoryAndChangeInUse = [
+    ['SNS', '+ 150%'],
+    ['독서', '- 60%'],
+    ['게임', '+ 35%'],
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +69,7 @@ class _InsightViewState extends State<InsightView> {
           WeeklyChangingTrends(
             comment: _weeklyChangingTrendsComment,
             totalUsageTime: _totalUsageTime,
+            categoryUsageTime: _categoryAndChangeInUse,
           ),
 
           SizedBox(height: 30.h),

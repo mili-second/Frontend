@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Top3AppUsageTrends extends StatefulWidget {
-  final String top3AppSummary;
+  //final String top3AppSummary;
   final List<List> datas;
 
   const Top3AppUsageTrends({
     super.key,
-    required this.top3AppSummary,
+    //required this.top3AppSummary,
     required this.datas,
   });
 
@@ -20,7 +20,7 @@ class _Top3AppUsageTrendsState extends State<Top3AppUsageTrends> {
   Widget build(BuildContext context) {
     return Container(
       width: 362.w,
-      height: 340.h,
+      height: 270.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(10.r),
@@ -109,21 +109,21 @@ class _Top3AppUsageTrendsState extends State<Top3AppUsageTrends> {
               ],
             ),
             SizedBox(height: 20.h),
-            SizedBox(
-              width: 310.w,
-              height: 50.h,
-              child: Text(
-                widget.top3AppSummary.replaceAllMapped(
-                  RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
-                  (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
-                ),
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   width: 310.w,
+            //   height: 50.h,
+            //   child: Text(
+            //     widget.top3AppSummary.replaceAllMapped(
+            //       RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
+            //       (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
+            //     ),
+            //     style: TextStyle(
+            //       color: Color(0xFF000000),
+            //       fontSize: 15.sp,
+            //       fontWeight: FontWeight.w500,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
