@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '/user/view/profile_info.dart';
+import 'package:mili_second/login_view.dart';
 
-class HeaderView extends StatelessWidget {
+class HeaderView extends StatefulWidget {
   final String userNickName;
   final String userProfileImage;
 
@@ -11,6 +13,18 @@ class HeaderView extends StatelessWidget {
     required this.userNickName,
     required this.userProfileImage,
   });
+
+  @override
+  State<HeaderView> createState() => _HeaderViewState();
+}
+
+class _HeaderViewState extends State<HeaderView> {
+  final storage = FlutterSecureStorage();
+
+  Future<void> test_logout() async {
+    print("logout");
+    await storage.delete(key: "token");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +43,8 @@ class HeaderView extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ProfileInfo(
-                        userNickName: userNickName,
-                        userProfileImage: userProfileImage,
+                        userNickName: widget.userNickName,
+                        userProfileImage: widget.userProfileImage,
                         userGender: _userGender,
                         userJob: _userJob,
                       ),
@@ -38,7 +52,7 @@ class HeaderView extends StatelessWidget {
                   );
                 },
                 icon: Image.asset(
-                  '${userProfileImage}',
+                  widget.userProfileImage,
                   width: 70.w,
                   height: 70.h,
                 ),
@@ -57,7 +71,7 @@ class HeaderView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '$userNickName',
+                    widget.userNickName,
                     style: TextStyle(
                       color: Color(0xFF000000),
                       fontSize: 24.sp,
@@ -77,14 +91,24 @@ class HeaderView extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(width: 30.w),
+          SizedBox(width: 50.w),
           Column(
             children: [
               IconButton(
                 onPressed: () {
-                  // 설정 창이 오른쪽 -> 왼쪽으로 나옴
+                  test_logout();
+                  // 현재까지의 모든 페이지 기록을 삭제하고 LoginView로 이동합니다.
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginView()),
+                    (route) => false, // false를 반환하면 이전 모든 라우트를 제거합니다.
+                  );
                 },
-                icon: Image.asset('assets/icons/settingButton.png'),
+                icon: Image.asset(
+                  'assets/icons/logout.png',
+                  width: 40.w,
+                  height: 40.h,
+                ),
               ),
               SizedBox(height: 10.h),
             ],

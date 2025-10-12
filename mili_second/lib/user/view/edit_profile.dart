@@ -22,6 +22,9 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   // 닉네임 수정 데이터 처리
   late TextEditingController _currentUserNickNameController;
+  String user_id = "";
+  int id_ok =
+      0; // 아이디 사용 가능 여부 (회원가입 가능 여부) 0 : 중복확인 안함  //  1 : 중복아이디  // 2 : 사용가능 아이디
 
   // 성별 수정 데이터 처리
   final List<String> userGender = ['남성', '여성'];
@@ -142,189 +145,215 @@ class _EditProfileState extends State<EditProfile> {
             SizedBox(
               width: 329.w,
               height: 30.h,
-              child: TextField(
-                controller: _currentUserNickNameController,
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color(0xFF0088FF),
-                      width: 1.5,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 280.w,
+                    child: TextField(
+                      controller: _currentUserNickNameController,
+                      style: TextStyle(
+                        color: Color(0xFF000000),
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      decoration: InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF0088FF),
+                            width: 1.5,
+                          ),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFFD1D1D1),
+                            width: 1.0,
+                          ),
+                        ),
+                        hintText: "닉네임을 입력하세요",
+                      ),
                     ),
                   ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color(0xFFD1D1D1),
-                      width: 1.0,
+                  // 중복 확인 버튼
+                  SizedBox(
+                    width: 80.w,
+                    child: ElevatedButton(
+                      onPressed: user_id == ""
+                          ? null
+                          : () => id_duplicate_check(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0.r),
+                        ),
+                        textStyle: TextStyle(color: Colors.white),
+                      ),
+                      child: Text("중복확인"),
                     ),
                   ),
-                  hintText: "닉네임을 입력하세요",
-                ),
+                ],
               ),
             ),
 
             SizedBox(height: 25.h),
 
             // 성별 수정
-            SizedBox(
-              width: 329.w,
-              height: 30.h,
-              child: Text(
-                '성별',
-                style: TextStyle(
-                  color: Color(0xFF0090FF),
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            SizedBox(height: 15.h),
-            SizedBox(
-              width: 329.w,
-              height: 50.h,
-              child: Row(
-                children: List.generate(userGender.length, (index) {
-                  bool isSelected = _selectedGenderIndex == index;
-                  return Padding(
-                    padding: EdgeInsets.only(right: index == 0 ? 8.w : 0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _selectedJobIndex = index;
-                        });
-                      },
-                      child: Container(
-                        width: 155.w,
-                        height: 45.h,
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? Color(0xFF3A86FF)
-                              : Color(0xFFD1D1D1),
-                          borderRadius: BorderRadius.circular(6.r),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          userJob[index],
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
+            // SizedBox(
+            //   width: 329.w,
+            //   height: 30.h,
+            //   child: Text(
+            //     '성별',
+            //     style: TextStyle(
+            //       color: Color(0xFF0090FF),
+            //       fontSize: 17.sp,
+            //       fontWeight: FontWeight.w700,
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(height: 15.h),
+            // SizedBox(
+            //   width: 329.w,
+            //   height: 50.h,
+            //   child: Row(
+            //     children: List.generate(userGender.length, (index) {
+            //       bool isSelected = _selectedGenderIndex == index;
+            //       return Padding(
+            //         padding: EdgeInsets.only(right: index == 0 ? 8.w : 0),
+            //         child: GestureDetector(
+            //           onTap: () {
+            //             setState(() {
+            //               _selectedGenderIndex = index;
+            //             });
+            //           },
+            //           child: Container(
+            //             width: 155.w,
+            //             height: 45.h,
+            //             decoration: BoxDecoration(
+            //               color: isSelected
+            //                   ? Color(0xFF3A86FF)
+            //                   : Color(0xFFD1D1D1),
+            //               borderRadius: BorderRadius.circular(6.r),
+            //             ),
+            //             alignment: Alignment.center,
+            //             child: Text(
+            //               userJob[index],
+            //               style: TextStyle(
+            //                 color: Colors.white,
+            //                 fontSize: 20.sp,
+            //                 fontWeight: FontWeight.w500,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       );
+            //     }),
+            //   ),
+            // ),
 
-            SizedBox(height: 25.h),
+            // SizedBox(height: 25.h),
 
             // 직업 수정
-            SizedBox(
-              width: 329.w,
-              height: 30.h,
-              child: Text(
-                '직업',
-                style: TextStyle(
-                  color: Color(0xFF0090FF),
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            SizedBox(height: 15.h),
-            SizedBox(
-              width: 329.w,
-              height: 45.h,
-              child: Row(
-                children: List.generate(userJob.length, (index) {
-                  bool isSelected = _selectedJobIndex == index;
-                  return Padding(
-                    padding: EdgeInsets.only(right: 8.w),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if (_selectedJobIndex == index) {
-                            // 이미 선택된 버튼 취소
-                            _selectedJobIndex = null;
-                          } else {
-                            _selectedJobIndex = index; // 새로운 선택
-                            _userJobController.clear(); // 텍스트 필드 초기화
-                          }
-                        });
-                      },
-                      child: Container(
-                        width: 100.w,
-                        height: 45.h,
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? Color(0xFF0088FF)
-                              : Color(0xFFD1D1D1),
-                          borderRadius: BorderRadius.circular(6.r),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          userJob[index],
-                          style: TextStyle(
-                            color: Color(0xFFFFFFFF),
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
-            SizedBox(height: 15.h),
-            SizedBox(
-              width: 329.w,
-              child: Text(
-                '그 외 (직접입력)',
-                style: TextStyle(
-                  color: Color(0xFF616161),
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            SizedBox(height: 10.h),
-            SizedBox(
-              width: 329.w,
-              height: 30.h,
-              child: TextField(
-                controller: _userJobController,
-                enabled: _selectedJobIndex == null,
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 15.h),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color(0xFF0088FF),
-                      width: 1.5,
-                    ),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color(0xFFD1D1D1),
-                      width: 1.0,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   width: 329.w,
+            //   height: 30.h,
+            //   child: Text(
+            //     '직업',
+            //     style: TextStyle(
+            //       color: Color(0xFF0090FF),
+            //       fontSize: 17.sp,
+            //       fontWeight: FontWeight.w700,
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(height: 15.h),
+            // SizedBox(
+            //   width: 329.w,
+            //   height: 45.h,
+            //   child: Row(
+            //     children: List.generate(userJob.length, (index) {
+            //       bool isSelected = _selectedJobIndex == index;
+            //       return Padding(
+            //         padding: EdgeInsets.only(right: 8.w),
+            //         child: GestureDetector(
+            //           onTap: () {
+            //             setState(() {
+            //               if (_selectedJobIndex == index) {
+            //                 // 이미 선택된 버튼 취소
+            //                 _selectedJobIndex = null;
+            //               } else {
+            //                 _selectedJobIndex = index; // 새로운 선택
+            //                 _userJobController.clear(); // 텍스트 필드 초기화
+            //               }
+            //             });
+            //           },
+            //           child: Container(
+            //             width: 100.w,
+            //             height: 45.h,
+            //             decoration: BoxDecoration(
+            //               color: isSelected
+            //                   ? Color(0xFF0088FF)
+            //                   : Color(0xFFD1D1D1),
+            //               borderRadius: BorderRadius.circular(6.r),
+            //             ),
+            //             alignment: Alignment.center,
+            //             child: Text(
+            //               userJob[index],
+            //               style: TextStyle(
+            //                 color: Color(0xFFFFFFFF),
+            //                 fontSize: 20.sp,
+            //                 fontWeight: FontWeight.w500,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       );
+            //     }),
+            //   ),
+            // ),
+            // SizedBox(height: 15.h),
+            // SizedBox(
+            //   width: 329.w,
+            //   child: Text(
+            //     '그 외 (직접입력)',
+            //     style: TextStyle(
+            //       color: Color(0xFF616161),
+            //       fontSize: 15.sp,
+            //       fontWeight: FontWeight.w600,
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(height: 10.h),
+            // SizedBox(
+            //   width: 329.w,
+            //   height: 30.h,
+            //   child: TextField(
+            //     controller: _userJobController,
+            //     enabled: _selectedJobIndex == null,
+            //     style: TextStyle(
+            //       color: Color(0xFF000000),
+            //       fontSize: 20.sp,
+            //       fontWeight: FontWeight.w600,
+            //     ),
+            //     decoration: InputDecoration(
+            //       contentPadding: EdgeInsets.symmetric(vertical: 15.h),
+            //       focusedBorder: UnderlineInputBorder(
+            //         borderSide: BorderSide(
+            //           color: Color(0xFF0088FF),
+            //           width: 1.5,
+            //         ),
+            //       ),
+            //       enabledBorder: UnderlineInputBorder(
+            //         borderSide: BorderSide(
+            //           color: Color(0xFFD1D1D1),
+            //           width: 1.0,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
 
-            SizedBox(height: 25.h),
+            // SizedBox(height: 25.h),
 
             // 프로필 사진 수정
             SizedBox(
@@ -382,14 +411,15 @@ class _EditProfileState extends State<EditProfile> {
               ),
             ),
 
-            SizedBox(height: 15.h),
+            SizedBox(height: 300.h),
 
             // 수정된 정보 저장
             SizedBox(
               width: 329.w,
               child: GestureDetector(
                 onTap: () {
-                  // 닉네임, 성별, 직업, 프로필 저장하기
+                  // 닉네임, 프로필 저장하기
+                  // 프로필 저장은 프론트에서 처리하고 백엔드에는 enum으로 1,2,3,4.. 로 보내기
                   // 저장 완료 후 이전 화면으로 돌아가기 (프로필 정보 화면)
                   // if (success){
                   // Navigator.pop(context, true);
@@ -420,6 +450,36 @@ class _EditProfileState extends State<EditProfile> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<dynamic> id_duplicate_check(BuildContext context) {
+    String alertContent = "";
+
+    if (user_id == "test") {
+      setState(() {
+        alertContent = "이미 사용중인 아이디입니다. \n다른 아이디를 사용하세요";
+        id_ok = 1;
+      });
+    } else {
+      setState(() {
+        alertContent = "사용가능";
+        id_ok = 2;
+      });
+    }
+
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("중복확인"),
+        content: Text(alertContent),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: const Text('OK'),
+          ),
+        ],
       ),
     );
   }

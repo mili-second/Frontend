@@ -46,14 +46,14 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
             Row(
               children: [
                 // 그래프
-                Container(
+                SizedBox(
                   width: 320.w,
                   height: 142.h,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFFFFF),
-                    borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(color: Color(0xFFCDCBCB), width: 1.w),
-                  ),
+                  // decoration: BoxDecoration(
+                  //   color: Color(0xFFFFFFFF),
+                  //   borderRadius: BorderRadius.circular(10.r),
+                  //   border: Border.all(color: Color(0xFFCDCBCB), width: 1.w),
+                  // ),
                   // child: LineChart(
                   //   LineChartData(
                   //     lineBarsData: [

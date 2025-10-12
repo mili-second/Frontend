@@ -30,7 +30,7 @@ class _EditProfileState extends State<ProfileInfo> {
             children: [
               SizedBox(width: 80.w),
               Text(
-                '프로필 수정',
+                '프로필 정보',
                 style: TextStyle(
                   color: Color(0xFF000000),
                   fontSize: 20.sp,
@@ -72,99 +72,99 @@ class _EditProfileState extends State<ProfileInfo> {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            SizedBox(height: 50.h),
-            Container(
-              width: 349.w,
-              height: 1.h,
-              decoration: BoxDecoration(color: Color(0xFFB3B3B3)),
-            ),
-            SizedBox(height: 20.h),
-            Row(
-              children: [
-                SizedBox(width: 15.w),
-                Text(
-                  '기본 정보',
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20.h),
-            Row(
-              children: [
-                SizedBox(width: 15.h),
-                Text(
-                  '성별',
-                  style: TextStyle(
-                    color: Color(0xFF0090FF),
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+            // SizedBox(height: 50.h),
+            // Container(
+            //   width: 349.w,
+            //   height: 1.h,
+            //   decoration: BoxDecoration(color: Color(0xFFB3B3B3)),
+            // ),
+            // SizedBox(height: 20.h),
+            // Row(
+            //   children: [
+            //     SizedBox(width: 15.w),
+            //     Text(
+            //       '기본 정보',
+            //       style: TextStyle(
+            //         color: Color(0xFF000000),
+            //         fontSize: 17.sp,
+            //         fontWeight: FontWeight.w700,
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // SizedBox(height: 20.h),
+            // Row(
+            //   children: [
+            //     SizedBox(width: 15.h),
+            //     Text(
+            //       '성별',
+            //       style: TextStyle(
+            //         color: Color(0xFF0090FF),
+            //         fontSize: 15.sp,
+            //         fontWeight: FontWeight.w600,
+            //       ),
+            //     ),
 
-                SizedBox(width: 150.w),
+            //     SizedBox(width: 150.w),
 
-                Text(
-                  '직업',
-                  style: TextStyle(
-                    color: Color(0xFF0090FF),
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20.h),
-            Row(
-              children: [
-                SizedBox(width: 15.h),
-                Container(
-                  width: 120.w,
-                  height: 50.h,
-                  decoration: BoxDecoration(
-                    color: Color(0xFF0088FF),
-                    borderRadius: BorderRadius.circular(6.r),
-                  ),
-                  child: Center(
-                    child: Text(
-                      widget.userGender,
-                      style: TextStyle(
-                        color: Color(0xFFFFFFFF),
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 60.h),
-                Container(
-                  width: 160.w,
-                  height: 50.h,
-                  decoration: BoxDecoration(
-                    color: Color(0xFF0088FF),
-                    borderRadius: BorderRadius.circular(6.r),
-                  ),
-                  child: Center(
-                    child: Text(
-                      widget.userJob,
-                      style: TextStyle(
-                        color: Color(0xFFFFFFFF),
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 40.h),
+            //     Text(
+            //       '직업',
+            //       style: TextStyle(
+            //         color: Color(0xFF0090FF),
+            //         fontSize: 15.sp,
+            //         fontWeight: FontWeight.w600,
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // SizedBox(height: 20.h),
+            // Row(
+            //   children: [
+            //     SizedBox(width: 15.h),
+            //     Container(
+            //       width: 120.w,
+            //       height: 50.h,
+            //       decoration: BoxDecoration(
+            //         color: Color(0xFF0088FF),
+            //         borderRadius: BorderRadius.circular(6.r),
+            //       ),
+            //       child: Center(
+            //         child: Text(
+            //           widget.userGender,
+            //           style: TextStyle(
+            //             color: Color(0xFFFFFFFF),
+            //             fontSize: 20.sp,
+            //             fontWeight: FontWeight.w600,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //     SizedBox(width: 60.h),
+            //     Container(
+            //       width: 160.w,
+            //       height: 50.h,
+            //       decoration: BoxDecoration(
+            //         color: Color(0xFF0088FF),
+            //         borderRadius: BorderRadius.circular(6.r),
+            //       ),
+            //       child: Center(
+            //         child: Text(
+            //           widget.userJob,
+            //           style: TextStyle(
+            //             color: Color(0xFFFFFFFF),
+            //             fontSize: 20.sp,
+            //             fontWeight: FontWeight.w600,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            SizedBox(height: 10.h),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(width: 15.h),
+                SizedBox(width: 130.h),
                 Image.asset(
                   'assets/icons/profileEdit.png',
                   width: 30.w,
@@ -189,7 +189,7 @@ class _EditProfileState extends State<ProfileInfo> {
                     children: [
                       SizedBox(height: 5.h),
                       Text(
-                        '프로필 수정하기',
+                        '프로필 수정',
                         style: TextStyle(
                           color: Color(0xFF000000),
                           fontSize: 17.sp,
@@ -208,26 +208,31 @@ class _EditProfileState extends State<ProfileInfo> {
               ],
             ),
             SizedBox(height: 40.h),
-            GestureDetector(
-              onTap: () {},
-              child: Column(
-                children: [
-                  Text(
-                    '로그아웃',
-                    style: TextStyle(
-                      color: Color(0xFF686868),
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  Container(
-                    width: 70.w,
-                    height: 1.h,
-                    decoration: BoxDecoration(color: Color(0xFF686868)),
-                  ),
-                ],
-              ),
+            // GestureDetector(
+            //   onTap: () {},
+            //   child: Column(
+            //     children: [
+            //       Text(
+            //         '로그아웃',
+            //         style: TextStyle(
+            //           color: Color(0xFF686868),
+            //           fontSize: 17.sp,
+            //           fontWeight: FontWeight.w700,
+            //         ),
+            //       ),
+            //       SizedBox(height: 5.h),
+            //       Container(
+            //         width: 70.w,
+            //         height: 1.h,
+            //         decoration: BoxDecoration(color: Color(0xFF686868)),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            Container(
+              width: 349.w,
+              height: 1.h,
+              decoration: BoxDecoration(color: Color(0xFFB3B3B3)),
             ),
           ],
         ),

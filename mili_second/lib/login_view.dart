@@ -15,7 +15,7 @@ class _LoginViewState extends State<LoginView> {
   String user_id = "";
   int id_ok =
       0; // 아이디 사용 가능 여부 (회원가입 가능 여부) 0 : 중복확인 안함  //  1 : 중복아이디  // 2 : 사용가능 아이디
-  List<String> id_comments = ["중복확인을 해주세요", "중복아이디입니다", "사용가능합니다"];
+  List<String> id_comments = ["중복확인을 해주세요", "중복닉네임입니다", "사용가능합니다"];
   List<Color> id_comments_color = [Colors.black, Colors.red, Colors.green];
 
   final storage = FlutterSecureStorage();
@@ -108,8 +108,12 @@ class _LoginViewState extends State<LoginView> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "아이디",
-                  style: TextStyle(color: Colors.blue, fontSize: 15.sp),
+                  "닉네임",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
               SizedBox(height: 10.h),
@@ -127,7 +131,7 @@ class _LoginViewState extends State<LoginView> {
                           user_id = str;
                         });
                       },
-                      decoration: InputDecoration(labelText: "아이디를 입력하세요"),
+                      decoration: InputDecoration(labelText: "닉네임을 입력하세요"),
                     ),
                   ),
                   SizedBox(
@@ -173,7 +177,8 @@ class _LoginViewState extends State<LoginView> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  SurveyView(user_id: user_id),
+                                  // SurveyView(user_id: user_id),
+                                  MainView(),
                             ),
                           );
                         }
@@ -190,28 +195,38 @@ class _LoginViewState extends State<LoginView> {
                   child: Text("확인"),
                 ),
               ),
-              SizedBox(height: 5.h),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => OnlyLoginView()),
-                  );
-                },
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: BoxBorder.fromLTRB(
-                        bottom: BorderSide(width: 0.5.w),
+              SizedBox(height: 10.h),
+              Row(
+                children: [
+                  SizedBox(width: 125.w),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OnlyLoginView(),
+                        ),
+                      );
+                    },
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: BoxBorder.fromLTRB(
+                            bottom: BorderSide(width: 0.5.w),
+                          ),
+                        ),
+                        child: Text(
+                          "계정이 있으신가요?",
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ),
-                    child: Text(
-                      "계정이 있으신가요?",
-                      style: TextStyle(fontSize: 15.sp),
-                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
@@ -225,7 +240,7 @@ class _LoginViewState extends State<LoginView> {
 
     if (user_id == "test") {
       setState(() {
-        alertContent = "이미 사용중인 아이디입니다. \n다른 아이디를 사용하세요";
+        alertContent = "이미 사용중인 닉네임입니다. \n다른 닉네임을 사용하세요";
         id_ok = 1;
       });
     } else {
@@ -333,7 +348,7 @@ class _OnlyLoginViewState extends State<OnlyLoginView> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "아이디",
+                  "닉네임",
                   style: TextStyle(color: Colors.blue, fontSize: 15.sp),
                 ),
               ),
@@ -346,7 +361,7 @@ class _OnlyLoginViewState extends State<OnlyLoginView> {
                       user_id = str;
                     });
                   },
-                  decoration: InputDecoration(labelText: "아이디를 입력하세요"),
+                  decoration: InputDecoration(labelText: "닉네임을 입력하세요"),
                 ),
               ),
 
@@ -375,20 +390,26 @@ class _OnlyLoginViewState extends State<OnlyLoginView> {
                   child: Text("로그인"),
                 ),
               ),
-              SizedBox(height: 5.h),
+              SizedBox(height: 10.h),
               InkWell(
                 onTap: () {
                   Navigator.pop(context);
                 },
                 child: Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.center,
                   child: Container(
                     decoration: BoxDecoration(
                       border: BoxBorder.fromLTRB(
                         bottom: BorderSide(width: 0.5.w),
                       ),
                     ),
-                    child: Text("회원가입", style: TextStyle(fontSize: 15.sp)),
+                    child: Text(
+                      "회원가입",
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
                 ),
               ),
