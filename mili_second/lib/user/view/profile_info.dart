@@ -30,7 +30,7 @@ class _EditProfileState extends State<ProfileInfo> {
             children: [
               SizedBox(width: 80.w),
               Text(
-                '프로필 수정',
+                '프로필 정보',
                 style: TextStyle(
                   color: Color(0xFF000000),
                   fontSize: 20.sp,
@@ -160,11 +160,11 @@ class _EditProfileState extends State<ProfileInfo> {
             //     ),
             //   ],
             // ),
-            SizedBox(height: 30.h),
+            SizedBox(height: 10.h),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(width: 110.h),
+                SizedBox(width: 130.h),
                 Image.asset(
                   'assets/icons/profileEdit.png',
                   width: 30.w,
@@ -189,7 +189,7 @@ class _EditProfileState extends State<ProfileInfo> {
                     children: [
                       SizedBox(height: 5.h),
                       Text(
-                        '프로필 수정하기',
+                        '프로필 수정',
                         style: TextStyle(
                           color: Color(0xFF000000),
                           fontSize: 17.sp,
