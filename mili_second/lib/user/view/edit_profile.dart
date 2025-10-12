@@ -25,6 +25,8 @@ class _EditProfileState extends State<EditProfile> {
   String user_id = "";
   int id_ok =
       0; // 아이디 사용 가능 여부 (회원가입 가능 여부) 0 : 중복확인 안함  //  1 : 중복아이디  // 2 : 사용가능 아이디
+  List<String> id_comments = ["중복확인을 해주세요", "중복된 닉네임 입니다", "사용가능한 닉네임입니다"];
+  List<Color> id_comments_color = [Colors.black, Colors.red, Colors.green];
 
   // 성별 수정 데이터 처리
   final List<String> userGender = ['남성', '여성'];
@@ -130,7 +132,7 @@ class _EditProfileState extends State<EditProfile> {
           children: [
             // 닉네임 수정
             SizedBox(
-              width: 329.w,
+              width: 340.w,
               height: 30.h,
               child: Text(
                 '닉네임',
@@ -143,12 +145,12 @@ class _EditProfileState extends State<EditProfile> {
             ),
             SizedBox(height: 15.h),
             SizedBox(
-              width: 329.w,
-              height: 30.h,
+              width: 340.w,
+              height: 50.h,
               child: Row(
                 children: [
                   SizedBox(
-                    width: 280.w,
+                    width: 250.w,
                     child: TextField(
                       controller: _currentUserNickNameController,
                       style: TextStyle(
@@ -173,15 +175,18 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                     ),
                   ),
+                  SizedBox(width: 10.h),
                   // 중복 확인 버튼
                   SizedBox(
                     width: 80.w,
+                    height: 60.h,
                     child: ElevatedButton(
-                      onPressed: user_id == ""
+                      onPressed:
+                          _currentUserNickNameController.text.trim().isEmpty
                           ? null
                           : () => id_duplicate_check(context),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Color(0xFF007BFF),
                         foregroundColor: Colors.white,
                         padding: EdgeInsets.all(10),
                         shape: RoundedRectangleBorder(
@@ -189,10 +194,28 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                         textStyle: TextStyle(color: Colors.white),
                       ),
-                      child: Text("중복확인"),
+                      child: Text(
+                        "중복확인",
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      ),
                     ),
                   ),
                 ],
+              ),
+            ),
+            SizedBox(height: 5.h),
+            SizedBox(
+              width: 340.w,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  id_comments[id_ok],
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    color: id_comments_color[id_ok],
+                  ),
+                ),
               ),
             ),
 
@@ -357,7 +380,7 @@ class _EditProfileState extends State<EditProfile> {
 
             // 프로필 사진 수정
             SizedBox(
-              width: 329.w,
+              width: 340.w,
               height: 30.h,
               child: Text(
                 '프로필 사진',
@@ -370,7 +393,7 @@ class _EditProfileState extends State<EditProfile> {
             ),
             SizedBox(height: 15.h),
             SizedBox(
-              width: 329.w,
+              width: 340.w,
               height: 200.h,
               child: GridView.count(
                 shrinkWrap: true,
@@ -411,7 +434,7 @@ class _EditProfileState extends State<EditProfile> {
               ),
             ),
 
-            SizedBox(height: 300.h),
+            SizedBox(height: 50.h),
 
             // 수정된 정보 저장
             SizedBox(
@@ -430,8 +453,8 @@ class _EditProfileState extends State<EditProfile> {
                   Navigator.pop(context, true);
                 },
                 child: Container(
-                  width: 329.w,
-                  height: 50.h,
+                  width: 340.w,
+                  height: 60.h,
                   decoration: BoxDecoration(
                     color: Color(0xFF0088FF),
                     borderRadius: BorderRadius.circular(10.r),
