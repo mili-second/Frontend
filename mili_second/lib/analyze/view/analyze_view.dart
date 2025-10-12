@@ -14,8 +14,6 @@ class AnalyzeView extends StatefulWidget {
 
 class _AnalyzeViewState extends State<AnalyzeView> {
   // 7일간 사용 트렌트 데이터
-  final String _7daysUsingSummary =
-      '오늘 현재까지 평균 수준을 유지하고 있어요. 목요일 최고치 이후 안정화 추세입니다.';
 
   // Top3 앱 사용 트렌드 데이터
   // usagePattern은 오늘, 오늘 - 1, 오늘 - 2로 3개의 리스트로 넘겨주며, 분 단위(Date)로 넘겨줌
@@ -29,8 +27,6 @@ class _AnalyzeViewState extends State<AnalyzeView> {
   final String _timeOfDayPatternPeakTime = '오후 2-4시';
 
   // Top3 앱 사용 트렌드 데이터
-  final String _top3AppSummary =
-      '현재 게임과 SNS가 주를 이루고 있어요. 오후부터 엔터테인먼트 앱 집중 사용 패턴입니다.';
   // "rank": 1, "appName": "YouTube", "category": "entertain", "minutes": 300, "state": "활발 사용"
   final List<List> _top3AppDatas = [
     ['1', '유튜브', 300, '활발 사용'],
@@ -39,8 +35,8 @@ class _AnalyzeViewState extends State<AnalyzeView> {
   ];
 
   // 스크린타임 카테고리 분포 데이터
-  final String _categoryDistributionSummary =
-      '현재까지 스크린 타임에서 게임이 45%로 가장 높은 비중을 차지하고 있어요.';
+  // final String _categoryDistributionSummary =
+  //     '현재까지 스크린 타임에서 게임이 45%로 가장 높은 비중을 차지하고 있어요.';
   final List<List> _categoryDistribution = [
     ['SNS', 30],
     ['게임', 25],
@@ -56,13 +52,13 @@ class _AnalyzeViewState extends State<AnalyzeView> {
         children: [
           SizedBox(height: 20.h),
           // 7일간 사용 트렌트
-          SevenDaysUsageTrends(sevendaysUsingSummary: _7daysUsingSummary),
+          SevenDaysUsageTrends(),
 
           SizedBox(height: 20.h),
 
           // 시간대별 사용 패턴
           UsagePatternsByTimeOfDay(
-            timeOfDayPatternSummary: _timeOfDayPatternSummary,
+            //timeOfDayPatternSummary: _timeOfDayPatternSummary,
             datas: _timeOfDayPatternDatas,
             timeOfDayPatternPeakTime: _timeOfDayPatternPeakTime,
           ),
@@ -71,7 +67,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
 
           // Top3 앱 사용 트렌드
           Top3AppUsageTrends(
-            top3AppSummary: _top3AppSummary,
+            //top3AppSummary: _top3AppSummary,
             datas: _top3AppDatas,
           ),
 
@@ -79,7 +75,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
 
           // 스크린타임 카테고리 분포
           ScreentimeCategoryDistribution(
-            categoryDistributionSummary: _categoryDistributionSummary,
+            //categoryDistributionSummary: _categoryDistributionSummary,
             chartData: _categoryDistribution,
           ),
 
