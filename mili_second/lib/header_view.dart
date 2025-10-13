@@ -91,9 +91,10 @@ class _HeaderViewState extends State<HeaderView> {
               ),
             ],
           ),
-          SizedBox(width: 50.w),
+          SizedBox(width: 55.w),
           Column(
             children: [
+              SizedBox(height: 5.h),
               IconButton(
                 onPressed: () {
                   test_logout();
@@ -106,8 +107,8 @@ class _HeaderViewState extends State<HeaderView> {
                 },
                 icon: Image.asset(
                   'assets/icons/logout.png',
-                  width: 40.w,
-                  height: 40.h,
+                  width: 35.w,
+                  height: 35.h,
                 ),
               ),
               SizedBox(height: 10.h),
