@@ -45,7 +45,7 @@ class EngagementAnalysis extends StatelessWidget {
                 Text(
                   'SNS 몰입도 분석',
                   style: TextStyle(
-                    color: Color(0xFF0090FF),
+                    color: Color(0xFF000000),
                     fontSize: 17.sp,
                     fontWeight: FontWeight.w700,
                   ),
@@ -64,7 +64,7 @@ class EngagementAnalysis extends StatelessWidget {
                   (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
                 ),
                 style: TextStyle(
-                  color: Color(0xFF0E5D8E),
+                  color: Color(0xFF000000),
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w600,
                 ),
