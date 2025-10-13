@@ -55,7 +55,7 @@ class SpecialThisWeeks extends StatelessWidget {
                   (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
                 ),
                 style: TextStyle(
-                  color: Color(0xFF0E5D8E),
+                  color: Color(0xFFFFFFFF),
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w600,
                 ),

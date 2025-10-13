@@ -37,6 +37,22 @@ class _EditProfileState extends State<ProfileInfo> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
+              SizedBox(width: 20.w),
+              GestureDetector(
+                onTap: () {
+                  // 설정창으로 이동
+                },
+                child: Row(
+                  children: [
+                    SizedBox(width: 70.w),
+                    Image.asset(
+                      'assets/icons/setting.png',
+                      width: 30.w,
+                      height: 30.h,
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -50,10 +66,10 @@ class _EditProfileState extends State<ProfileInfo> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            SizedBox(height: 40.h),
+            SizedBox(height: 50.h),
             Row(
               children: [
-                SizedBox(width: 60.w),
+                SizedBox(width: 55.w),
                 SizedBox(
                   child: Image.asset(
                     widget.userProfileImage,
@@ -63,15 +79,42 @@ class _EditProfileState extends State<ProfileInfo> {
                 ),
               ],
             ),
-            SizedBox(height: 20.h),
-            Text(
-              widget.userNickName,
-              style: TextStyle(
-                color: Color(0xFF000000),
-                fontSize: 32.sp,
-                fontWeight: FontWeight.w800,
+            SizedBox(height: 30.h),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditProfile(
+                      currentUserNickName: widget.userNickName,
+                      currentGender: widget.userGender,
+                      currentJob: widget.userJob,
+                      currentProfilePath: widget.userProfileImage,
+                    ),
+                  ),
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.userNickName,
+                    style: TextStyle(
+                      color: Color(0xFF000000),
+                      fontSize: 32.sp,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  SizedBox(width: 5.w),
+                  Image.asset(
+                    'assets/icons/profileEdit.png',
+                    width: 30.w,
+                    height: 30.h,
+                  ),
+                ],
               ),
             ),
+
             // SizedBox(height: 50.h),
             // Container(
             //   width: 349.w,
@@ -160,54 +203,8 @@ class _EditProfileState extends State<ProfileInfo> {
             //     ),
             //   ],
             // ),
-            SizedBox(height: 10.h),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(width: 130.h),
-                Image.asset(
-                  'assets/icons/profileEdit.png',
-                  width: 30.w,
-                  height: 30.h,
-                ),
-                SizedBox(width: 8.h),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditProfile(
-                          currentUserNickName: widget.userNickName,
-                          currentGender: widget.userGender,
-                          currentJob: widget.userJob,
-                          currentProfilePath: widget.userProfileImage,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      SizedBox(height: 5.h),
-                      Text(
-                        '프로필 수정',
-                        style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      SizedBox(height: 5.h),
-                      // Container(
-                      //   width: 120.w,
-                      //   height: 1.5.h,
-                      //   decoration: BoxDecoration(color: Color(0xFF212121)),
-                      // ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
             SizedBox(height: 40.h),
+
             // GestureDetector(
             //   onTap: () {},
             //   child: Column(
@@ -229,11 +226,11 @@ class _EditProfileState extends State<ProfileInfo> {
             //     ],
             //   ),
             // ),
-            Container(
-              width: 349.w,
-              height: 1.h,
-              decoration: BoxDecoration(color: Color(0xFFB3B3B3)),
-            ),
+            // Container(
+            //   width: 349.w,
+            //   height: 1.h,
+            //   decoration: BoxDecoration(color: Color(0xFFB3B3B3)),
+            // ),
           ],
         ),
       ),
