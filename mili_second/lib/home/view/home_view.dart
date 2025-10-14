@@ -44,139 +44,176 @@ class _HomeViewState extends State<HomeView> {
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(5, 5, 15, 20),
+              padding: const EdgeInsets.fromLTRB(5, 5, 10, 20),
               child: Align(
                 alignment: Alignment.centerRight,
-                child: Text(
-                  viewModel.status, // ViewModel의 데이터 사용
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                child: SizedBox(
+                  height: 20.h,
+                  child: Text(
+                    viewModel.status, // ViewModel의 데이터 사용
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
                 ),
               ),
             ),
             SizedBox(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                padding: EdgeInsetsGeometry.only(left: 5.w, right: 5.w),
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
                       isfront = !isfront;
                     });
                   },
-                  child: Image.asset(
-                    isfront
-                        ? 'assets/icons/character/shoppingAddictType_front.png'
-                        : 'assets/icons/character/shoppingAddictType_back.png',
-                    fit: BoxFit.fill,
-                  ),
+                  child: isfront
+                      ? Image.asset(
+                          'assets/icons/character/shoppingAddictType_front.png',
+                          width: 330.w,
+                          height: 416.h,
+                        )
+                      : Image.asset(
+                          'assets/icons/character/shoppingAddictType_back.png',
+                          width: 330.w,
+                          height: 416.h,
+                        ),
                 ),
               ),
             ),
             SizedBox(height: 10.h),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.blue[100],
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "실시간 사용 현황",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(45, 0, 43, 0),
+                  child: Container(
+                    width: 330.w,
+                    height: 125.h,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF3A78EB).withValues(alpha: 0.8),
+                      borderRadius: BorderRadius.all(Radius.circular(10.0.r)),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 8.0.h, left: 5.w),
+                      child: Column(
                         children: [
-                          Text(
-                            '총 사용 시간',
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              color: Colors.black54,
-                            ),
-                          ),
-                          SizedBox(width: 16.w),
-                          Text(
-                            viewModel.totalUsageTime, // ViewModel의 데이터 사용
-                            style: TextStyle(
-                              fontSize: 17.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '오늘 unlock',
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              color: Colors.black54,
-                            ),
-                          ),
-                          SizedBox(width: 16.w),
-                          Text(
-                            "test", // ViewModel의 데이터 사용
-                            style: TextStyle(
-                              fontSize: 17.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '평균 세션',
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              color: Colors.black54,
-                            ),
-                          ),
-                          SizedBox(width: 16.w),
-                          Text(
-                            "test", // ViewModel의 데이터 사용
-                            style: TextStyle(
-                              fontSize: 17.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            test_logout();
-
-                            // 현재까지의 모든 페이지 기록을 삭제하고 LoginView로 이동합니다.
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginView(),
+                          SizedBox(
+                            width: 300.w,
+                            child: Text(
+                              "실시간 사용 현황",
+                              style: TextStyle(
+                                color: Color(0xFFFFFFFF),
+                                fontSize: 17.sp,
+                                fontWeight: FontWeight.w700,
                               ),
-                              (route) => false, // false를 반환하면 이전 모든 라우트를 제거합니다.
-                            );
-                          },
-                          child: Text("테스트 로그아웃"),
-                        ),
+                            ),
+                          ),
+
+                          SizedBox(height: 5.h),
+
+                          SizedBox(
+                            width: 290.w,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '총 사용 시간',
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    color: Color(0xFFFFFFFF),
+                                  ),
+                                ),
+                                Text(
+                                  viewModel.totalUsageTime, // ViewModel의 데이터 사용
+                                  style: TextStyle(
+                                    color: Color(0xFFFFFFFF),
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          SizedBox(
+                            width: 290.w,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '오늘 unlock',
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    color: Color(0xFFFFFFFF),
+                                  ),
+                                ),
+                                Text(
+                                  "test", // ViewModel의 데이터 사용
+                                  style: TextStyle(
+                                    color: Color(0xFFFFFFFF),
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          SizedBox(
+                            width: 290.w,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '평균 세션',
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    color: Color(0xFFFFFFFF),
+                                  ),
+                                ),
+                                Text(
+                                  "test", // ViewModel의 데이터 사용
+                                  style: TextStyle(
+                                    color: Color(0xFFFFFFFF),
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // Center(
+                          //   child: ElevatedButton(
+                          //     onPressed: () {
+                          //       test_logout();
+
+                          //       // 현재까지의 모든 페이지 기록을 삭제하고 LoginView로 이동합니다.
+                          //       Navigator.pushAndRemoveUntil(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (context) => LoginView(),
+                          //         ),
+                          //         (route) => false, // false를 반환하면 이전 모든 라우트를 제거합니다.
+                          //       );
+                          //     },
+                          //     child: Text("테스트 로그아웃"),
+                          //   ),
+                          // ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+                // Positioned(
+                //   top: 45.h,
+                //   left: 160.w,
+                //   child: Container(
+                //     width: 1.w,
+                //     height: 70.h,
+                //     decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
+                //   ),
+                // ),
+              ],
             ),
           ],
         ),

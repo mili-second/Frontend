@@ -15,7 +15,7 @@ class _LoginViewState extends State<LoginView> {
   String user_id = "";
   int id_ok =
       0; // 아이디 사용 가능 여부 (회원가입 가능 여부) 0 : 중복확인 안함  //  1 : 중복아이디  // 2 : 사용가능 아이디
-  List<String> id_comments = ["중복확인을 해주세요", "중복아이디입니다", "사용가능합니다"];
+  List<String> id_comments = ["중복확인을 해주세요", "중복된 닉네임 입니다", "사용가능한 닉네임입니다"];
   List<Color> id_comments_color = [Colors.black, Colors.red, Colors.green];
 
   final storage = FlutterSecureStorage();
@@ -57,163 +57,199 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text("밀리!!")),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Container(height: 1.h, color: Color(0xFFCDCBCB)),
-        ),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Column(
-            children: [
-              SizedBox(height: 10.h),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      // appBar: AppBar(
+      //   title: Center(child: Text("밀리!!")),
+      //   bottom: PreferredSize(
+      //     preferredSize: Size.fromHeight(1),
+      //     child: Container(height: 1.h, color: Color(0xFFCDCBCB)),
+      //   ),
+      // ),
+      body: Padding(
+        padding: EdgeInsets.only(top: 40.0.h),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Column(
+              children: [
+                SizedBox(height: 10.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "서비스 이용을 위해",
+                        style: TextStyle(
+                          fontSize: 25.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "회원가입",
+                            style: TextStyle(
+                              color: Color(0xFF007BFF),
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Text(
+                            "이 필요합니다.",
+                            style: TextStyle(
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 40.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "닉네임",
+                    style: TextStyle(
+                      color: Color(0xFF007BFF),
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10.h),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "서비스 이용을 위해",
-                      style: TextStyle(
-                        fontSize: 25.sp,
-                        fontWeight: FontWeight.bold,
+                    SizedBox(
+                      width: 280.w,
+                      height: 50.h,
+                      child: TextField(
+                        onChanged: (String str) {
+                          setState(() {
+                            id_ok = 0;
+                            user_id = str;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFF0088FF),
+                              width: 1.5,
+                            ),
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFFD1D1D1),
+                              width: 1.0,
+                            ),
+                          ),
+                          hintText: "닉네임을 입력하세요",
+                        ),
                       ),
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          "회원가입",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 25.sp,
-                            fontWeight: FontWeight.bold,
+                    SizedBox(
+                      width: 80.w,
+                      child: ElevatedButton(
+                        onPressed: user_id == ""
+                            ? null
+                            : () => id_duplicate_check(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF007BFF),
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.all(10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0.r),
                           ),
+                          textStyle: TextStyle(color: Colors.white),
                         ),
-                        Text(
-                          "이 필요합니다.",
-                          style: TextStyle(
-                            fontSize: 25.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
+                        child: Text("중복확인"),
+                      ),
                     ),
                   ],
                 ),
-              ),
-              SizedBox(height: 40.h),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "아이디",
-                  style: TextStyle(color: Colors.blue, fontSize: 15.sp),
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 280.w,
-                    height: 50.h,
-                    child: TextField(
-                      onChanged: (String str) {
-                        setState(() {
-                          id_ok = 0;
-                          user_id = str;
-                        });
-                      },
-                      decoration: InputDecoration(labelText: "아이디를 입력하세요"),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 80.w,
-                    child: ElevatedButton(
-                      onPressed: user_id == ""
-                          ? null
-                          : () => id_duplicate_check(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.all(10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0.r),
-                        ),
-                        textStyle: TextStyle(color: Colors.white),
-                      ),
-                      child: Text("중복확인"),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 3.h),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  id_comments[id_ok],
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: id_comments_color[id_ok],
-                  ),
-                ),
-              ),
-              SizedBox(height: 30.h),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: id_ok == 2
-                      ? () {
-                          write_token();
-                          // 최초 회원가입 시 설문조사 페이지로 넘어감
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  SurveyView(user_id: user_id),
-                            ),
-                          );
-                        }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.all(15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0.r),
-                    ),
-                    textStyle: TextStyle(color: Colors.white, fontSize: 20.sp),
-                  ),
-                  child: Text("확인"),
-                ),
-              ),
-              SizedBox(height: 5.h),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => OnlyLoginView()),
-                  );
-                },
-                child: Align(
+                SizedBox(height: 3.h),
+                Align(
                   alignment: Alignment.centerLeft,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: BoxBorder.fromLTRB(
-                        bottom: BorderSide(width: 0.5.w),
-                      ),
-                    ),
-                    child: Text(
-                      "계정이 있으신가요?",
-                      style: TextStyle(fontSize: 15.sp),
+                  child: Text(
+                    id_comments[id_ok],
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500,
+                      color: id_comments_color[id_ok],
                     ),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(height: 30.h),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: id_ok == 2
+                        ? () {
+                            write_token();
+                            // 최초 회원가입 시 설문조사 페이지로 넘어감
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    // SurveyView(user_id: user_id),
+                                    MainView(),
+                              ),
+                            );
+                          }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF007BFF),
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.all(15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0.r),
+                      ),
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.sp,
+                      ),
+                    ),
+                    child: Text("확인"),
+                  ),
+                ),
+                SizedBox(height: 10.h),
+                Row(
+                  children: [
+                    SizedBox(width: 125.w),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OnlyLoginView(),
+                          ),
+                        );
+                      },
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: BoxBorder.fromLTRB(
+                              bottom: BorderSide(width: 0.5.w),
+                            ),
+                          ),
+                          child: Text(
+                            "계정이 있으신가요?",
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -225,7 +261,7 @@ class _LoginViewState extends State<LoginView> {
 
     if (user_id == "test") {
       setState(() {
-        alertContent = "이미 사용중인 아이디입니다. \n다른 아이디를 사용하세요";
+        alertContent = "이미 사용중인 닉네임입니다. \n다른 닉네임을 사용하세요";
         id_ok = 1;
       });
     } else {
@@ -281,118 +317,150 @@ class _OnlyLoginViewState extends State<OnlyLoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Center(child: Text("밀리!!")),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Container(height: 1.h, color: Color(0xFFCDCBCB)),
-        ),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Column(
-            children: [
-              SizedBox(height: 10),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "서비스 이용을 위해",
-                      style: TextStyle(
-                        fontSize: 25.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "로그인",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 25.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          "이 필요합니다.",
-                          style: TextStyle(
-                            fontSize: 25.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 40.h),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "아이디",
-                  style: TextStyle(color: Colors.blue, fontSize: 15.sp),
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: TextField(
-                  onChanged: (String str) {
-                    setState(() {
-                      user_id = str;
-                    });
-                  },
-                  decoration: InputDecoration(labelText: "아이디를 입력하세요"),
-                ),
-              ),
-
-              SizedBox(height: 30.h),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: user_id == ""
-                      ? null
-                      : () {
-                          write_token();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => MainView()),
-                          );
-                        },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.all(15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0.r),
-                    ),
-                    textStyle: TextStyle(color: Colors.white, fontSize: 20.sp),
-                  ),
-                  child: Text("로그인"),
-                ),
-              ),
-              SizedBox(height: 5.h),
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Align(
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   title: Center(child: Text("밀리!!")),
+      //   bottom: PreferredSize(
+      //     preferredSize: Size.fromHeight(1),
+      //     child: Container(height: 1.h, color: Color(0xFFCDCBCB)),
+      //   ),
+      // ),
+      body: Padding(
+        padding: EdgeInsets.only(top: 40.0.h),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Column(
+              children: [
+                SizedBox(height: 10.h),
+                Align(
                   alignment: Alignment.centerLeft,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: BoxBorder.fromLTRB(
-                        bottom: BorderSide(width: 0.5.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "서비스 이용을 위해",
+                        style: TextStyle(
+                          fontSize: 25.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                    child: Text("회원가입", style: TextStyle(fontSize: 15.sp)),
+                      Row(
+                        children: [
+                          Text(
+                            "로그인",
+                            style: TextStyle(
+                              color: Color(0xFF007BFF),
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Text(
+                            "이 필요합니다.",
+                            style: TextStyle(
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+                SizedBox(height: 40.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "닉네임",
+                    style: TextStyle(
+                      color: Color(0xFF007BFF),
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10.h),
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: TextField(
+                    onChanged: (String str) {
+                      setState(() {
+                        user_id = str;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF0088FF),
+                          width: 1.5,
+                        ),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFFD1D1D1),
+                          width: 1.0,
+                        ),
+                      ),
+                      hintText: "닉네임을 입력하세요",
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 30.h),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: user_id == ""
+                        ? null
+                        : () {
+                            write_token();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MainView(),
+                              ),
+                            );
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF007BFF),
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.all(15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0.r),
+                      ),
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.sp,
+                      ),
+                    ),
+                    child: Text("로그인"),
+                  ),
+                ),
+                SizedBox(height: 10.h),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: BoxBorder.fromLTRB(
+                          bottom: BorderSide(width: 0.5.w),
+                        ),
+                      ),
+                      child: Text(
+                        "회원가입",
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

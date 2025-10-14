@@ -48,7 +48,7 @@ class _MainViewState extends State<MainView> {
         children: [
           Container(height: 1, color: const Color(0xFFCDCBCB)),
           SizedBox(
-            height: 160.h,
+            height: 155.h,
             child: BottomNavigationBar(
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
@@ -58,13 +58,13 @@ class _MainViewState extends State<MainView> {
                       _selectedIndex == 0
                           ? Image.asset(
                               'assets/icons/home_blue.png',
-                              width: 45.w,
-                              height: 45.h,
+                              width: 42.w,
+                              height: 42.h,
                             )
                           : Image.asset(
                               'assets/icons/home_gray.png',
-                              width: 45.w,
-                              height: 45.h,
+                              width: 42.w,
+                              height: 42.h,
                             ),
                       SizedBox(height: 15.h),
                       _selectedIndex == 0
@@ -94,13 +94,13 @@ class _MainViewState extends State<MainView> {
                       _selectedIndex == 1
                           ? Image.asset(
                               'assets/icons/analyze_blue.png',
-                              width: 60.w,
-                              height: 60.h,
+                              width: 57.w,
+                              height: 57.h,
                             )
                           : Image.asset(
                               'assets/icons/analyze_gray.png',
-                              width: 60.w,
-                              height: 60.h,
+                              width: 57.w,
+                              height: 57.h,
                             ),
                       SizedBox(height: 5.h),
                       _selectedIndex == 1
@@ -130,13 +130,13 @@ class _MainViewState extends State<MainView> {
                       _selectedIndex == 2
                           ? Image.asset(
                               'assets/icons/insight_blue.png',
-                              width: 60.w,
-                              height: 60.h,
+                              width: 57.w,
+                              height: 57.h,
                             )
                           : Image.asset(
                               'assets/icons/insight_gray.png',
-                              width: 60.w,
-                              height: 60.h,
+                              width: 57.w,
+                              height: 57.h,
                             ),
                       SizedBox(height: 5.h),
                       _selectedIndex == 2
