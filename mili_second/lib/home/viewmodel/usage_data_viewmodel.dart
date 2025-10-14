@@ -16,7 +16,7 @@ class UsageDataViewModel extends ChangeNotifier {
   final _encoder = const JsonEncoder.withIndent('  ');
 
   final _serverUrl = Uri.parse(
-    'https://webhook.site/c6a48bd6-57b8-4ad4-8e9a-f0c2b70ebbdb',
+    'https://webhook.site/287eb786-4205-4f9f-a8da-07acf05d9f4a',
   );
 
   String _status = '앱 사용 기록을 불러오는 중...';
