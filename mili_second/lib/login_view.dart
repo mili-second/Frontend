@@ -4,19 +4,37 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mili_second/servay_view.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class SignInView extends StatefulWidget {
+  const SignInView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<SignInView> createState() => _SignInViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _SignInViewState extends State<SignInView> {
   String user_id = "";
+  String user_pw = "";
   int id_ok =
       0; // 아이디 사용 가능 여부 (회원가입 가능 여부) 0 : 중복확인 안함  //  1 : 중복아이디  // 2 : 사용가능 아이디
-  List<String> id_comments = ["중복확인을 해주세요", "중복된 닉네임 입니다", "사용가능한 닉네임입니다"];
+  int id_valid = 0;
+  List<String> id_valid_comments = [
+    "아이디는 영문과 숫자 조합으로 5~20자 이내여야 합니다.",
+    "사용 가능한 아이디입니다.",
+  ];
+  List<String> id_comments = ["아이디 중복확인을 해주세요", "중복된 아이디 입니다", "사용가능한 아이디입니다"];
   List<Color> id_comments_color = [Colors.black, Colors.red, Colors.green];
+  List<Color> id_valid_comments_color = [Colors.red, Colors.green];
+  RegExp regExp_id = RegExp(r'^[a-zA-Z0-9]{5,20}$');
+
+  int pw_ok = 0; // 0 : 사용불가    1 : 사용가능
+  List<String> pw_comments = [
+    "비밀번호는 8~20자이며, 영문, 숫자, 특수문자를 모두 포함해야 합니다.",
+    "사용 가능한 비밀번호입니다.",
+  ];
+  List<Color> pw_comments_color = [Colors.red, Colors.green];
+
+  // 비밀번호 유효성 검사를 위한 정규식
+  RegExp regExp_pw = RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8,20}$');
 
   final storage = FlutterSecureStorage();
 
@@ -110,7 +128,7 @@ class _LoginViewState extends State<LoginView> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "닉네임",
+                    "아이디",
                     style: TextStyle(
                       color: Color(0xFF007BFF),
                       fontSize: 15.sp,
@@ -132,6 +150,22 @@ class _LoginViewState extends State<LoginView> {
                             id_ok = 0;
                             user_id = str;
                           });
+
+                          if (str.length < 5 || str.length >= 20) {
+                            // 유효하지 않음 (너무 짧거나 길다)
+                            setState(() {
+                              id_valid = 0;
+                            });
+                          } else if (regExp_id.hasMatch(str)) {
+                            // 조건에 일치
+                            setState(() {
+                              id_valid = 1;
+                            });
+                          } else {
+                            setState(() {
+                              id_valid = 0;
+                            });
+                          }
                         },
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
@@ -146,14 +180,14 @@ class _LoginViewState extends State<LoginView> {
                               width: 1.0,
                             ),
                           ),
-                          hintText: "닉네임을 입력하세요",
+                          hintText: "아이디를 입력하세요",
                         ),
                       ),
                     ),
                     SizedBox(
                       width: 80.w,
                       child: ElevatedButton(
-                        onPressed: user_id == ""
+                        onPressed: id_valid == 0
                             ? null
                             : () => id_duplicate_check(context),
                         style: ElevatedButton.styleFrom(
@@ -174,6 +208,18 @@ class _LoginViewState extends State<LoginView> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
+                    id_valid_comments[id_valid],
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500,
+                      color: id_valid_comments_color[id_valid],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 3),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
                     id_comments[id_ok],
                     style: TextStyle(
                       fontSize: 12.sp,
@@ -182,11 +228,71 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                 ),
+                SizedBox(height: 20.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "비밀번호",
+                    style: TextStyle(
+                      color: Color(0xFF007BFF),
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10.h),
+                TextField(
+                  onChanged: (String str) {
+                    if (str.length < 8 || str.length >= 20) {
+                      // 유효하지 않음 (너무 짧거나 길다)
+                      setState(() {
+                        pw_ok = 0;
+                      });
+                    } else if (regExp_pw.hasMatch(str)) {
+                      // 조건에 일치
+                      setState(() {
+                        user_pw = str;
+                        pw_ok = 1;
+                      });
+                    } else {
+                      setState(() {
+                        pw_ok = 0;
+                      });
+                    }
+                  },
+                  decoration: InputDecoration(
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFF0088FF),
+                        width: 1.5,
+                      ),
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFFD1D1D1),
+                        width: 1.0,
+                      ),
+                    ),
+                    hintText: "비밀번호를 입력하세요",
+                  ),
+                ),
+                SizedBox(height: 3.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    pw_comments[pw_ok],
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500,
+                      color: pw_comments_color[pw_ok],
+                    ),
+                  ),
+                ),
                 SizedBox(height: 30.h),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: id_ok == 2
+                    onPressed: id_ok == 2 && pw_ok == 1
                         ? () {
                             write_token();
                             // 최초 회원가입 시 설문조사 페이지로 넘어감
@@ -223,9 +329,7 @@ class _LoginViewState extends State<LoginView> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => OnlyLoginView(),
-                          ),
+                          MaterialPageRoute(builder: (context) => LoginView()),
                         );
                       },
                       child: Align(
@@ -287,18 +391,19 @@ class _LoginViewState extends State<LoginView> {
   }
 }
 
-class OnlyLoginView extends StatefulWidget {
-  const OnlyLoginView({super.key});
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
 
   @override
-  State<OnlyLoginView> createState() => _OnlyLoginViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _OnlyLoginViewState extends State<OnlyLoginView> {
+class _LoginViewState extends State<LoginView> {
   final storage = FlutterSecureStorage();
 
   bool is_login = false;
   String user_id = "";
+  String user_pw = "";
 
   Future<void> check_login() async {
     print("로그인 확인");
@@ -371,7 +476,7 @@ class _OnlyLoginViewState extends State<OnlyLoginView> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "닉네임",
+                    "아이디",
                     style: TextStyle(
                       color: Color(0xFF007BFF),
                       fontSize: 15.sp,
@@ -401,7 +506,46 @@ class _OnlyLoginViewState extends State<OnlyLoginView> {
                           width: 1.0,
                         ),
                       ),
-                      hintText: "닉네임을 입력하세요",
+                      hintText: "아이디를 입력하세요",
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 10.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "비밀번호",
+                    style: TextStyle(
+                      color: Color(0xFF007BFF),
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10.h),
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: TextField(
+                    onChanged: (String str) {
+                      setState(() {
+                        user_pw = str;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF0088FF),
+                          width: 1.5,
+                        ),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFFD1D1D1),
+                          width: 1.0,
+                        ),
+                      ),
+                      hintText: "비밀번호를 입력하세요",
                     ),
                   ),
                 ),
@@ -410,7 +554,7 @@ class _OnlyLoginViewState extends State<OnlyLoginView> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: user_id == ""
+                    onPressed: user_id == "" || user_pw == ""
                         ? null
                         : () {
                             write_token();
@@ -439,7 +583,10 @@ class _OnlyLoginViewState extends State<OnlyLoginView> {
                 SizedBox(height: 10.h),
                 InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignInView()),
+                    );
                   },
                   child: Align(
                     alignment: Alignment.center,
