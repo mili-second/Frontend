@@ -33,7 +33,7 @@ class _EditProfileState extends State<ProfileInfo> {
                 '프로필 정보',
                 style: TextStyle(
                   color: Color(0xFF000000),
-                  fontSize: 20.sp,
+                  fontSize: 20.r,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -101,7 +101,7 @@ class _EditProfileState extends State<ProfileInfo> {
                     widget.userNickName,
                     style: TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: 32.sp,
+                      fontSize: 32.r,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
@@ -129,7 +129,7 @@ class _EditProfileState extends State<ProfileInfo> {
             //       '기본 정보',
             //       style: TextStyle(
             //         color: Color(0xFF000000),
-            //         fontSize: 17.sp,
+            //         fontSize: 17.r,
             //         fontWeight: FontWeight.w700,
             //       ),
             //     ),
@@ -143,7 +143,7 @@ class _EditProfileState extends State<ProfileInfo> {
             //       '성별',
             //       style: TextStyle(
             //         color: Color(0xFF0090FF),
-            //         fontSize: 15.sp,
+            //         fontSize: 15.r,
             //         fontWeight: FontWeight.w600,
             //       ),
             //     ),
@@ -154,7 +154,7 @@ class _EditProfileState extends State<ProfileInfo> {
             //       '직업',
             //       style: TextStyle(
             //         color: Color(0xFF0090FF),
-            //         fontSize: 15.sp,
+            //         fontSize: 15.r,
             //         fontWeight: FontWeight.w600,
             //       ),
             //     ),
@@ -176,7 +176,7 @@ class _EditProfileState extends State<ProfileInfo> {
             //           widget.userGender,
             //           style: TextStyle(
             //             color: Color(0xFFFFFFFF),
-            //             fontSize: 20.sp,
+            //             fontSize: 20.r,
             //             fontWeight: FontWeight.w600,
             //           ),
             //         ),
@@ -195,7 +195,7 @@ class _EditProfileState extends State<ProfileInfo> {
             //           widget.userJob,
             //           style: TextStyle(
             //             color: Color(0xFFFFFFFF),
-            //             fontSize: 20.sp,
+            //             fontSize: 20.r,
             //             fontWeight: FontWeight.w600,
             //           ),
             //         ),
@@ -213,7 +213,7 @@ class _EditProfileState extends State<ProfileInfo> {
             //         '로그아웃',
             //         style: TextStyle(
             //           color: Color(0xFF686868),
-            //           fontSize: 17.sp,
+            //           fontSize: 17.r,
             //           fontWeight: FontWeight.w700,
             //         ),
             //       ),

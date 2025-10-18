@@ -40,7 +40,7 @@ class WeeklyChangingTrends extends StatelessWidget {
                   '주간 변화 트렌드',
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 17.sp,
+                    fontSize: 17.r,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -63,7 +63,7 @@ class WeeklyChangingTrends extends StatelessWidget {
                 ),
                 style: TextStyle(
                   color: Color(0xFF000000),
-                  fontSize: 15.sp,
+                  fontSize: 15.r,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -78,7 +78,7 @@ class WeeklyChangingTrends extends StatelessWidget {
                     '총 사용 시간',
                     style: TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: 20.sp,
+                      fontSize: 20.r,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -90,7 +90,7 @@ class WeeklyChangingTrends extends StatelessWidget {
                         '+2.3 시간',
                         style: TextStyle(
                           color: Color(0xFFFF6565),
-                          fontSize: 24.sp,
+                          fontSize: 24.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -99,7 +99,7 @@ class WeeklyChangingTrends extends StatelessWidget {
                         '(전주 대비)',
                         style: TextStyle(
                           color: Color(0xFFFF6565),
-                          fontSize: 15.sp,
+                          fontSize: 15.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -134,7 +134,7 @@ class WeeklyChangingTrends extends StatelessWidget {
                                 categoryUsageTime[0][0],
                                 style: TextStyle(
                                   color: Color(0xFF000000),
-                                  fontSize: 17.sp,
+                                  fontSize: 17.r,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -143,7 +143,7 @@ class WeeklyChangingTrends extends StatelessWidget {
                                 categoryUsageTime[0][1],
                                 style: TextStyle(
                                   color: Color(0xFFFF8551),
-                                  fontSize: 24.sp,
+                                  fontSize: 24.r,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -160,7 +160,7 @@ class WeeklyChangingTrends extends StatelessWidget {
                                 categoryUsageTime[1][0],
                                 style: TextStyle(
                                   color: Color(0xFF000000),
-                                  fontSize: 17.sp,
+                                  fontSize: 17.r,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -169,7 +169,7 @@ class WeeklyChangingTrends extends StatelessWidget {
                                 categoryUsageTime[1][1],
                                 style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: 24.sp,
+                                  fontSize: 24.r,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -186,7 +186,7 @@ class WeeklyChangingTrends extends StatelessWidget {
                                 categoryUsageTime[2][0],
                                 style: TextStyle(
                                   color: Color(0xFF000000),
-                                  fontSize: 17.sp,
+                                  fontSize: 17.r,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -195,7 +195,7 @@ class WeeklyChangingTrends extends StatelessWidget {
                                 categoryUsageTime[2][1],
                                 style: TextStyle(
                                   color: Color(0xFF51B4FF),
-                                  fontSize: 24.sp,
+                                  fontSize: 24.r,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

@@ -45,8 +45,8 @@ class EngagementAnalysis extends StatelessWidget {
                 Text(
                   'SNS 몰입도 분석',
                   style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 17.sp,
+                    color: Color(0xFF0090FF),
+                    fontSize: 17.r,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -65,7 +65,7 @@ class EngagementAnalysis extends StatelessWidget {
                 ),
                 style: TextStyle(
                   color: Color(0xFF000000),
-                  fontSize: 15.sp,
+                  fontSize: 15.r,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -99,7 +99,7 @@ class EngagementAnalysis extends StatelessWidget {
                         '주간 평균 SNS시간',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 16.sp,
+                          fontSize: 16.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -108,7 +108,7 @@ class EngagementAnalysis extends StatelessWidget {
                         '${SNSTime}분',
                         style: TextStyle(
                           color: Color(0xFF0080FF),
-                          fontSize: 20.sp,
+                          fontSize: 20.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -124,7 +124,7 @@ class EngagementAnalysis extends StatelessWidget {
                         '새벽 시간 접속률',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 16.sp,
+                          fontSize: 16.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -133,7 +133,7 @@ class EngagementAnalysis extends StatelessWidget {
                         '${rate}%',
                         style: TextStyle(
                           color: Color(0xFFFFBB00),
-                          fontSize: 20.sp,
+                          fontSize: 20.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),

@@ -65,7 +65,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                     '시간대별 사용 패턴',
                     style: TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: 17.sp,
+                      fontSize: 17.r,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -103,7 +103,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                         '야간 (24-06시)',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 12.sp,
+                          fontSize: 12.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -113,7 +113,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                         '0 분',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 16.sp,
+                          fontSize: 16.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -133,7 +133,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                         '오전 (6-12시)',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 12.sp,
+                          fontSize: 12.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -143,7 +143,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                         '2시간',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 16.sp,
+                          fontSize: 16.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -162,7 +162,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                         '오후 (12-18시)',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 12.sp,
+                          fontSize: 12.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -172,7 +172,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                         '1.2시간',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 16.sp,
+                          fontSize: 16.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -192,7 +192,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                         '저녁 (18-24시)',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 12.sp,
+                          fontSize: 12.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -201,7 +201,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                         '4.5시간',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 16.sp,
+                          fontSize: 16.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -226,7 +226,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
             //         ),
             //         style: TextStyle(
             //           color: Color(0xFF000000),
-            //           fontSize: 15.sp,
+            //           fontSize: 15.r,
             //           fontWeight: FontWeight.w500,
             //         ),
             //       ),
@@ -247,7 +247,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                     ' 가장 활발한 시간 : ',
                     style: TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: 15.sp,
+                      fontSize: 15.r,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -255,7 +255,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                     widget.timeOfDayPatternPeakTime,
                     style: TextStyle(
                       color: Color(0xFFF23C14),
-                      fontSize: 17.sp,
+                      fontSize: 17.r,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
