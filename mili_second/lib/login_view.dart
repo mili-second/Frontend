@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mili_second/main_view.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // secure storage can't web
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mili_second/servay_view.dart';
 
@@ -36,29 +37,15 @@ class _SignInViewState extends State<SignInView> {
   // 비밀번호 유효성 검사를 위한 정규식
   RegExp regExp_pw = RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8,20}$');
 
-  final storage = FlutterSecureStorage();
+  //final storage = FlutterSecureStorage();
 
   bool is_login = false;
 
-  Future<void> check_login() async {
-    print("로그인 확인");
-    String? value = await storage.read(key: "token");
-
-    setState(() {
-      is_login = (value != null);
-    });
-
-    // 화면전환 navigator로 통일
-    if (is_login && mounted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MainView()),
-      );
-    }
-  }
-
   Future<void> write_token() async {
-    await storage.write(key: "token", value: "ok");
+    //await storage.write(key: "token", value: "ok");
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', 'ok');
     setState(() {
       is_login = true;
     });
@@ -68,8 +55,6 @@ class _SignInViewState extends State<SignInView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    check_login();
   }
 
   @override
@@ -399,7 +384,7 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  final storage = FlutterSecureStorage();
+  //final storage = FlutterSecureStorage();
 
   bool is_login = false;
   String user_id = "";
@@ -407,7 +392,10 @@ class _LoginViewState extends State<LoginView> {
 
   Future<void> check_login() async {
     print("로그인 확인");
-    String? value = await storage.read(key: "token");
+    //String? value = await storage.read(key: "token");
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? value = prefs.getString('token');
 
     setState(() {
       is_login = (value != null);
@@ -416,7 +404,10 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Future<void> write_token() async {
-    await storage.write(key: "token", value: "ok");
+    //await storage.write(key: "token", value: "ok");
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', 'ok');
   }
 
   @override
