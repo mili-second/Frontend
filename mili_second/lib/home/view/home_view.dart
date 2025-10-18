@@ -44,7 +44,7 @@ class _HomeViewState extends State<HomeView> {
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(5, 5, 10, 20),
+              padding: EdgeInsets.fromLTRB(5.w, 5.h, 10.w, 5.h),
               child: Align(
                 alignment: Alignment.centerRight,
                 child: SizedBox(
@@ -52,14 +52,14 @@ class _HomeViewState extends State<HomeView> {
                   child: Text(
                     viewModel.status, // ViewModel의 데이터 사용
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 14, color: Colors.grey),
+                    style: TextStyle(fontSize: 14.r, color: Colors.grey),
                   ),
                 ),
               ),
             ),
             SizedBox(
               child: Padding(
-                padding: EdgeInsetsGeometry.only(left: 5.w, right: 5.w),
+                padding: EdgeInsetsGeometry.only(left: 45.w, right: 45.w),
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
@@ -69,13 +69,11 @@ class _HomeViewState extends State<HomeView> {
                   child: isfront
                       ? Image.asset(
                           'assets/icons/character/shoppingAddictType_front.png',
-                          width: 330.w,
-                          height: 416.h,
+                          fit: BoxFit.contain,
                         )
                       : Image.asset(
                           'assets/icons/character/shoppingAddictType_back.png',
-                          width: 330.w,
-                          height: 416.h,
+                          fit: BoxFit.contain,
                         ),
                 ),
               ),
@@ -84,7 +82,7 @@ class _HomeViewState extends State<HomeView> {
             Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(45, 0, 43, 0),
+                  padding: EdgeInsets.fromLTRB(45.w, 0, 45.w, 0),
                   child: Container(
                     width: 330.w,
                     height: 125.h,
@@ -102,7 +100,7 @@ class _HomeViewState extends State<HomeView> {
                               "실시간 사용 현황",
                               style: TextStyle(
                                 color: Color(0xFFFFFFFF),
-                                fontSize: 17.sp,
+                                fontSize: 17.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -118,7 +116,7 @@ class _HomeViewState extends State<HomeView> {
                                 Text(
                                   '총 사용 시간',
                                   style: TextStyle(
-                                    fontSize: 15.sp,
+                                    fontSize: 15.r,
                                     color: Color(0xFFFFFFFF),
                                   ),
                                 ),
@@ -126,7 +124,7 @@ class _HomeViewState extends State<HomeView> {
                                   viewModel.totalUsageTime, // ViewModel의 데이터 사용
                                   style: TextStyle(
                                     color: Color(0xFFFFFFFF),
-                                    fontSize: 15.sp,
+                                    fontSize: 15.r,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -142,7 +140,7 @@ class _HomeViewState extends State<HomeView> {
                                 Text(
                                   '오늘 unlock',
                                   style: TextStyle(
-                                    fontSize: 15.sp,
+                                    fontSize: 15.r,
                                     color: Color(0xFFFFFFFF),
                                   ),
                                 ),
@@ -150,7 +148,7 @@ class _HomeViewState extends State<HomeView> {
                                   "test", // ViewModel의 데이터 사용
                                   style: TextStyle(
                                     color: Color(0xFFFFFFFF),
-                                    fontSize: 15.sp,
+                                    fontSize: 15.r,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -166,7 +164,7 @@ class _HomeViewState extends State<HomeView> {
                                 Text(
                                   '평균 세션',
                                   style: TextStyle(
-                                    fontSize: 15.sp,
+                                    fontSize: 15.r,
                                     color: Color(0xFFFFFFFF),
                                   ),
                                 ),
@@ -174,7 +172,7 @@ class _HomeViewState extends State<HomeView> {
                                   "test", // ViewModel의 데이터 사용
                                   style: TextStyle(
                                     color: Color(0xFFFFFFFF),
-                                    fontSize: 15.sp,
+                                    fontSize: 15.r,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
