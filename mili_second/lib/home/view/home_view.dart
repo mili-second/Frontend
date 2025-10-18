@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/usage_data_viewmodel.dart'; // ViewModel import
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // secure storage can't web
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
