@@ -41,7 +41,7 @@ class _Top3AppUsageTrendsState extends State<Top3AppUsageTrends> {
                   ' Top3 앱 사용 트렌드',
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 17.sp,
+                    fontSize: 17.r,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -119,7 +119,7 @@ class _Top3AppUsageTrendsState extends State<Top3AppUsageTrends> {
             //     ),
             //     style: TextStyle(
             //       color: Color(0xFF000000),
-            //       fontSize: 15.sp,
+            //       fontSize: 15.r,
             //       fontWeight: FontWeight.w500,
             //     ),
             //   ),
@@ -177,7 +177,7 @@ class top3Info extends StatelessWidget {
               appName,
               style: TextStyle(
                 color: Color(0xFF000000),
-                fontSize: 18.sp,
+                fontSize: 18.r,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -188,7 +188,7 @@ class top3Info extends StatelessWidget {
               formatMinutes(usageTime),
               style: TextStyle(
                 color: Color(0xFFA3A3A3),
-                fontSize: 15.sp,
+                fontSize: 15.r,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -199,7 +199,7 @@ class top3Info extends StatelessWidget {
               state,
               style: TextStyle(
                 color: Color(0xFF000000),
-                fontSize: 15.sp,
+                fontSize: 15.r,
                 fontWeight: FontWeight.w600,
               ),
             ),

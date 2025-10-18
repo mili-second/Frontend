@@ -38,7 +38,7 @@ class SpecialThisWeeks extends StatelessWidget {
                   '이번주 특이사항',
                   style: TextStyle(
                     color: Color(0xFFFFFFFF),
-                    fontSize: 17.sp,
+                    fontSize: 17.r,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -56,7 +56,7 @@ class SpecialThisWeeks extends StatelessWidget {
                 ),
                 style: TextStyle(
                   color: Color(0xFFFFFFFF),
-                  fontSize: 15.sp,
+                  fontSize: 15.r,
                   fontWeight: FontWeight.w600,
                 ),
               ),

@@ -37,7 +37,7 @@ class PatternAnalysisByDayOfTheWeek extends StatelessWidget {
                   '요일별 패턴 분석',
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 17.sp,
+                    fontSize: 17.r,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -57,7 +57,7 @@ class PatternAnalysisByDayOfTheWeek extends StatelessWidget {
                 comment,
                 style: TextStyle(
                   color: Color(0xFF000000),
-                  fontSize: 15.sp,
+                  fontSize: 15.r,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -109,7 +109,7 @@ class DayOfTheWeek extends StatelessWidget {
             day,
             style: TextStyle(
               color: Color(0xFF000000),
-              fontSize: 16.sp,
+              fontSize: 16.r,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -138,7 +138,7 @@ class DayOfTheWeek extends StatelessWidget {
                   '늦잠 +  SNS 몰아보기',
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 13.sp,
+                    fontSize: 13.r,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
