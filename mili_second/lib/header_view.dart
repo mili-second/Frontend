@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -32,7 +33,7 @@ class _HeaderViewState extends State<HeaderView> {
     final userGender = '여성';
     final userJob = '주부';
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: EdgeInsets.all(kIsWeb ? 5.0 : 5.0.w),
       child: Row(
         children: [
           Stack(

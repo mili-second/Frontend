@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:mili_second/login_view.dart';
 import 'package:provider/provider.dart'; // 1. provider import
-import 'main_view.dart';
 import 'home/viewmodel/usage_data_viewmodel.dart'; // 2. ViewModel import (경로는 실제 위치에 맞게 수정)
 
 void main() {

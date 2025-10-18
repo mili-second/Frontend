@@ -3,9 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/usage_data_viewmodel.dart'; // ViewModel import
-import 'dart:math';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mili_second/login_view.dart';
+//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // secure storage can't web
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
