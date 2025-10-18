@@ -36,7 +36,7 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
                   '7일간 사용 트렌드',
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 17.sp,
+                    fontSize: 17.r,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -108,7 +108,7 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
             //     ),
             //     style: TextStyle(
             //       color: Color(0xFF000000),
-            //       fontSize: 15.sp,
+            //       fontSize: 15.r,
             //       fontWeight: FontWeight.w500,
             //     ),
             //   ),

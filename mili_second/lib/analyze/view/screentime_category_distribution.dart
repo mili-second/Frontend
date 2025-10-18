@@ -75,7 +75,7 @@ class _ScreentimeCategoryDistributionState
                       '  스크린 타임 카테고리 분포',
                       style: TextStyle(
                         color: Color(0xFF000000),
-                        fontSize: 17.sp,
+                        fontSize: 17.r,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -92,7 +92,7 @@ class _ScreentimeCategoryDistributionState
                 //     ),
                 //     style: TextStyle(
                 //       color: Color(0xFF000000),
-                //       fontSize: 15.sp,
+                //       fontSize: 15.r,
                 //       fontWeight: FontWeight.w500,
                 //     ),
                 //   ),
@@ -115,7 +115,7 @@ class _ScreentimeCategoryDistributionState
                       return PieChartSectionData(
                         value: e.value.toDouble(),
                         color: e.color,
-                        radius: 25,
+                        radius: 25.r,
                         title: '',
                       );
                     }).toList(),
@@ -132,7 +132,7 @@ class _ScreentimeCategoryDistributionState
                     '75%',
                     style: TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: 24.sp,
+                      fontSize: 24.r,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
