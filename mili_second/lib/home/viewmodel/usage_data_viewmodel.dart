@@ -11,8 +11,8 @@ import '../model/usage_event_info.dart';
 import 'package:http/http.dart' as http;
 
 class UsageDataViewModel extends ChangeNotifier {
-  // ... (기존 변수들은 동일) ...
-  static const _platform = MethodChannel('com.example.mili_second/usagestats');
+  //static const _platform = MethodChannel('com.example.mili_second/usagestats');
+  late final MethodChannel _platform;
   final _encoder = const JsonEncoder.withIndent('  ');
 
   final _serverUrl = Uri.parse(
@@ -35,6 +35,9 @@ class UsageDataViewModel extends ChangeNotifier {
   late SharedPreferences _prefs;
 
   UsageDataViewModel() {
+    if (!kIsWeb) {
+      _platform = const MethodChannel('com.example.mili_second/usagestats');
+    }
     // ViewModel이 생성될 때 데이터 로딩 시작
     initializeAndFetchData();
   }
@@ -141,6 +144,13 @@ class UsageDataViewModel extends ChangeNotifier {
     _status = '새로운 데이터를 가져오는 중...';
     notifyListeners();
 
+    if (kIsWeb) {
+      _status = '웹에서는 사용 기록을 지원하지 않습니다.';
+      _totalUsageTime = 'N/A (웹)';
+      notifyListeners();
+      return; // 웹에서는 여기서 함수 종료
+    }
+
     try {
       final List<dynamic>? rawData = await _platform
           .invokeMethod<List<dynamic>>('getUsageStats', {
@@ -206,15 +216,26 @@ class UsageDataViewModel extends ChangeNotifier {
   }
 
   Future<void> _initSourceInfo() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    try {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      _sourceInfo =
-          '${androidInfo.manufacturer}-${androidInfo.model}-${androidInfo.version.release}';
-    } catch (e) {
-      _sourceInfo = '정보를 가져올 수 없음';
+    if (kIsWeb) {
+      // device_info_plus는 웹도 지원합니다! WebBrowserInfo를 가져올 수 있습니다.
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      try {
+        WebBrowserInfo webInfo = await deviceInfo.webBrowserInfo;
+        _sourceInfo = webInfo.userAgent ?? 'Web Browser'; // 예시: 브라우저 UserAgent
+      } catch (e) {
+        _sourceInfo = 'Web Browser (정보 없음)';
+      }
+    } else {
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      try {
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        _sourceInfo =
+            '${androidInfo.manufacturer}-${androidInfo.model}-${androidInfo.version.release}';
+      } catch (e) {
+        _sourceInfo = '정보를 가져올 수 없음';
+      }
+      notifyListeners(); // 데이터 변경 후 View에 알림
     }
-    notifyListeners(); // 데이터 변경 후 View에 알림
   }
 
   String _formatDuration(int totalMilliseconds) {
