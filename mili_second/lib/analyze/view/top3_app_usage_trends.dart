@@ -166,7 +166,7 @@ class top3Info extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: kIsWeb ? 325 : 325.w,
-      height: 63.w,
+      height: kIsWeb ? 63 : 63.w,
       //decoration: BoxDecoration(color: Colors.yellow),
       child: Row(
         children: [

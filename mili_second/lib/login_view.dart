@@ -109,26 +109,26 @@ class _SignInViewState extends State<SignInView> {
                     ],
                   ),
                 ),
-                SizedBox(height: 40.h),
+                SizedBox(height: kIsWeb ? 40 : 40.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "아이디",
                     style: TextStyle(
                       color: Color(0xFF007BFF),
-                      fontSize: 15.r,
+                      fontSize: kIsWeb ? 15 : 15.r,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
-                SizedBox(height: 10.h),
+                SizedBox(height: kIsWeb ? 10 : 10.h),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: 280.w,
-                      height: 50.h,
+                      width: kIsWeb ? 280 : 280.w,
+                      height: kIsWeb ? 50 : 50.h,
                       child: TextField(
                         onChanged: (String str) {
                           setState(() {
@@ -156,13 +156,13 @@ class _SignInViewState extends State<SignInView> {
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0xFF0088FF),
-                              width: 1.5,
+                              width: kIsWeb ? 1.5 : 1.5.w,
                             ),
                           ),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0xFFD1D1D1),
-                              width: 1.0,
+                              width: kIsWeb ? 1.0 : 1.0.w,
                             ),
                           ),
                           hintText: "아이디를 입력하세요",
@@ -170,7 +170,7 @@ class _SignInViewState extends State<SignInView> {
                       ),
                     ),
                     SizedBox(
-                      width: 80.w,
+                      width: kIsWeb ? 80 : 80.w,
                       child: ElevatedButton(
                         onPressed: id_valid == 0
                             ? null
@@ -180,7 +180,9 @@ class _SignInViewState extends State<SignInView> {
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.all(10),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0.r),
+                            borderRadius: BorderRadius.circular(
+                              kIsWeb ? 10.0 : 10.0.r,
+                            ),
                           ),
                           textStyle: TextStyle(color: Colors.white),
                         ),
@@ -189,43 +191,43 @@ class _SignInViewState extends State<SignInView> {
                     ),
                   ],
                 ),
-                SizedBox(height: 3.h),
+                SizedBox(height: kIsWeb ? 3 : 3.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     id_valid_comments[id_valid],
                     style: TextStyle(
-                      fontSize: 12.r,
+                      fontSize: kIsWeb ? 12 : 12.r,
                       fontWeight: FontWeight.w500,
                       color: id_valid_comments_color[id_valid],
                     ),
                   ),
                 ),
-                SizedBox(height: 3),
+                SizedBox(height: kIsWeb ? 3 : 3.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     id_comments[id_ok],
                     style: TextStyle(
-                      fontSize: 12.r,
+                      fontSize: kIsWeb ? 12 : 12.r,
                       fontWeight: FontWeight.w500,
                       color: id_comments_color[id_ok],
                     ),
                   ),
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: kIsWeb ? 20 : 20.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "비밀번호",
                     style: TextStyle(
                       color: Color(0xFF007BFF),
-                      fontSize: 15.r,
+                      fontSize: kIsWeb ? 15 : 15.r,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
-                SizedBox(height: 10.h),
+                SizedBox(height: kIsWeb ? 10 : 10.h),
                 TextField(
                   onChanged: (String str) {
                     if (str.length < 8 || str.length >= 20) {
@@ -249,31 +251,31 @@ class _SignInViewState extends State<SignInView> {
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFF0088FF),
-                        width: 1.5,
+                        width: kIsWeb ? 1.5 : 1.5.w,
                       ),
                     ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFFD1D1D1),
-                        width: 1.0,
+                        width: kIsWeb ? 1.0 : 1.0.w,
                       ),
                     ),
                     hintText: "비밀번호를 입력하세요",
                   ),
                 ),
-                SizedBox(height: 3.h),
+                SizedBox(height: kIsWeb ? 3 : 3.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     pw_comments[pw_ok],
                     style: TextStyle(
-                      fontSize: 12.r,
+                      fontSize: kIsWeb ? 12 : 12.r,
                       fontWeight: FontWeight.w500,
                       color: pw_comments_color[pw_ok],
                     ),
                   ),
                 ),
-                SizedBox(height: 30.h),
+                SizedBox(height: kIsWeb ? 30 : 0.h),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -296,17 +298,22 @@ class _SignInViewState extends State<SignInView> {
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.all(15),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0.r),
+                        borderRadius: BorderRadius.circular(
+                          kIsWeb ? 10.0 : 10.0.r,
+                        ),
                       ),
-                      textStyle: TextStyle(color: Colors.white, fontSize: 20.r),
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: kIsWeb ? 20 : 20.r,
+                      ),
                     ),
                     child: Text("확인"),
                   ),
                 ),
-                SizedBox(height: 10.h),
+                SizedBox(height: kIsWeb ? 10 : 10.h),
                 Row(
                   children: [
-                    SizedBox(width: 125.w),
+                    SizedBox(width: kIsWeb ? 125 : 125.w),
                     InkWell(
                       onTap: () {
                         Navigator.push(
@@ -319,13 +326,13 @@ class _SignInViewState extends State<SignInView> {
                         child: Container(
                           decoration: BoxDecoration(
                             border: BoxBorder.fromLTRB(
-                              bottom: BorderSide(width: 0.5.w),
+                              bottom: BorderSide(width: kIsWeb ? 0.5 : 0.5.w),
                             ),
                           ),
                           child: Text(
                             "계정이 있으신가요?",
                             style: TextStyle(
-                              fontSize: 15.r,
+                              fontSize: kIsWeb ? 15 : 15.r,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -485,13 +492,13 @@ class _LoginViewState extends State<LoginView> {
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFF0088FF),
-                          width: 1.5,
+                          width: kIsWeb ? 1.5 : 1.5.w,
                         ),
                       ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFFD1D1D1),
-                          width: 1.0,
+                          width: kIsWeb ? 1.0 : 1.0.w,
                         ),
                       ),
                       hintText: "아이디를 입력하세요",
@@ -524,13 +531,13 @@ class _LoginViewState extends State<LoginView> {
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFF0088FF),
-                          width: 1.5,
+                          width: kIsWeb ? 1.5 : 1.5.w,
                         ),
                       ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFFD1D1D1),
-                          width: 1.0,
+                          width: kIsWeb ? 1.0 : 1.0.w,
                         ),
                       ),
                       hintText: "비밀번호를 입력하세요",
@@ -558,7 +565,9 @@ class _LoginViewState extends State<LoginView> {
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.all(15),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(
+                          kIsWeb ? 10 : 10.0.r,
+                        ),
                       ),
                       textStyle: TextStyle(
                         color: Colors.white,

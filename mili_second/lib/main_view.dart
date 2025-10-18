@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/foundation.dart';
 import 'header_view.dart';
 import 'home/view/home_view.dart';
 import 'analyze/view/analyze_view.dart';
@@ -36,19 +37,19 @@ class _MainViewState extends State<MainView> {
           userNickName: 'Mili',
           userProfileImage: 'assets/icons/profile_default.png',
         ), // 사용자 정보 - 보내기
-        toolbarHeight: 125.h,
+        toolbarHeight: kIsWeb ? 125 : 125.h,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1),
-          child: Container(height: 1.h, color: Color(0xFFCDCBCB)),
+          child: Container(height: kIsWeb ? 1 : 1.h, color: Color(0xFFCDCBCB)),
         ),
       ),
       body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(height: 1, color: const Color(0xFFCDCBCB)),
+          Container(height: kIsWeb ? 1 : 1.h, color: const Color(0xFFCDCBCB)),
           SizedBox(
-            height: 155.h,
+            height: kIsWeb ? 155 : 155.h,
             child: BottomNavigationBar(
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
@@ -58,21 +59,21 @@ class _MainViewState extends State<MainView> {
                       _selectedIndex == 0
                           ? Image.asset(
                               'assets/icons/home_blue.png',
-                              width: 42.w,
-                              height: 42.h,
+                              width: kIsWeb ? 42 : 42.w,
+                              height: kIsWeb ? 42 : 42.h,
                             )
                           : Image.asset(
                               'assets/icons/home_gray.png',
-                              width: 42.w,
-                              height: 42.h,
+                              width: kIsWeb ? 42 : 42.w,
+                              height: kIsWeb ? 42 : 42.h,
                             ),
-                      SizedBox(height: 15.h),
+                      SizedBox(height: kIsWeb ? 15 : 15.h),
                       _selectedIndex == 0
                           ? Text(
                               '홈',
                               style: TextStyle(
                                 color: Color(0xFF007BFF),
-                                fontSize: 14.r,
+                                fontSize: kIsWeb ? 14 : 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             )
@@ -80,7 +81,7 @@ class _MainViewState extends State<MainView> {
                               '홈',
                               style: TextStyle(
                                 color: Color(0xFF555555),
-                                fontSize: 14.r,
+                                fontSize: kIsWeb ? 14 : 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -94,21 +95,21 @@ class _MainViewState extends State<MainView> {
                       _selectedIndex == 1
                           ? Image.asset(
                               'assets/icons/analyze_blue.png',
-                              width: 57.w,
-                              height: 57.h,
+                              width: kIsWeb ? 57 : 57.w,
+                              height: kIsWeb ? 57 : 57.h,
                             )
                           : Image.asset(
                               'assets/icons/analyze_gray.png',
-                              width: 57.w,
-                              height: 57.h,
+                              width: kIsWeb ? 57 : 57.w,
+                              height: kIsWeb ? 57 : 57.h,
                             ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: kIsWeb ? 5 : 5.h),
                       _selectedIndex == 1
                           ? Text(
                               '분석',
                               style: TextStyle(
                                 color: Color(0xFF007BFF),
-                                fontSize: 14.r,
+                                fontSize: kIsWeb ? 14 : 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             )
@@ -116,7 +117,7 @@ class _MainViewState extends State<MainView> {
                               '분석',
                               style: TextStyle(
                                 color: Color(0xFF555555),
-                                fontSize: 14.r,
+                                fontSize: kIsWeb ? 14 : 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -130,21 +131,21 @@ class _MainViewState extends State<MainView> {
                       _selectedIndex == 2
                           ? Image.asset(
                               'assets/icons/insight_blue.png',
-                              width: 57.w,
-                              height: 57.h,
+                              width: kIsWeb ? 57 : 57.w,
+                              height: kIsWeb ? 57 : 57.h,
                             )
                           : Image.asset(
                               'assets/icons/insight_gray.png',
-                              width: 57.w,
-                              height: 57.h,
+                              width: kIsWeb ? 57 : 57.w,
+                              height: kIsWeb ? 57 : 57.h,
                             ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: kIsWeb ? 5 : 5.h),
                       _selectedIndex == 2
                           ? Text(
                               '인사이트',
                               style: TextStyle(
                                 color: Color(0xFF007BFF),
-                                fontSize: 14.r,
+                                fontSize: kIsWeb ? 14 : 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             )
@@ -152,7 +153,7 @@ class _MainViewState extends State<MainView> {
                               '인사이트',
                               style: TextStyle(
                                 color: Color(0xFF555555),
-                                fontSize: 14.r,
+                                fontSize: kIsWeb ? 14 : 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
