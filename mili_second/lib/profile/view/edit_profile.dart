@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/foundation.dart';
 
 class EditProfile extends StatefulWidget {
   final String currentUserNickName;
@@ -103,83 +104,83 @@ class _EditProfileState extends State<EditProfile> {
         title: SizedBox(
           child: Row(
             children: [
-              SizedBox(width: 80.w),
+              SizedBox(width: kIsWeb ? 80 : 80.w),
               Text(
                 '프로필 수정',
                 style: TextStyle(
                   color: Color(0xFF000000),
-                  fontSize: 20.sp,
+                  fontSize: kIsWeb ? 20 : 20.sp,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ],
           ),
         ),
-        toolbarHeight: 100.h,
+        toolbarHeight: kIsWeb ? 100 : 100.h,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1),
-          child: Container(height: 1.h, color: Color(0xFFCDCBCB)),
+          child: Container(height: kIsWeb ? 1 : 1.h, color: Color(0xFFCDCBCB)),
         ),
       ),
       body: Padding(
         padding: EdgeInsets.only(
-          top: 30.h,
-          bottom: 20.h,
-          left: 38.w,
-          right: 20.w,
+          top: kIsWeb ? 30 : 30.h,
+          bottom: kIsWeb ? 20 : 20.h,
+          left: kIsWeb ? 38 : 38.w,
+          right: kIsWeb ? 20 : 20.w,
         ),
         child: Column(
           children: [
             // 닉네임 수정
             SizedBox(
-              width: 340.w,
-              height: 30.h,
+              width: kIsWeb ? 340 : 340.w,
+              height: kIsWeb ? 30 : 30.h,
               child: Text(
                 '닉네임',
                 style: TextStyle(
                   color: Color(0xFF0090FF),
-                  fontSize: 17.sp,
+                  fontSize: kIsWeb ? 17 : 17.sp,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ),
-            SizedBox(height: 15.h),
+            SizedBox(height: kIsWeb ? 15 : 15.h),
             SizedBox(
-              width: 340.w,
-              height: 50.h,
+              width: kIsWeb ? 340 : 340.w,
+              height: kIsWeb ? 50 : 50.h,
               child: Row(
                 children: [
                   SizedBox(
-                    width: 250.w,
+                    width: kIsWeb ? 250 : 250.w,
                     child: TextField(
                       controller: _currentUserNickNameController,
                       style: TextStyle(
                         color: Color(0xFF000000),
-                        fontSize: 20.sp,
+                        fontSize: kIsWeb ? 20 : 20.sp,
                         fontWeight: FontWeight.w500,
                       ),
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFF0088FF),
-                            width: 1.5,
+                            width: kIsWeb ? 1.5 : 1.5.w,
                           ),
                         ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFFD1D1D1),
-                            width: 1.0,
+                            width: kIsWeb ? 1.0 : 1.0.w,
                           ),
                         ),
                         hintText: "닉네임을 입력하세요",
                       ),
                     ),
                   ),
-                  SizedBox(width: 10.h),
+                  SizedBox(width: kIsWeb ? 10 : 10.h),
                   // 중복 확인 버튼
                   SizedBox(
-                    width: 80.w,
-                    height: 60.h,
+                    width: kIsWeb ? 80 : 80.w,
+                    height: kIsWeb ? 60 : 60.h,
                     child: ElevatedButton(
                       onPressed:
                           _currentUserNickNameController.text.trim().isEmpty
@@ -190,7 +191,9 @@ class _EditProfileState extends State<EditProfile> {
                         foregroundColor: Colors.white,
                         padding: EdgeInsets.all(10),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0.r),
+                          borderRadius: BorderRadius.circular(
+                            kIsWeb ? 10.0 : 10.0.r,
+                          ),
                         ),
                         textStyle: TextStyle(color: Colors.white),
                       ),
@@ -203,15 +206,15 @@ class _EditProfileState extends State<EditProfile> {
                 ],
               ),
             ),
-            SizedBox(height: 5.h),
+            SizedBox(height: kIsWeb ? 5 : 5.h),
             SizedBox(
-              width: 340.w,
+              width: kIsWeb ? 340 : 340.w,
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   id_comments[id_ok],
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: kIsWeb ? 12 : 12.sp,
                     fontWeight: FontWeight.w500,
                     color: id_comments_color[id_ok],
                   ),
@@ -219,7 +222,7 @@ class _EditProfileState extends State<EditProfile> {
               ),
             ),
 
-            SizedBox(height: 25.h),
+            SizedBox(height: kIsWeb ? 25 : 25.h),
 
             // 성별 수정
             // SizedBox(
@@ -380,21 +383,21 @@ class _EditProfileState extends State<EditProfile> {
 
             // 프로필 사진 수정
             SizedBox(
-              width: 340.w,
-              height: 30.h,
+              width: kIsWeb ? 340 : 340.w,
+              height: kIsWeb ? 30 : 30.h,
               child: Text(
                 '프로필 사진',
                 style: TextStyle(
                   color: Color(0xFF0090FF),
-                  fontSize: 17.sp,
+                  fontSize: kIsWeb ? 17 : 17.sp,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ),
-            SizedBox(height: 15.h),
+            SizedBox(height: kIsWeb ? 15 : 15.h),
             SizedBox(
-              width: 340.w,
-              height: 200.h,
+              width: kIsWeb ? 340 : 340.w,
+              height: kIsWeb ? 200 : 200.h,
               child: GridView.count(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -410,8 +413,8 @@ class _EditProfileState extends State<EditProfile> {
                       });
                     },
                     child: Container(
-                      width: 70.w,
-                      height: 70.h,
+                      width: kIsWeb ? 70 : 70.w,
+                      height: kIsWeb ? 70 : 70.h,
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: isSelected
@@ -419,10 +422,10 @@ class _EditProfileState extends State<EditProfile> {
                               : Color(0xFFD1D1D1),
                           width: isSelected ? 3 : 1,
                         ),
-                        borderRadius: BorderRadius.circular(41.r),
+                        borderRadius: BorderRadius.circular(kIsWeb ? 41 : 41.r),
                       ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(kIsWeb ? 8 : 8.r),
                         child: Image.asset(
                           userProfilesPaths[index],
                           fit: BoxFit.cover,
@@ -434,11 +437,11 @@ class _EditProfileState extends State<EditProfile> {
               ),
             ),
 
-            SizedBox(height: 50.h),
+            SizedBox(height: kIsWeb ? 50 : 50.h),
 
             // 수정된 정보 저장
             SizedBox(
-              width: 329.w,
+              width: kIsWeb ? 329 : 329.w,
               child: GestureDetector(
                 onTap: () {
                   // 닉네임, 프로필 저장하기
@@ -453,18 +456,18 @@ class _EditProfileState extends State<EditProfile> {
                   Navigator.pop(context, true);
                 },
                 child: Container(
-                  width: 340.w,
-                  height: 60.h,
+                  width: kIsWeb ? 340 : 340.w,
+                  height: kIsWeb ? 60 : 60.h,
                   decoration: BoxDecoration(
                     color: Color(0xFF0088FF),
-                    borderRadius: BorderRadius.circular(10.r),
+                    borderRadius: BorderRadius.circular(kIsWeb ? 10 : 10.r),
                   ),
                   alignment: Alignment.center,
                   child: Text(
                     '확인',
                     style: TextStyle(
                       color: Color(0xFFFFFFFF),
-                      fontSize: 20.sp,
+                      fontSize: kIsWeb ? 20 : 20.sp,
                       fontWeight: FontWeight.w700,
                     ),
                   ),

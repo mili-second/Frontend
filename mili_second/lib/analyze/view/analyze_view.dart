@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/foundation.dart';
 import '/analyze/view/seven_days_usage_trends.dart';
 import '/analyze/view/usage_patterns_by_time_of_day.dart';
 import '/analyze/view/top3_app_usage_trends.dart';
@@ -50,11 +51,11 @@ class _AnalyzeViewState extends State<AnalyzeView> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 20.h),
+          SizedBox(height: kIsWeb ? 20 : 20.h),
           // 7일간 사용 트렌트
           SevenDaysUsageTrends(),
 
-          SizedBox(height: 20.h),
+          SizedBox(height: kIsWeb ? 20 : 20.h),
 
           // 시간대별 사용 패턴
           UsagePatternsByTimeOfDay(
@@ -63,7 +64,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
             timeOfDayPatternPeakTime: _timeOfDayPatternPeakTime,
           ),
 
-          SizedBox(height: 20.h),
+          SizedBox(height: kIsWeb ? 20 : 20.h),
 
           // Top3 앱 사용 트렌드
           Top3AppUsageTrends(
@@ -71,7 +72,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
             datas: _top3AppDatas,
           ),
 
-          SizedBox(height: 20.h),
+          SizedBox(height: kIsWeb ? 20 : 20.h),
 
           // 스크린타임 카테고리 분포
           ScreentimeCategoryDistribution(
@@ -79,7 +80,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
             chartData: _categoryDistribution,
           ),
 
-          SizedBox(height: 30.h),
+          SizedBox(height: kIsWeb ? 30 : 30.h),
         ],
       ),
     );

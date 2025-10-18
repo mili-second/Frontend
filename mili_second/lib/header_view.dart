@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '/user/view/profile_info.dart';
+import 'profile/view/profile_info.dart';
 import 'package:mili_second/login_view.dart';
 
 class HeaderView extends StatefulWidget {
