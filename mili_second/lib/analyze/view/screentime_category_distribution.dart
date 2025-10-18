@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 
 class ScreentimeCategoryDistribution extends StatefulWidget {
   //final String categoryDistributionSummary;
@@ -51,15 +52,19 @@ class _ScreentimeCategoryDistributionState
     ];
 
     return Container(
-      width: 362.w,
-      height: 420.h,
+      width: kIsWeb ? 362 : 362.w,
+      height: kIsWeb ? 420 : 420.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: Color(0xFFCDCBCB), width: 1.w),
+        borderRadius: BorderRadius.circular(kIsWeb ? 10 : 10.r),
+        border: Border.all(color: Color(0xFFCDCBCB), width: kIsWeb ? 1 : 1.w),
       ),
       child: Padding(
-        padding: EdgeInsets.only(top: 12.h, left: 20.w, right: 20.w),
+        padding: EdgeInsets.only(
+          top: kIsWeb ? 12 : 12.h,
+          left: kIsWeb ? 20 : 20.w,
+          right: kIsWeb ? 20 : 20.w,
+        ),
         child: Stack(
           children: [
             Column(
@@ -68,20 +73,20 @@ class _ScreentimeCategoryDistributionState
                   children: [
                     Image.asset(
                       'assets/icons/screenTimeCategoryIcon.png',
-                      width: 30.w,
-                      height: 30.w,
+                      width: kIsWeb ? 30 : 30.w,
+                      height: kIsWeb ? 30 : 30.w,
                     ),
                     Text(
                       '  스크린 타임 카테고리 분포',
                       style: TextStyle(
                         color: Color(0xFF000000),
-                        fontSize: 17.r,
+                        fontSize: kIsWeb ? 17 : 17.r,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 275.h),
+                SizedBox(height: kIsWeb ? 275 : 275.h),
                 // SizedBox(
                 //   width: 310.w,
                 //   height: 50.h,
@@ -100,11 +105,11 @@ class _ScreentimeCategoryDistributionState
               ],
             ),
             Positioned(
-              top: 100.h,
-              left: 80.w,
+              top: kIsWeb ? 100 : 100.h,
+              left: kIsWeb ? 80 : 80.w,
               child: SizedBox(
-                width: 150.w,
-                height: 150.h,
+                width: kIsWeb ? 150 : 150.w,
+                height: kIsWeb ? 150 : 150.h,
                 // 그래프
                 child: PieChart(
                   PieChartData(
@@ -115,7 +120,7 @@ class _ScreentimeCategoryDistributionState
                       return PieChartSectionData(
                         value: e.value.toDouble(),
                         color: e.color,
-                        radius: 25.r,
+                        radius: kIsWeb ? 25 : 25.r,
                         title: '',
                       );
                     }).toList(),
@@ -141,14 +146,14 @@ class _ScreentimeCategoryDistributionState
               ),
             ),
             Positioned(
-              top: 320.h,
-              left: 10.w,
+              top: kIsWeb ? 320 : 320.h,
+              left: kIsWeb ? 10 : 10.w,
               child: SizedBox(
                 child: Column(
                   children: [
                     Container(
-                      width: 300.w,
-                      height: 1.h,
+                      width: kIsWeb ? 300 : 300.w,
+                      height: kIsWeb ? 1 : 1.h,
                       decoration: BoxDecoration(color: Color(0xFFBEBEBE)),
                     ),
                   ],
@@ -156,10 +161,10 @@ class _ScreentimeCategoryDistributionState
               ),
             ),
             Positioned(
-              top: 330.h,
-              left: 13.w,
+              top: kIsWeb ? 330 : 330.h,
+              left: kIsWeb ? 13 : 13.w,
               child: SizedBox(
-                width: 300.w,
+                width: kIsWeb ? 300 : 300.w,
                 child: Column(
                   children: [
                     Row(
@@ -170,14 +175,14 @@ class _ScreentimeCategoryDistributionState
                           title: widget.chartData[0][0],
                           percentage: widget.chartData[0][1],
                         ),
-                        SizedBox(width: 10.w),
+                        SizedBox(width: kIsWeb ? 10 : 10.w),
                         ChartInfo(
                           widget: widget,
                           colorInfo: Colors.orange,
                           title: widget.chartData[1][0],
                           percentage: widget.chartData[1][1],
                         ),
-                        SizedBox(width: 10.w),
+                        SizedBox(width: kIsWeb ? 10 : 10.w),
                         ChartInfo(
                           widget: widget,
                           colorInfo: Colors.green,
@@ -186,7 +191,7 @@ class _ScreentimeCategoryDistributionState
                         ),
                       ],
                     ),
-                    SizedBox(height: 10.h),
+                    SizedBox(height: kIsWeb ? 10 : 10.h),
                     Row(
                       children: [
                         ChartInfo(
@@ -195,7 +200,7 @@ class _ScreentimeCategoryDistributionState
                           title: widget.chartData[3][0],
                           percentage: widget.chartData[3][1],
                         ),
-                        SizedBox(width: 10.w),
+                        SizedBox(width: kIsWeb ? 10 : 10.w),
                         ChartInfo(
                           widget: widget,
                           colorInfo: Colors.purple,

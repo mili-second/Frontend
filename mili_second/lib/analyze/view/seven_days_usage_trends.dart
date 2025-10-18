@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 
 class SevenDaysUsageTrends extends StatefulWidget {
   const SevenDaysUsageTrends({super.key});
@@ -13,42 +14,46 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 362.w,
-      height: 220.h,
+      width: kIsWeb ? 362 : 362.w,
+      height: kIsWeb ? 220 : 220.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: Color(0xFFCDCBCB), width: 1.w),
+        border: Border.all(color: Color(0xFFCDCBCB), width: kIsWeb ? 1 : 1.w),
       ),
       child: Padding(
-        padding: EdgeInsets.only(top: 12.h, left: 20.w, right: 20.w),
+        padding: EdgeInsets.only(
+          top: kIsWeb ? 12 : 12.h,
+          left: kIsWeb ? 20 : 20.w,
+          right: kIsWeb ? 20 : 20.w,
+        ),
         child: Column(
           children: [
             Row(
               children: [
                 Image.asset(
                   'assets/icons/7daysUsingIcon.png',
-                  width: 30.w,
-                  height: 30.h,
+                  width: kIsWeb ? 30 : 30.w,
+                  height: kIsWeb ? 30 : 30.h,
                 ),
-                SizedBox(width: 10.w),
+                SizedBox(width: kIsWeb ? 10 : 10.w),
                 Text(
                   '7일간 사용 트렌드',
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 17.r,
+                    fontSize: kIsWeb ? 17 : 17.r,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 10.h),
+            SizedBox(height: kIsWeb ? 10 : 10.h),
             Row(
               children: [
                 // 그래프
                 SizedBox(
-                  width: 320.w,
-                  height: 142.h,
+                  width: kIsWeb ? 320 : 320.w,
+                  height: kIsWeb ? 142 : 142.h,
                   // decoration: BoxDecoration(
                   //   color: Color(0xFFFFFFFF),
                   //   borderRadius: BorderRadius.circular(10.r),

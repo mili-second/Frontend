@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/foundation.dart';
 
 class EngagementAnalysis extends StatelessWidget {
   final String comment;
@@ -16,19 +17,19 @@ class EngagementAnalysis extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 362.w,
-      height: 237.h,
+      width: kIsWeb ? 362 : 362.w,
+      height: kIsWeb ? 237 : 237.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: Color(0xFFC8C8C8), width: 1.w),
+        borderRadius: BorderRadius.circular(kIsWeb ? 10 : 10.r),
+        border: Border.all(color: Color(0xFFC8C8C8), width: kIsWeb ? 1 : 1.w),
       ),
       child: Padding(
         padding: EdgeInsets.only(
-          top: 15.h,
-          bottom: 8.h,
-          left: 20.w,
-          right: 20.w,
+          top: kIsWeb ? 15 : 15.h,
+          bottom: kIsWeb ? 8 : 8.h,
+          left: kIsWeb ? 20 : 20.w,
+          right: kIsWeb ? 20 : 20.w,
         ),
         child: Column(
           children: [
@@ -36,28 +37,28 @@ class EngagementAnalysis extends StatelessWidget {
               children: [
                 Image.asset(
                   'assets/icons/socialMedia.png',
-                  width: 44.w,
-                  height: 44.h,
+                  width: kIsWeb ? 44 : 44.w,
+                  height: kIsWeb ? 44 : 44.h,
                 ),
 
-                SizedBox(width: 10.w),
+                SizedBox(width: kIsWeb ? 10 : 10.w),
 
                 Text(
                   'SNS 몰입도 분석',
                   style: TextStyle(
                     color: Color(0xFF0090FF),
-                    fontSize: 17.r,
+                    fontSize: kIsWeb ? 17 : 17.r,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
             ),
 
-            SizedBox(height: 5.h),
+            SizedBox(height: kIsWeb ? 5 : 5.h),
 
             SizedBox(
-              width: 280.w,
-              height: 60.h,
+              width: kIsWeb ? 280 : 280.w,
+              height: kIsWeb ? 60 : 60.h,
               child: Text(
                 comment.replaceAllMapped(
                   RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
@@ -65,7 +66,7 @@ class EngagementAnalysis extends StatelessWidget {
                 ),
                 style: TextStyle(
                   color: Color(0xFF000000),
-                  fontSize: 15.r,
+                  fontSize: kIsWeb ? 15 : 15.r,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -74,41 +75,41 @@ class EngagementAnalysis extends StatelessWidget {
             Stack(
               children: [
                 Container(
-                  width: 334.w,
-                  height: 95.h,
+                  width: kIsWeb ? 334 : 334.w,
+                  height: kIsWeb ? 95 : 95.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFE0F0FF),
-                    borderRadius: BorderRadius.circular(14.r),
+                    borderRadius: BorderRadius.circular(kIsWeb ? 14 : 14.r),
                   ),
                 ),
                 Positioned(
-                  top: 12.5.h,
-                  left: 166.w,
+                  top: kIsWeb ? 12.5 : 12.5.h,
+                  left: kIsWeb ? 166 : 166.w,
                   child: Container(
-                    width: 1.w,
-                    height: 70.h,
+                    width: kIsWeb ? 1 : 1.w,
+                    height: kIsWeb ? 70 : 70.h,
                     decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
                   ),
                 ),
                 Positioned(
-                  top: 15.h,
-                  left: 25.w,
+                  top: kIsWeb ? 15 : 15.h,
+                  left: kIsWeb ? 25 : 25.w,
                   child: Column(
                     children: [
                       Text(
                         '주간 평균 SNS시간',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 16.r,
+                          fontSize: kIsWeb ? 16 : 16.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: kIsWeb ? 5 : 5.h),
                       Text(
                         '${SNSTime}분',
                         style: TextStyle(
                           color: Color(0xFF0080FF),
-                          fontSize: 20.r,
+                          fontSize: kIsWeb ? 20 : 20.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -116,24 +117,24 @@ class EngagementAnalysis extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 15.h,
-                  left: 185.w,
+                  top: kIsWeb ? 15 : 15.h,
+                  left: kIsWeb ? 185 : 185.w,
                   child: Column(
                     children: [
                       Text(
                         '새벽 시간 접속률',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 16.r,
+                          fontSize: kIsWeb ? 16 : 16.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: kIsWeb ? 5 : 5.h),
                       Text(
                         '${rate}%',
                         style: TextStyle(
                           color: Color(0xFFFFBB00),
-                          fontSize: 20.r,
+                          fontSize: kIsWeb ? 20 : 20.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
