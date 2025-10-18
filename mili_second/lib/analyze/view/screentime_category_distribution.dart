@@ -129,15 +129,15 @@ class _ScreentimeCategoryDistributionState
               ),
             ),
             Positioned(
-              top: 145.h,
-              left: 117.w,
+              top: kIsWeb ? 145 : 145.h,
+              left: kIsWeb ? 117 : 117.w,
               child: Column(
                 children: [
                   Text(
                     '75%',
                     style: TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: 24.r,
+                      fontSize: kIsWeb ? 24 : 24.r,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
@@ -240,11 +240,11 @@ class ChartInfo extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 20.w,
-          height: 20.h,
+          width: kIsWeb ? 20 : 20.w,
+          height: kIsWeb ? 20 : 20.h,
           decoration: BoxDecoration(color: colorInfo, shape: BoxShape.circle),
         ),
-        SizedBox(width: 5.w),
+        SizedBox(width: kIsWeb ? 5 : 5.w),
         Text('${title}  ${percentage}%'),
       ],
     );

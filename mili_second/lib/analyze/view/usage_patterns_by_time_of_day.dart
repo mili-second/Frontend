@@ -20,6 +20,8 @@ class UsagePatternsByTimeOfDay extends StatefulWidget {
 }
 
 class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
+  int _currentIndex = 0; // 0: 오늘, 1: 오늘-1, 2: 오늘-2
+
   // 60 이상일 때, 시간 단위로 바꾸기 + String 타입의 ' 분' , ' 시간' 추가하기
   String formatMinutes(int minutes) {
     if (minutes < 60) {
@@ -35,6 +37,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
 
   @override
   Widget build(BuildContext context) {
+    final datas = widget.datas[_currentIndex];
     return Container(
       width: kIsWeb ? 362 : 362.w,
       height: kIsWeb ? 240 : 240.h,
@@ -58,14 +61,20 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // back으로 넘길게 있으면 해당 버튼 아이콘이 보이게, 없으면 SizedBox로 빈칸
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      'assets/icons/arrow_back_gray.png',
-                      width: kIsWeb ? 25 : 25.w,
-                      height: kIsWeb ? 25 : 25.h,
-                    ),
-                  ),
+                  _currentIndex < widget.datas.length - 1
+                      ? IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _currentIndex++;
+                            });
+                          },
+                          icon: Image.asset(
+                            'assets/icons/arrow_back_gray.png',
+                            width: kIsWeb ? 25 : 25.w,
+                            height: kIsWeb ? 25 : 25.h,
+                          ),
+                        )
+                      : SizedBox(width: kIsWeb ? 25 : 25.w),
                   SizedBox(width: kIsWeb ? 40 : 40.w),
                   Text(
                     '시간대별 사용 패턴',
@@ -77,14 +86,20 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                   ),
                   SizedBox(width: kIsWeb ? 45 : 45.w),
                   // front로 넘길게 있으면 해당 버튼 아이콘이 보이게, 없으면 SizedBox로 빈칸
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      'assets/icons/arrow_front_gray.png',
-                      width: kIsWeb ? 25 : 25.w,
-                      height: kIsWeb ? 25 : 25.h,
-                    ),
-                  ),
+                  _currentIndex > 0
+                      ? IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _currentIndex--;
+                            });
+                          },
+                          icon: Image.asset(
+                            'assets/icons/arrow_front_gray.png',
+                            width: kIsWeb ? 25 : 25.w,
+                            height: kIsWeb ? 25 : 25.h,
+                          ),
+                        )
+                      : SizedBox(width: kIsWeb ? 25 : 25.w),
                   SizedBox(width: kIsWeb ? 10 : 10.w),
                 ],
               ),
@@ -116,7 +131,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                       SizedBox(height: kIsWeb ? 5 : 5.h),
                       // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
-                        '0 분',
+                        formatMinutes(widget.datas[_currentIndex][0]),
                         style: TextStyle(
                           color: Color(0xFF000000),
                           fontSize: kIsWeb ? 16 : 16.r,
@@ -146,7 +161,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                       SizedBox(height: kIsWeb ? 5 : 5.h),
                       // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
-                        '2시간',
+                        formatMinutes(widget.datas[_currentIndex][1]),
                         style: TextStyle(
                           color: Color(0xFF000000),
                           fontSize: kIsWeb ? 16 : 16.r,
@@ -175,7 +190,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                       SizedBox(height: kIsWeb ? 5 : 5.h),
                       // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
-                        '1.2시간',
+                        formatMinutes(widget.datas[_currentIndex][2]),
                         style: TextStyle(
                           color: Color(0xFF000000),
                           fontSize: kIsWeb ? 16 : 16.r,
@@ -204,7 +219,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                       ),
                       SizedBox(height: kIsWeb ? 5 : 5.h),
                       Text(
-                        '4.5시간',
+                        formatMinutes(widget.datas[_currentIndex][3]),
                         style: TextStyle(
                           color: Color(0xFF000000),
                           fontSize: kIsWeb ? 16 : 16.r,

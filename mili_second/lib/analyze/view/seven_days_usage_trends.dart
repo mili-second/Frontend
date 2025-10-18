@@ -18,7 +18,7 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
       height: kIsWeb ? 220 : 220.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
-        borderRadius: BorderRadius.circular(10.r),
+        borderRadius: BorderRadius.circular(kIsWeb ? 10 : 10.r),
         border: Border.all(color: Color(0xFFCDCBCB), width: kIsWeb ? 1 : 1.w),
       ),
       child: Padding(

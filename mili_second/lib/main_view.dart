@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/foundation.dart';
 import 'header_view.dart';
 import 'home/view/home_view.dart';
 import 'analyze/view/analyze_view.dart';
@@ -47,7 +48,7 @@ class _MainViewState extends State<MainView> {
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(height: 1, color: const Color(0xFFCDCBCB)),
+          Container(height: kIsWeb ? 1 : 1.h, color: const Color(0xFFCDCBCB)),
           SizedBox(
             height: kIsWeb ? 155 : 155.h,
             child: BottomNavigationBar(

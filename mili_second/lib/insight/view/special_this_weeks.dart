@@ -52,7 +52,7 @@ class SpecialThisWeeks extends StatelessWidget {
             SizedBox(height: kIsWeb ? 10 : 10.h),
 
             SizedBox(
-              width: 280.w,
+              width: kIsWeb ? 280 : 280.w,
               child: Text(
                 textAlign: TextAlign.start,
                 comment.replaceAllMapped(

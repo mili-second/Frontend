@@ -156,13 +156,13 @@ class _SignInViewState extends State<SignInView> {
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0xFF0088FF),
-                              width: 1.5,
+                              width: kIsWeb ? 1.5 : 1.5.w,
                             ),
                           ),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0xFFD1D1D1),
-                              width: 1.0,
+                              width: kIsWeb ? 1.0 : 1.0.w,
                             ),
                           ),
                           hintText: "아이디를 입력하세요",
@@ -180,7 +180,9 @@ class _SignInViewState extends State<SignInView> {
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.all(10),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(
+                              kIsWeb ? 10.0 : 10.0.r,
+                            ),
                           ),
                           textStyle: TextStyle(color: Colors.white),
                         ),
@@ -201,7 +203,7 @@ class _SignInViewState extends State<SignInView> {
                     ),
                   ),
                 ),
-                SizedBox(height: 3),
+                SizedBox(height: kIsWeb ? 3 : 3.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -249,13 +251,13 @@ class _SignInViewState extends State<SignInView> {
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFF0088FF),
-                        width: 1.5,
+                        width: kIsWeb ? 1.5 : 1.5.w,
                       ),
                     ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFFD1D1D1),
-                        width: 1.0,
+                        width: kIsWeb ? 1.0 : 1.0.w,
                       ),
                     ),
                     hintText: "비밀번호를 입력하세요",
@@ -273,7 +275,7 @@ class _SignInViewState extends State<SignInView> {
                     ),
                   ),
                 ),
-                SizedBox(height: kIsWeb ? 30 : 30.h),
+                SizedBox(height: kIsWeb ? 30 : 0.h),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -296,7 +298,9 @@ class _SignInViewState extends State<SignInView> {
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.all(15),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(
+                          kIsWeb ? 10.0 : 10.0.r,
+                        ),
                       ),
                       textStyle: TextStyle(
                         color: Colors.white,
@@ -488,13 +492,13 @@ class _LoginViewState extends State<LoginView> {
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFF0088FF),
-                          width: 1.5,
+                          width: kIsWeb ? 1.5 : 1.5.w,
                         ),
                       ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFFD1D1D1),
-                          width: 1.0,
+                          width: kIsWeb ? 1.0 : 1.0.w,
                         ),
                       ),
                       hintText: "아이디를 입력하세요",
@@ -527,13 +531,13 @@ class _LoginViewState extends State<LoginView> {
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFF0088FF),
-                          width: 1.5,
+                          width: kIsWeb ? 1.5 : 1.5.w,
                         ),
                       ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFFD1D1D1),
-                          width: 1.0,
+                          width: kIsWeb ? 1.0 : 1.0.w,
                         ),
                       ),
                       hintText: "비밀번호를 입력하세요",
@@ -561,7 +565,9 @@ class _LoginViewState extends State<LoginView> {
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.all(15),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(
+                          kIsWeb ? 10 : 10.0.r,
+                        ),
                       ),
                       textStyle: TextStyle(
                         color: Colors.white,
