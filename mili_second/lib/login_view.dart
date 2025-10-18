@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mili_second/main_view.dart';
+import 'package:flutter/foundation.dart';
 //import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // secure storage can't web
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mili_second/servay_view.dart';
 
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
@@ -68,13 +68,13 @@ class _SignInViewState extends State<SignInView> {
       //   ),
       // ),
       body: Padding(
-        padding: EdgeInsets.only(top: 40.0.h),
+        padding: EdgeInsets.only(top: kIsWeb ? 40.0 : 40.0.h),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(18.0),
             child: Column(
               children: [
-                SizedBox(height: 10.h),
+                SizedBox(height: kIsWeb ? 10 : 10.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Column(
@@ -83,7 +83,7 @@ class _SignInViewState extends State<SignInView> {
                       Text(
                         "서비스 이용을 위해",
                         style: TextStyle(
-                          fontSize: 25.r,
+                          fontSize: kIsWeb ? 25 : 25.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -93,14 +93,14 @@ class _SignInViewState extends State<SignInView> {
                             "회원가입",
                             style: TextStyle(
                               color: Color(0xFF007BFF),
-                              fontSize: 25.r,
+                              fontSize: kIsWeb ? 25 : 25.r,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                           Text(
                             "이 필요합니다.",
                             style: TextStyle(
-                              fontSize: 25.r,
+                              fontSize: kIsWeb ? 25 : 25.r,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -419,13 +419,13 @@ class _LoginViewState extends State<LoginView> {
       //   ),
       // ),
       body: Padding(
-        padding: EdgeInsets.only(top: 40.0.h),
+        padding: EdgeInsets.only(top: kIsWeb ? 40.0 : 40.0.h),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(18.0),
             child: Column(
               children: [
-                SizedBox(height: 10.h),
+                SizedBox(height: kIsWeb ? 10 : 10.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Column(
@@ -434,7 +434,7 @@ class _LoginViewState extends State<LoginView> {
                       Text(
                         "서비스 이용을 위해",
                         style: TextStyle(
-                          fontSize: 25.r,
+                          fontSize: kIsWeb ? 25 : 25.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -444,14 +444,14 @@ class _LoginViewState extends State<LoginView> {
                             "로그인",
                             style: TextStyle(
                               color: Color(0xFF007BFF),
-                              fontSize: 25.r,
+                              fontSize: kIsWeb ? 25 : 25.r,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                           Text(
                             "이 필요합니다.",
                             style: TextStyle(
-                              fontSize: 25.r,
+                              fontSize: kIsWeb ? 25 : 25.r,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -460,19 +460,19 @@ class _LoginViewState extends State<LoginView> {
                     ],
                   ),
                 ),
-                SizedBox(height: 40.h),
+                SizedBox(height: kIsWeb ? 40 : 40.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "아이디",
                     style: TextStyle(
                       color: Color(0xFF007BFF),
-                      fontSize: 15.r,
+                      fontSize: kIsWeb ? 15 : 15.r,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
-                SizedBox(height: 10.h),
+                SizedBox(height: kIsWeb ? 10 : 10.h),
                 Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: TextField(
@@ -499,19 +499,19 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
 
-                SizedBox(height: 10.h),
+                SizedBox(height: kIsWeb ? 10 : 10.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "비밀번호",
                     style: TextStyle(
                       color: Color(0xFF007BFF),
-                      fontSize: 15.r,
+                      fontSize: kIsWeb ? 15 : 15.r,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
-                SizedBox(height: 10.h),
+                SizedBox(height: kIsWeb ? 10 : 10.h),
                 Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: TextField(
@@ -538,7 +538,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
 
-                SizedBox(height: 30.h),
+                SizedBox(height: kIsWeb ? 30 : 30.h),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -558,14 +558,17 @@ class _LoginViewState extends State<LoginView> {
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.all(15),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0.r),
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                      textStyle: TextStyle(color: Colors.white, fontSize: 20.r),
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: kIsWeb ? 20 : 20.r,
+                      ),
                     ),
                     child: Text("로그인"),
                   ),
                 ),
-                SizedBox(height: 10.h),
+                SizedBox(height: kIsWeb ? 10 : 10.h),
                 InkWell(
                   onTap: () {
                     Navigator.push(
@@ -578,13 +581,13 @@ class _LoginViewState extends State<LoginView> {
                     child: Container(
                       decoration: BoxDecoration(
                         border: BoxBorder.fromLTRB(
-                          bottom: BorderSide(width: 0.5.w),
+                          bottom: BorderSide(width: kIsWeb ? 0.5 : 0.5.w),
                         ),
                       ),
                       child: Text(
                         "회원가입",
                         style: TextStyle(
-                          fontSize: 15.r,
+                          fontSize: kIsWeb ? 15 : 15.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),

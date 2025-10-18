@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
     if (kIsWeb) {
       return FlutterWebFrame(
         maximumSize: Size(412, 917),
+        enabled: kIsWeb,
         builder: (context) {
           return MaterialApp(
             home: LoginView(), // login부터
