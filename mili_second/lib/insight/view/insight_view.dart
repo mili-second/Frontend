@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/foundation.dart';
 import '/insight/view/special_this_weeks.dart';
 import '/insight/view/engagement_analysis.dart';
 import '/insight/view/pattern_analysis_by_day_of_the_week.dart';
@@ -42,12 +43,12 @@ class _InsightViewState extends State<InsightView> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 20.h),
+          SizedBox(height: kIsWeb ? 20 : 20.h),
 
           // 이번주 특이사항
           SpecialThisWeeks(comment: _specialThisWeeksComment),
 
-          SizedBox(height: 20.h),
+          SizedBox(height: kIsWeb ? 20 : 20.h),
 
           // SNS 몰입도 분석
           EngagementAnalysis(
@@ -56,14 +57,14 @@ class _InsightViewState extends State<InsightView> {
             rate: _EarlyMorningConnectionRate,
           ),
 
-          SizedBox(height: 20.h),
+          SizedBox(height: kIsWeb ? 20 : 20.h),
 
           // 요일별 패턴 분석
           PatternAnalysisByDayOfTheWeek(
             comment: _patternAnalysisByDayOfTheWeekComment,
           ),
 
-          SizedBox(height: 20.h),
+          SizedBox(height: kIsWeb ? 20 : 20.h),
 
           // 주간 변화 트렌드
           WeeklyChangingTrends(
@@ -72,7 +73,7 @@ class _InsightViewState extends State<InsightView> {
             categoryUsageTime: _categoryAndChangeInUse,
           ),
 
-          SizedBox(height: 30.h),
+          SizedBox(height: kIsWeb ? 30 : 30.h),
         ],
       ),
     );

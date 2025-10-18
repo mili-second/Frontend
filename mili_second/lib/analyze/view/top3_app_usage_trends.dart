@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/foundation.dart';
 
 class Top3AppUsageTrends extends StatefulWidget {
   //final String top3AppSummary;
@@ -19,66 +20,70 @@ class _Top3AppUsageTrendsState extends State<Top3AppUsageTrends> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 362.w,
-      height: 270.h,
+      width: kIsWeb ? 362 : 362.w,
+      height: kIsWeb ? 270 : 270.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: Color(0xFFCDCBCB), width: 1.w),
+        borderRadius: BorderRadius.circular(kIsWeb ? 10 : 10.r),
+        border: Border.all(color: Color(0xFFCDCBCB), width: kIsWeb ? 1 : 1.w),
       ),
       child: Padding(
-        padding: EdgeInsets.only(top: 12.h, left: 20.w, right: 20.w),
+        padding: EdgeInsets.only(
+          top: kIsWeb ? 12 : 12.h,
+          left: kIsWeb ? 20 : 20.w,
+          right: kIsWeb ? 20 : 20.w,
+        ),
         child: Column(
           children: [
             Row(
               children: [
                 Image.asset(
                   'assets/icons/top3MainIcon.png',
-                  width: 30.w,
-                  height: 30.w,
+                  width: kIsWeb ? 30 : 30.w,
+                  height: kIsWeb ? 30 : 30.w,
                 ),
                 Text(
                   ' Top3 앱 사용 트렌드',
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 17.r,
+                    fontSize: kIsWeb ? 17 : 17.r,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 10.h),
+            SizedBox(height: kIsWeb ? 10 : 10.h),
             Stack(
               children: [
                 Container(
-                  width: 362.w,
-                  height: 189.h,
+                  width: kIsWeb ? 362 : 362.w,
+                  height: kIsWeb ? 189 : 189.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFD9D9D9).withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(5.r),
+                    borderRadius: BorderRadius.circular(kIsWeb ? 5 : 5.r),
                   ),
                 ),
                 Positioned(
-                  top: 63.h,
-                  left: 20.w,
+                  top: kIsWeb ? 63 : 63.h,
+                  left: kIsWeb ? 20 : 20.w,
                   child: Container(
-                    width: 280.w,
-                    height: 1,
+                    width: kIsWeb ? 280 : 280.w,
+                    height: kIsWeb ? 1 : 1.h,
                     decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
                   ),
                 ),
                 Positioned(
-                  top: 126.h,
-                  left: 20.w,
+                  top: kIsWeb ? 126 : 126.h,
+                  left: kIsWeb ? 20 : 20.w,
                   child: Container(
-                    width: 280.w,
-                    height: 1,
+                    width: kIsWeb ? 280 : 280.w,
+                    height: kIsWeb ? 1 : 1.h,
                     decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
                   ),
                 ),
 
                 Positioned(
-                  left: 13.w,
+                  left: kIsWeb ? 13 : 13.w,
                   child: top3Info(
                     info_image: 'top1AppIcon',
                     appName: widget.datas[0][1],
@@ -87,8 +92,8 @@ class _Top3AppUsageTrendsState extends State<Top3AppUsageTrends> {
                   ),
                 ),
                 Positioned(
-                  top: 63.h,
-                  left: 13.w,
+                  top: kIsWeb ? 63 : 63.h,
+                  left: kIsWeb ? 13 : 13.w,
                   child: top3Info(
                     info_image: 'top2AppIcon',
                     appName: widget.datas[1][1],
@@ -97,8 +102,8 @@ class _Top3AppUsageTrendsState extends State<Top3AppUsageTrends> {
                   ),
                 ),
                 Positioned(
-                  top: 126.h,
-                  left: 13.w,
+                  top: kIsWeb ? 126 : 126.h,
+                  left: kIsWeb ? 13 : 13.w,
                   child: top3Info(
                     info_image: 'top3AppIcon',
                     appName: widget.datas[2][1],
@@ -108,7 +113,7 @@ class _Top3AppUsageTrendsState extends State<Top3AppUsageTrends> {
                 ),
               ],
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: kIsWeb ? 20 : 20.h),
             // SizedBox(
             //   width: 310.w,
             //   height: 50.h,
@@ -160,46 +165,46 @@ class top3Info extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 325.w,
+      width: kIsWeb ? 325 : 325.w,
       height: 63.w,
       //decoration: BoxDecoration(color: Colors.yellow),
       child: Row(
         children: [
           Image.asset(
             'assets/icons/${info_image}.png',
-            width: 35.w,
-            height: 35.w,
+            width: kIsWeb ? 35 : 35.w,
+            height: kIsWeb ? 35 : 35.w,
           ),
-          SizedBox(width: 10.w),
+          SizedBox(width: kIsWeb ? 10 : 10.w),
           SizedBox(
-            width: 100.w,
+            width: kIsWeb ? 100 : 100.w,
             child: Text(
               appName,
               style: TextStyle(
                 color: Color(0xFF000000),
-                fontSize: 18.r,
+                fontSize: kIsWeb ? 18 : 18.r,
                 fontWeight: FontWeight.w700,
               ),
             ),
           ),
           SizedBox(
-            width: 70.w,
+            width: kIsWeb ? 70 : 70.w,
             child: Text(
               formatMinutes(usageTime),
               style: TextStyle(
                 color: Color(0xFFA3A3A3),
-                fontSize: 15.r,
+                fontSize: kIsWeb ? 15 : 15.r,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
           SizedBox(
-            width: 100.w,
+            width: kIsWeb ? 100 : 100.w,
             child: Text(
               state,
               style: TextStyle(
                 color: Color(0xFF000000),
-                fontSize: 15.r,
+                fontSize: kIsWeb ? 15 : 15.r,
                 fontWeight: FontWeight.w600,
               ),
             ),

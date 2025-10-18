@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '/user/view/edit_profile.dart';
+import 'package:flutter/foundation.dart';
+import 'edit_profile.dart';
 
 class ProfileInfo extends StatefulWidget {
   final userProfileImage;
@@ -28,27 +29,27 @@ class _EditProfileState extends State<ProfileInfo> {
         title: SizedBox(
           child: Row(
             children: [
-              SizedBox(width: 80.w),
+              SizedBox(width: kIsWeb ? 80 : 80.w),
               Text(
                 '프로필 정보',
                 style: TextStyle(
                   color: Color(0xFF000000),
-                  fontSize: 20.r,
+                  fontSize: kIsWeb ? 20 : 20.r,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(width: 20.w),
+              SizedBox(width: kIsWeb ? 20 : 20.w),
               GestureDetector(
                 onTap: () {
                   // 설정창으로 이동
                 },
                 child: Row(
                   children: [
-                    SizedBox(width: 70.w),
+                    SizedBox(width: kIsWeb ? 70 : 70.w),
                     Image.asset(
                       'assets/icons/setting.png',
-                      width: 30.w,
-                      height: 30.h,
+                      width: kIsWeb ? 30 : 30.w,
+                      height: kIsWeb ? 30 : 30.h,
                     ),
                   ],
                 ),
@@ -56,30 +57,30 @@ class _EditProfileState extends State<ProfileInfo> {
             ],
           ),
         ),
-        toolbarHeight: 100.h,
+        toolbarHeight: kIsWeb ? 100 : 100.h,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Container(height: 1.h, color: Color(0xFFCDCBCB)),
+          preferredSize: Size.fromHeight(kIsWeb ? 1 : 1.h),
+          child: Container(height: kIsWeb ? 1 : 1.h, color: Color(0xFFCDCBCB)),
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            SizedBox(height: 50.h),
+            SizedBox(height: kIsWeb ? 50 : 50.h),
             Row(
               children: [
-                SizedBox(width: 55.w),
+                SizedBox(width: kIsWeb ? 55 : 55.w),
                 SizedBox(
                   child: Image.asset(
                     widget.userProfileImage,
-                    width: 250.w,
-                    height: 250.h,
+                    width: kIsWeb ? 250 : 250.w,
+                    height: kIsWeb ? 250 : 250.h,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 30.h),
+            SizedBox(height: kIsWeb ? 30 : 30.h),
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -101,15 +102,15 @@ class _EditProfileState extends State<ProfileInfo> {
                     widget.userNickName,
                     style: TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: 32.r,
+                      fontSize: kIsWeb ? 32 : 32.r,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  SizedBox(width: 5.w),
+                  SizedBox(width: kIsWeb ? 5 : 5.w),
                   Image.asset(
                     'assets/icons/profileEdit.png',
-                    width: 30.w,
-                    height: 30.h,
+                    width: kIsWeb ? 30 : 30.w,
+                    height: kIsWeb ? 30 : 30.h,
                   ),
                 ],
               ),
@@ -203,7 +204,7 @@ class _EditProfileState extends State<ProfileInfo> {
             //     ),
             //   ],
             // ),
-            SizedBox(height: 40.h),
+            SizedBox(height: kIsWeb ? 40 : 40.h),
 
             // GestureDetector(
             //   onTap: () {},

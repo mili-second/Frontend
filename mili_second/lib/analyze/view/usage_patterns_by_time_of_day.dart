@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/foundation.dart';
 
 class UsagePatternsByTimeOfDay extends StatefulWidget {
   //final String timeOfDayPatternSummary;
@@ -35,19 +36,24 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 362.w,
-      height: 240.h,
+      width: kIsWeb ? 362 : 362.w,
+      height: kIsWeb ? 240 : 240.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: Color(0xFFCDCBCB), width: 1.w),
+        borderRadius: BorderRadius.circular(kIsWeb ? 10 : 10.r),
+        border: Border.all(color: Color(0xFFCDCBCB), width: kIsWeb ? 1 : 1.w),
       ),
       child: Padding(
-        padding: EdgeInsets.only(top: 5.h, bottom: 5.h, left: 10.w, right: 5.w),
+        padding: EdgeInsets.only(
+          top: kIsWeb ? 5 : 5.h,
+          bottom: kIsWeb ? 5 : 5.h,
+          left: kIsWeb ? 10 : 10.w,
+          right: kIsWeb ? 5 : 5.w,
+        ),
         child: Column(
           children: [
             SizedBox(
-              width: 355.w,
+              width: kIsWeb ? 355 : 355.w,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -56,152 +62,152 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                     onPressed: () {},
                     icon: Image.asset(
                       'assets/icons/arrow_back_gray.png',
-                      width: 25.w,
-                      height: 25.h,
+                      width: kIsWeb ? 25 : 25.w,
+                      height: kIsWeb ? 25 : 25.h,
                     ),
                   ),
-                  SizedBox(width: 40.w),
+                  SizedBox(width: kIsWeb ? 40 : 40.w),
                   Text(
                     '시간대별 사용 패턴',
                     style: TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: 17.r,
+                      fontSize: kIsWeb ? 17 : 17.r,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  SizedBox(width: 45.w),
+                  SizedBox(width: kIsWeb ? 45 : 45.w),
                   // front로 넘길게 있으면 해당 버튼 아이콘이 보이게, 없으면 SizedBox로 빈칸
                   IconButton(
                     onPressed: () {},
                     icon: Image.asset(
                       'assets/icons/arrow_front_gray.png',
-                      width: 25.w,
-                      height: 25.h,
+                      width: kIsWeb ? 25 : 25.w,
+                      height: kIsWeb ? 25 : 25.h,
                     ),
                   ),
-                  SizedBox(width: 10.w),
+                  SizedBox(width: kIsWeb ? 10 : 10.w),
                 ],
               ),
             ),
-            SizedBox(height: 10.w),
+            SizedBox(height: kIsWeb ? 10 : 10.w),
             SizedBox(
-              width: 355.w,
-              height: 110.h,
+              width: kIsWeb ? 355 : 355.w,
+              height: kIsWeb ? 110 : 110.h,
               child: Row(
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(height: 2.h),
+                      SizedBox(height: kIsWeb ? 2 : 2.h),
                       Image.asset(
                         'assets/icons/night.png',
-                        width: 40.w,
-                        height: 41.h,
+                        width: kIsWeb ? 40 : 40.w,
+                        height: kIsWeb ? 41 : 41.h,
                       ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: kIsWeb ? 5 : 5.h),
                       Text(
                         '야간 (24-06시)',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 12.r,
+                          fontSize: kIsWeb ? 12 : 12.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: kIsWeb ? 5 : 5.h),
                       // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
                         '0 분',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 16.r,
+                          fontSize: kIsWeb ? 16 : 16.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(width: 8.w),
+                  SizedBox(width: kIsWeb ? 8 : 8.w),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Image.asset(
                         'assets/icons/morning.png',
-                        width: 44.w,
-                        height: 44.h,
+                        width: kIsWeb ? 44 : 44.w,
+                        height: kIsWeb ? 44 : 44.h,
                       ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: kIsWeb ? 5 : 5.h),
                       Text(
                         '오전 (6-12시)',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 12.r,
+                          fontSize: kIsWeb ? 12 : 12.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: kIsWeb ? 5 : 5.h),
                       // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
                         '2시간',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 16.r,
+                          fontSize: kIsWeb ? 16 : 16.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(width: 8.w),
+                  SizedBox(width: kIsWeb ? 8 : 8.w),
                   Column(
                     children: [
                       Image.asset(
                         'assets/icons/lunch.png',
-                        width: 44.w,
-                        height: 44.h,
+                        width: kIsWeb ? 44 : 44.w,
+                        height: kIsWeb ? 44 : 44.h,
                       ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: kIsWeb ? 5 : 5.h),
                       Text(
                         '오후 (12-18시)',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 12.r,
+                          fontSize: kIsWeb ? 12 : 12.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: kIsWeb ? 5 : 5.h),
                       // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
                         '1.2시간',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 16.r,
+                          fontSize: kIsWeb ? 16 : 16.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(width: 8.w),
+                  SizedBox(width: kIsWeb ? 8 : 8.w),
                   Column(
                     children: [
-                      SizedBox(height: 1.5.h),
+                      SizedBox(height: kIsWeb ? 1.5 : 1.5.h),
                       Image.asset(
                         'assets/icons/evening.png',
-                        width: 42.w,
-                        height: 43.h,
+                        width: kIsWeb ? 42 : 42.w,
+                        height: kIsWeb ? 43 : 43.h,
                       ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: kIsWeb ? 5 : 5.h),
                       Text(
                         '저녁 (18-24시)',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 12.r,
+                          fontSize: kIsWeb ? 12 : 12.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: kIsWeb ? 5 : 5.h),
                       Text(
                         '4.5시간',
                         style: TextStyle(
                           color: Color(0xFF000000),
-                          fontSize: 16.r,
+                          fontSize: kIsWeb ? 16 : 16.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -233,21 +239,21 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
             //     ],
             //   ),
             // ),
-            SizedBox(height: 10.h),
+            SizedBox(height: kIsWeb ? 10 : 10.h),
             SizedBox(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
                     'assets/icons/top3MainIcon.png',
-                    width: 20.w,
-                    height: 20.w,
+                    width: kIsWeb ? 20 : 20.w,
+                    height: kIsWeb ? 20 : 20.w,
                   ),
                   Text(
                     ' 가장 활발한 시간 : ',
                     style: TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: 15.r,
+                      fontSize: kIsWeb ? 15 : 15.r,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -255,11 +261,11 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                     widget.timeOfDayPatternPeakTime,
                     style: TextStyle(
                       color: Color(0xFFF23C14),
-                      fontSize: 17.r,
+                      fontSize: kIsWeb ? 17 : 17.r,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  SizedBox(width: 10.w),
+                  SizedBox(width: kIsWeb ? 10 : 10.w),
                 ],
               ),
             ),
