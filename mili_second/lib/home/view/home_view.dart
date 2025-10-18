@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/usage_data_viewmodel.dart'; // ViewModel import
-import 'dart:math';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mili_second/login_view.dart';
+//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // secure storage can't web
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -17,11 +16,13 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   bool isfront = true;
 
-  final storage = FlutterSecureStorage();
+  //final storage = FlutterSecureStorage();
 
   Future<void> test_logout() async {
     print("logout");
-    await storage.delete(key: "token");
+    //await storage.delete(key: "token");
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
   }
 
   @override
@@ -44,22 +45,33 @@ class _HomeViewState extends State<HomeView> {
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(5.w, 5.h, 10.w, 5.h),
+              padding: EdgeInsets.fromLTRB(
+                kIsWeb ? 5 : 5.w,
+                kIsWeb ? 5 : 5.h,
+                kIsWeb ? 10 : 10.w,
+                kIsWeb ? 5 : 5.h,
+              ),
               child: Align(
                 alignment: Alignment.centerRight,
                 child: SizedBox(
-                  height: 20.h,
+                  height: kIsWeb ? 20 : 20.h,
                   child: Text(
                     viewModel.status, // ViewModel의 데이터 사용
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 14.r, color: Colors.grey),
+                    style: TextStyle(
+                      fontSize: kIsWeb ? 14 : 14.r,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ),
             ),
             SizedBox(
               child: Padding(
-                padding: EdgeInsetsGeometry.only(left: 45.w, right: 45.w),
+                padding: EdgeInsetsGeometry.only(
+                  left: kIsWeb ? 45 : 45.w,
+                  right: kIsWeb ? 45 : 45.w,
+                ),
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
@@ -68,14 +80,14 @@ class _HomeViewState extends State<HomeView> {
                   },
                   child: isfront
                       ? SizedBox(
-                          height: 0.5.sh,
+                          height: kIsWeb ? 0.5 : 0.5.sh,
                           child: Image.asset(
                             'assets/icons/character/shoppingAddictType_front.png',
                             fit: BoxFit.contain,
                           ),
                         )
                       : SizedBox(
-                          height: 0.5.sh,
+                          height: kIsWeb ? 0.5 : 0.5.sh,
                           child: Image.asset(
                             'assets/icons/character/shoppingAddictType_back.png',
                             fit: BoxFit.contain,
@@ -85,17 +97,26 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(45.w, 0, 45.w, 0),
+              padding: EdgeInsets.fromLTRB(
+                kIsWeb ? 45 : 45.w,
+                0,
+                kIsWeb ? 45 : 45.w,
+                0,
+              ),
               child: Center(
                 child: Container(
-                  width: 0.4.sh,
-                  height: 125.h,
+                  width: kIsWeb ? 0.4 : 0.4.sh,
+                  height: kIsWeb ? 125 : 125.h,
                   decoration: BoxDecoration(
                     color: const Color(0xFF3A78EB).withValues(alpha: 0.8),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0.r)),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.only(top: 8.0.h, left: 8.h, right: 8.h),
+                    padding: EdgeInsets.only(
+                      top: kIsWeb ? 8.0 : 8.0.h,
+                      left: kIsWeb ? 8 : 8.h,
+                      right: kIsWeb ? 8 : 8.h,
+                    ),
                     child: Column(
                       children: [
                         Align(
@@ -104,23 +125,23 @@ class _HomeViewState extends State<HomeView> {
                             "실시간 사용 현황",
                             style: TextStyle(
                               color: Color(0xFFFFFFFF),
-                              fontSize: 17.r,
+                              fontSize: kIsWeb ? 17 : 17.r,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
 
-                        SizedBox(height: 5.h),
+                        SizedBox(height: kIsWeb ? 5 : 5.h),
 
                         SizedBox(
-                          width: 290.w,
+                          width: kIsWeb ? 290 : 290.w,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 '총 사용 시간',
                                 style: TextStyle(
-                                  fontSize: 15.r,
+                                  fontSize: kIsWeb ? 15 : 15.r,
                                   color: Color(0xFFFFFFFF),
                                 ),
                               ),
@@ -128,7 +149,7 @@ class _HomeViewState extends State<HomeView> {
                                 viewModel.totalUsageTime, // ViewModel의 데이터 사용
                                 style: TextStyle(
                                   color: Color(0xFFFFFFFF),
-                                  fontSize: 15.r,
+                                  fontSize: kIsWeb ? 15 : 15.r,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -137,14 +158,14 @@ class _HomeViewState extends State<HomeView> {
                         ),
 
                         SizedBox(
-                          width: 290.w,
+                          width: kIsWeb ? 290 : 290.w,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 '오늘 unlock',
                                 style: TextStyle(
-                                  fontSize: 15.r,
+                                  fontSize: kIsWeb ? 15 : 15.r,
                                   color: Color(0xFFFFFFFF),
                                 ),
                               ),
@@ -152,7 +173,7 @@ class _HomeViewState extends State<HomeView> {
                                 "test", // ViewModel의 데이터 사용
                                 style: TextStyle(
                                   color: Color(0xFFFFFFFF),
-                                  fontSize: 15.r,
+                                  fontSize: kIsWeb ? 15 : 15.r,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -161,14 +182,14 @@ class _HomeViewState extends State<HomeView> {
                         ),
 
                         SizedBox(
-                          width: 290.w,
+                          width: kIsWeb ? 290 : 290.w,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 '평균 세션',
                                 style: TextStyle(
-                                  fontSize: 15.r,
+                                  fontSize: kIsWeb ? 15 : 15.r,
                                   color: Color(0xFFFFFFFF),
                                 ),
                               ),
@@ -176,7 +197,7 @@ class _HomeViewState extends State<HomeView> {
                                 "test", // ViewModel의 데이터 사용
                                 style: TextStyle(
                                   color: Color(0xFFFFFFFF),
-                                  fontSize: 15.r,
+                                  fontSize: kIsWeb ? 15 : 15.r,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),

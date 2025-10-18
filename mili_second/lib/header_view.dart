@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '/user/view/profile_info.dart';
@@ -31,7 +32,7 @@ class _HeaderViewState extends State<HeaderView> {
     final userGender = '여성';
     final userJob = '주부';
     return Padding(
-      padding: EdgeInsets.all(5.0.w),
+      padding: EdgeInsets.all(kIsWeb ? 5.0 : 5.0.w),
       child: Row(
         children: [
           Stack(
@@ -53,18 +54,18 @@ class _HeaderViewState extends State<HeaderView> {
                 },
                 icon: Image.asset(
                   widget.userProfileImage,
-                  width: 70.w,
-                  height: 70.h,
+                  width: kIsWeb ? 70 : 70.w,
+                  height: kIsWeb ? 70 : 70.h,
                 ),
               ),
               Positioned(
-                left: 50.w,
-                top: 45.h,
+                left: kIsWeb ? 50 : 50.w,
+                top: kIsWeb ? 45 : 45.h,
                 child: Image.asset('assets/icons/profileEdit.png'),
               ),
             ],
           ),
-          SizedBox(width: 10.w),
+          SizedBox(width: kIsWeb ? 10 : 10.w),
           Row(
             children: [
               Column(
@@ -74,16 +75,16 @@ class _HeaderViewState extends State<HeaderView> {
                     widget.userNickName,
                     style: TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: 24.r,
+                      fontSize: kIsWeb ? 24 : 24.r,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  SizedBox(height: 5.h),
+                  SizedBox(height: kIsWeb ? 5 : 5.h),
                   Text(
                     '오늘의 디지털 습관을 분석했어요',
                     style: TextStyle(
                       color: Color(0xFF524E4E),
-                      fontSize: 12.r,
+                      fontSize: kIsWeb ? 12 : 12.r,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -91,10 +92,10 @@ class _HeaderViewState extends State<HeaderView> {
               ),
             ],
           ),
-          SizedBox(width: 55.w),
+          SizedBox(width: kIsWeb ? 55 : 55.w),
           Column(
             children: [
-              SizedBox(height: 5.h),
+              SizedBox(height: kIsWeb ? 5 : 5.h),
               IconButton(
                 onPressed: () {
                   test_logout();
@@ -107,11 +108,11 @@ class _HeaderViewState extends State<HeaderView> {
                 },
                 icon: Image.asset(
                   'assets/icons/logout.png',
-                  width: 35.w,
-                  height: 35.h,
+                  width: kIsWeb ? 35 : 35.w,
+                  height: kIsWeb ? 35 : 35.h,
                 ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: kIsWeb ? 10 : 10.h),
             ],
           ),
         ],
