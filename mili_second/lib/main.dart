@@ -1,7 +1,9 @@
 // lib/main.dart
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:mili_second/login_view.dart';
 import 'package:provider/provider.dart'; // 1. provider import
 import 'main_view.dart';
@@ -22,12 +24,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: Size(412, 917),
-      builder: (_, child) => MaterialApp(
-        home: LoginView(), // login부터
-        color: Color(0xFFFFFFFF),
-      ),
-    );
+    if (kIsWeb) {
+      return FlutterWebFrame(
+        maximumSize: Size(412, 917),
+        builder: (context) {
+          return MaterialApp(
+            home: LoginView(), // login부터
+            color: Color(0xFFFFFFFF),
+          );
+        },
+      );
+    } else {
+      return ScreenUtilInit(
+        designSize: Size(412, 917),
+        builder: (_, child) => MaterialApp(
+          home: LoginView(), // login부터
+          color: Color(0xFFFFFFFF),
+        ),
+      );
+    }
   }
 }
