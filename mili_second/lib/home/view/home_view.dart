@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/usage_data_viewmodel.dart'; // ViewModel import
-//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // secure storage can't web
 
 class HomeView extends StatefulWidget {
@@ -75,14 +75,16 @@ class _HomeViewState extends State<HomeView> {
                   },
                   child: isfront
                       ? SizedBox(
-                          height: kIsWeb ? 0.5 : 0.5.h,
+                          width: kIsWeb ? 350 : 350.w,
+                          height: kIsWeb ? 340 : 340.h,
                           child: Image.asset(
                             'assets/icons/character/shoppingAddictType_front.png',
                             fit: BoxFit.contain,
                           ),
                         )
                       : SizedBox(
-                          height: kIsWeb ? 0.5 : 0.5.h,
+                          width: kIsWeb ? 350 : 350.w,
+                          height: kIsWeb ? 340 : 340.h,
                           child: Image.asset(
                             'assets/icons/character/shoppingAddictType_back.png',
                             fit: BoxFit.contain,
@@ -91,14 +93,15 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
             ),
+            SizedBox(height: kIsWeb ? 5 : 5.h),
             Padding(
               padding: kIsWeb
                   ? EdgeInsets.fromLTRB(45, 0, 45, 0)
                   : EdgeInsets.fromLTRB(45.w, 0, 45.w, 0),
               child: Center(
                 child: Container(
-                  width: kIsWeb ? 0.4 : 0.4.w,
-                  height: kIsWeb ? 125 : 125.h,
+                  width: kIsWeb ? 275 : 275.w,
+                  height: kIsWeb ? 90 : 90.h,
                   decoration: BoxDecoration(
                     color: const Color(0xFF3A78EB).withValues(alpha: 0.8),
                     borderRadius: BorderRadius.all(
@@ -175,29 +178,29 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ),
 
-                        SizedBox(
-                          width: kIsWeb ? 290 : 290.w,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '평균 세션',
-                                style: TextStyle(
-                                  fontSize: kIsWeb ? 15 : 15.r,
-                                  color: Color(0xFFFFFFFF),
-                                ),
-                              ),
-                              Text(
-                                "test", // ViewModel의 데이터 사용
-                                style: TextStyle(
-                                  color: Color(0xFFFFFFFF),
-                                  fontSize: kIsWeb ? 15 : 15.r,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // SizedBox(
+                        //   width: kIsWeb ? 290 : 290.w,
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     children: [
+                        //       Text(
+                        //         '평균 세션',
+                        //         style: TextStyle(
+                        //           fontSize: kIsWeb ? 15 : 15.r,
+                        //           color: Color(0xFFFFFFFF),
+                        //         ),
+                        //       ),
+                        //       Text(
+                        //         "test", // ViewModel의 데이터 사용
+                        //         style: TextStyle(
+                        //           color: Color(0xFFFFFFFF),
+                        //           fontSize: kIsWeb ? 15 : 15.r,
+                        //           fontWeight: FontWeight.w500,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
 
                         // Center(
                         //   child: ElevatedButton(

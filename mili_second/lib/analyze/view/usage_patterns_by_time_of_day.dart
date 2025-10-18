@@ -38,12 +38,10 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
 
   @override
   Widget build(BuildContext context) {
-    final datas = widget.datas[_currentIndex];
-
+    // 현재 시간이 어느 구간에 속하는지 계산
     final now = DateTime.now();
     final currentHour = int.parse(DateFormat('HH').format(now));
 
-    // 현재 시간이 어느 구간에 속하는지 계산
     String currentPeriod;
     if (currentHour >= 0 && currentHour < 6) {
       currentPeriod = 'night';
