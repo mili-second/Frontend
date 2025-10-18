@@ -28,8 +28,8 @@ class _HeaderViewState extends State<HeaderView> {
 
   @override
   Widget build(BuildContext context) {
-    final _userGender = '여성';
-    final _userJob = '주부';
+    final userGender = '여성';
+    final userJob = '주부';
     return Padding(
       padding: EdgeInsets.all(5.0.w),
       child: Row(
@@ -45,8 +45,8 @@ class _HeaderViewState extends State<HeaderView> {
                       builder: (context) => ProfileInfo(
                         userNickName: widget.userNickName,
                         userProfileImage: widget.userProfileImage,
-                        userGender: _userGender,
-                        userJob: _userJob,
+                        userGender: userGender,
+                        userJob: userJob,
                       ),
                     ),
                   );
@@ -74,7 +74,7 @@ class _HeaderViewState extends State<HeaderView> {
                     widget.userNickName,
                     style: TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: 24.sp,
+                      fontSize: 24.r,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
@@ -83,7 +83,7 @@ class _HeaderViewState extends State<HeaderView> {
                     '오늘의 디지털 습관을 분석했어요',
                     style: TextStyle(
                       color: Color(0xFF524E4E),
-                      fontSize: 12.sp,
+                      fontSize: 12.r,
                       fontWeight: FontWeight.w700,
                     ),
                   ),

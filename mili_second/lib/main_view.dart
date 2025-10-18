@@ -72,7 +72,7 @@ class _MainViewState extends State<MainView> {
                               '홈',
                               style: TextStyle(
                                 color: Color(0xFF007BFF),
-                                fontSize: 14.sp,
+                                fontSize: 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             )
@@ -80,7 +80,7 @@ class _MainViewState extends State<MainView> {
                               '홈',
                               style: TextStyle(
                                 color: Color(0xFF555555),
-                                fontSize: 14.sp,
+                                fontSize: 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -108,7 +108,7 @@ class _MainViewState extends State<MainView> {
                               '분석',
                               style: TextStyle(
                                 color: Color(0xFF007BFF),
-                                fontSize: 14.sp,
+                                fontSize: 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             )
@@ -116,7 +116,7 @@ class _MainViewState extends State<MainView> {
                               '분석',
                               style: TextStyle(
                                 color: Color(0xFF555555),
-                                fontSize: 14.sp,
+                                fontSize: 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -144,7 +144,7 @@ class _MainViewState extends State<MainView> {
                               '인사이트',
                               style: TextStyle(
                                 color: Color(0xFF007BFF),
-                                fontSize: 14.sp,
+                                fontSize: 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             )
@@ -152,7 +152,7 @@ class _MainViewState extends State<MainView> {
                               '인사이트',
                               style: TextStyle(
                                 color: Color(0xFF555555),
-                                fontSize: 14.sp,
+                                fontSize: 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),

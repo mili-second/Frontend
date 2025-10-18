@@ -83,7 +83,7 @@ class _SignInViewState extends State<SignInView> {
                       Text(
                         "서비스 이용을 위해",
                         style: TextStyle(
-                          fontSize: 25.sp,
+                          fontSize: 25.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -93,14 +93,14 @@ class _SignInViewState extends State<SignInView> {
                             "회원가입",
                             style: TextStyle(
                               color: Color(0xFF007BFF),
-                              fontSize: 25.sp,
+                              fontSize: 25.r,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                           Text(
                             "이 필요합니다.",
                             style: TextStyle(
-                              fontSize: 25.sp,
+                              fontSize: 25.r,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -116,7 +116,7 @@ class _SignInViewState extends State<SignInView> {
                     "아이디",
                     style: TextStyle(
                       color: Color(0xFF007BFF),
-                      fontSize: 15.sp,
+                      fontSize: 15.r,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -195,7 +195,7 @@ class _SignInViewState extends State<SignInView> {
                   child: Text(
                     id_valid_comments[id_valid],
                     style: TextStyle(
-                      fontSize: 12.sp,
+                      fontSize: 12.r,
                       fontWeight: FontWeight.w500,
                       color: id_valid_comments_color[id_valid],
                     ),
@@ -207,7 +207,7 @@ class _SignInViewState extends State<SignInView> {
                   child: Text(
                     id_comments[id_ok],
                     style: TextStyle(
-                      fontSize: 12.sp,
+                      fontSize: 12.r,
                       fontWeight: FontWeight.w500,
                       color: id_comments_color[id_ok],
                     ),
@@ -220,7 +220,7 @@ class _SignInViewState extends State<SignInView> {
                     "비밀번호",
                     style: TextStyle(
                       color: Color(0xFF007BFF),
-                      fontSize: 15.sp,
+                      fontSize: 15.r,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -267,7 +267,7 @@ class _SignInViewState extends State<SignInView> {
                   child: Text(
                     pw_comments[pw_ok],
                     style: TextStyle(
-                      fontSize: 12.sp,
+                      fontSize: 12.r,
                       fontWeight: FontWeight.w500,
                       color: pw_comments_color[pw_ok],
                     ),
@@ -298,10 +298,7 @@ class _SignInViewState extends State<SignInView> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0.r),
                       ),
-                      textStyle: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.sp,
-                      ),
+                      textStyle: TextStyle(color: Colors.white, fontSize: 20.r),
                     ),
                     child: Text("확인"),
                   ),
@@ -328,7 +325,7 @@ class _SignInViewState extends State<SignInView> {
                           child: Text(
                             "계정이 있으신가요?",
                             style: TextStyle(
-                              fontSize: 15.sp,
+                              fontSize: 15.r,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -437,7 +434,7 @@ class _LoginViewState extends State<LoginView> {
                       Text(
                         "서비스 이용을 위해",
                         style: TextStyle(
-                          fontSize: 25.sp,
+                          fontSize: 25.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -447,14 +444,14 @@ class _LoginViewState extends State<LoginView> {
                             "로그인",
                             style: TextStyle(
                               color: Color(0xFF007BFF),
-                              fontSize: 25.sp,
+                              fontSize: 25.r,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                           Text(
                             "이 필요합니다.",
                             style: TextStyle(
-                              fontSize: 25.sp,
+                              fontSize: 25.r,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -470,7 +467,7 @@ class _LoginViewState extends State<LoginView> {
                     "아이디",
                     style: TextStyle(
                       color: Color(0xFF007BFF),
-                      fontSize: 15.sp,
+                      fontSize: 15.r,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -509,7 +506,7 @@ class _LoginViewState extends State<LoginView> {
                     "비밀번호",
                     style: TextStyle(
                       color: Color(0xFF007BFF),
-                      fontSize: 15.sp,
+                      fontSize: 15.r,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -563,10 +560,7 @@ class _LoginViewState extends State<LoginView> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0.r),
                       ),
-                      textStyle: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.sp,
-                      ),
+                      textStyle: TextStyle(color: Colors.white, fontSize: 20.r),
                     ),
                     child: Text("로그인"),
                   ),
@@ -590,7 +584,7 @@ class _LoginViewState extends State<LoginView> {
                       child: Text(
                         "회원가입",
                         style: TextStyle(
-                          fontSize: 15.sp,
+                          fontSize: 15.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
