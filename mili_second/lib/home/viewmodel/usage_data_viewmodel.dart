@@ -16,20 +16,24 @@ class UsageDataViewModel extends ChangeNotifier {
   final _encoder = const JsonEncoder.withIndent('  ');
 
   final _serverUrl = Uri.parse(
-    'https://webhook.site/287eb786-4205-4f9f-a8da-07acf05d9f4a',
+    'https://webhook.site/8e39dfae-b1f0-4267-b83c-a847e10d9205',
   );
 
   String _status = '앱 사용 기록을 불러오는 중...';
   final List<Map<String, dynamic>> _jsonList = [];
   String _totalUsageTime = '계산 중...';
   String _sourceInfo = '기기 정보 로딩 중...';
+  String _totalUnlockCount = '계산 중...';
 
   String get status => _status;
+
   List<Map<String, dynamic>> get jsonList => _jsonList;
   String get totalUsageTime => _totalUsageTime;
+  String get totalUnlockCount => _totalUnlockCount;
   JsonEncoder get encoder => _encoder;
 
   int _totalDurationMs = 0;
+  int _totalUnlockCountValue = 0;
 
   // ✨ 2. SharedPreferences 인스턴스를 저장할 변수
   late SharedPreferences _prefs;
@@ -88,16 +92,20 @@ class UsageDataViewModel extends ChangeNotifier {
     if (lastDateString == todayDateString) {
       // 저장된 날짜가 오늘이면, 저장된 시간을 그대로 사용
       _totalDurationMs = savedDuration;
+      _totalUnlockCountValue = _prefs.getInt('total_unlock_count') ?? 0;
     } else {
       // 저장된 날짜가 어제거나 그 이전이면, 누적 시간 초기화
       _totalDurationMs = 0;
+      _totalUnlockCountValue = 0;
       // 오늘 날짜로 새로 저장 (시간은 0으로)
       await _prefs.setString('last_duration_date', todayDateString);
       await _prefs.setInt('total_duration_ms', 0);
+      await _prefs.setInt('total_unlock_count', 0);
     }
 
     // UI에 표시될 포맷된 시간 업데이트
     _totalUsageTime = _formatDuration(_totalDurationMs);
+    _totalUnlockCount = "$_totalUnlockCountValue회";
 
     await _initSourceInfo();
     await fetchNewUsageData(); // 기존 함수 대신 새로운 함수 호출
@@ -147,6 +155,7 @@ class UsageDataViewModel extends ChangeNotifier {
     if (kIsWeb) {
       _status = '웹에서는 사용 기록을 지원하지 않습니다.';
       _totalUsageTime = 'N/A (웹)';
+      _totalUnlockCount = 'N/A (웹)';
       notifyListeners();
       return; // 웹에서는 여기서 함수 종료
     }
@@ -171,7 +180,11 @@ class UsageDataViewModel extends ChangeNotifier {
         // 새로 가져온 데이터의 사용 시간
         final newDurationMs =
             (processedResult['totalDuration'] as num?)?.toInt() ?? 0;
+        final lastTimestamp =
+            (processedResult['lastTimestamp'] as num?)?.toInt() ?? 0;
 
+        final newUnlockCount =
+            (processedResult['unlockCount'] as num?)?.toInt() ?? 0;
         // ✨ 3. 누적 시간 계산 로직
         final today = DateTime.now();
         final todayDateString = "${today.year}-${today.month}-${today.day}";
@@ -180,17 +193,20 @@ class UsageDataViewModel extends ChangeNotifier {
         if (lastDateString == todayDateString) {
           // 마지막으로 계산한 날짜가 오늘이면, 기존 시간에 새로운 시간 "누적"
           _totalDurationMs += newDurationMs;
+          _totalUnlockCountValue += newUnlockCount;
         } else {
           // 날짜가 바뀌었으면 (자정 지남), 새로 가져온 시간으로 "초기화"
           _totalDurationMs = newDurationMs;
+          _totalUnlockCountValue = newUnlockCount;
         }
 
         // ✨ 4. 계산된 누적 시간과 오늘 날짜를 기기에 저장
         await _prefs.setString('last_duration_date', todayDateString);
         await _prefs.setInt('total_duration_ms', _totalDurationMs);
-
+        await _prefs.setInt('total_unlock_count', _totalUnlockCountValue);
         // ✨ 5. UI에 표시될 문자열 업데이트
         _totalUsageTime = _formatDuration(_totalDurationMs);
+        _totalUnlockCount = "$_totalUnlockCountValue회";
 
         await _sendDataToServer(newJsonList);
 
@@ -198,10 +214,16 @@ class UsageDataViewModel extends ChangeNotifier {
         _jsonList.addAll(newJsonList);
 
         // ✨ 7. 새로 가져온 데이터 중 가장 마지막(최신) 시간을 찾아 저장
-        final lastTimestamp = newJsonList
-            .map((e) => e['timestamp'] as int)
-            .reduce(max);
-        await _saveLastFetchTimestamp(lastTimestamp);
+        // final lastTimestamp = newJsonList
+        //     .map((e) => e['timestamp'] as int)
+        //     .reduce(max);
+
+        // await _saveLastFetchTimestamp(lastTimestamp);
+        if (lastTimestamp > 0) {
+          await _saveLastFetchTimestamp(lastTimestamp);
+        } else {
+          await _saveLastFetchTimestamp(endTime.millisecondsSinceEpoch);
+        }
 
         _status = '데이터 동기화 완료: ${DateTime.now().hour}:${DateTime.now().minute}';
       } else {

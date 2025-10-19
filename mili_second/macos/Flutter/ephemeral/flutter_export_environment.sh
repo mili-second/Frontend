@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=C:\woo\flutter"
-export "FLUTTER_APPLICATION_PATH=C:\woo\mili-second\Frontend\mili_second"
+export "FLUTTER_ROOT=/Users/woo/development/flutter"
+export "FLUTTER_APPLICATION_PATH=/Users/woo/Frontend/mili_second"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.0.0"

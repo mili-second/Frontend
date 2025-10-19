@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:mili_second/main_view.dart';
 import 'package:flutter/foundation.dart';
@@ -395,7 +397,6 @@ class _LoginViewState extends State<LoginView> {
   String user_pw = "";
 
   Future<void> check_login() async {
-    print("로그인 확인");
     //String? value = await storage.read(key: "token");
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -403,8 +404,14 @@ class _LoginViewState extends State<LoginView> {
 
     setState(() {
       is_login = (value != null);
-      print(value);
     });
+
+    if (is_login && mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainView()),
+      );
+    }
   }
 
   Future<void> write_token() async {
