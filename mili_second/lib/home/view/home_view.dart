@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/usage_data_viewmodel.dart'; // ViewModel import
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // secure storage can't web
 
 class HomeView extends StatefulWidget {
@@ -14,19 +14,13 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  bool isfront = true;
+  bool isfront = true; // 카드 앞뒷면 구분
 
-  final storage = FlutterSecureStorage();
-
-  Future<void> test_logout() async {
-    print("logout");
-    await storage.delete(key: "token");
-  }
+  //final storage = FlutterSecureStorage();
 
   @override
   void dispose() {
     // TODO: implement dispose
-    test_logout();
     super.dispose();
   }
 
@@ -64,8 +58,8 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(
               child: Padding(
                 padding: EdgeInsetsGeometry.only(
-                  left: kIsWeb ? 45 : 45.w,
-                  right: kIsWeb ? 45 : 45.w,
+                  left: kIsWeb ? 45 : 40.w,
+                  right: kIsWeb ? 45 : 40.w,
                 ),
                 child: GestureDetector(
                   onTap: () {
@@ -74,21 +68,13 @@ class _HomeViewState extends State<HomeView> {
                     });
                   },
                   child: isfront
-                      ? SizedBox(
-                          width: kIsWeb ? 350 : 350.w,
-                          height: kIsWeb ? 340 : 340.h,
-                          child: Image.asset(
-                            'assets/icons/character/shoppingAddictType_front.png',
-                            fit: BoxFit.contain,
-                          ),
+                      ? Image.asset(
+                          'assets/icons/character/shoppingAddictType_front.png',
+                          fit: BoxFit.contain,
                         )
-                      : SizedBox(
-                          width: kIsWeb ? 350 : 350.w,
-                          height: kIsWeb ? 340 : 340.h,
-                          child: Image.asset(
-                            'assets/icons/character/shoppingAddictType_back.png',
-                            fit: BoxFit.contain,
-                          ),
+                      : Image.asset(
+                          'assets/icons/character/shoppingAddictType_back.png',
+                          fit: BoxFit.contain,
                         ),
                 ),
               ),
@@ -96,12 +82,12 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(height: kIsWeb ? 5 : 5.h),
             Padding(
               padding: kIsWeb
-                  ? EdgeInsets.fromLTRB(45, 0, 45, 0)
-                  : EdgeInsets.fromLTRB(45.w, 0, 45.w, 0),
+                  ? EdgeInsets.fromLTRB(40, 0, 40, 0)
+                  : EdgeInsets.fromLTRB(40.w, 0, 40.w, 0),
               child: Center(
                 child: Container(
-                  width: kIsWeb ? 275 : 275.w,
-                  height: kIsWeb ? 90 : 90.h,
+                  //width: kIsWeb ? 275 : 275.w,
+                  //height: kIsWeb ? 90 : 90.h,
                   decoration: BoxDecoration(
                     color: const Color(0xFF3A78EB).withValues(alpha: 0.8),
                     borderRadius: BorderRadius.all(
@@ -109,11 +95,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.only(
-                      top: kIsWeb ? 8.0 : 8.0.h,
-                      left: kIsWeb ? 8 : 8.h,
-                      right: kIsWeb ? 8 : 8.h,
-                    ),
+                    padding: EdgeInsets.all(kIsWeb ? 10.0 : 10.0.h),
                     child: Column(
                       children: [
                         Align(
@@ -131,7 +113,6 @@ class _HomeViewState extends State<HomeView> {
                         SizedBox(height: kIsWeb ? 5 : 5.h),
 
                         SizedBox(
-                          width: kIsWeb ? 290 : 290.w,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -155,19 +136,18 @@ class _HomeViewState extends State<HomeView> {
                         ),
 
                         SizedBox(
-                          width: kIsWeb ? 290 : 290.w,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '오늘 unlock',
+                                '오늘 unlock 횟수',
                                 style: TextStyle(
                                   fontSize: kIsWeb ? 15 : 15.r,
                                   color: Color(0xFFFFFFFF),
                                 ),
                               ),
                               Text(
-                                "test", // ViewModel의 데이터 사용
+                                viewModel.totalUnlockCount, // ViewModel의 데이터 사용
                                 style: TextStyle(
                                   color: Color(0xFFFFFFFF),
                                   fontSize: kIsWeb ? 15 : 15.r,

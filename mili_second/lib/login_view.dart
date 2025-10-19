@@ -1,6 +1,10 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:mili_second/main_view.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mili_second/model/user_model.dart';
+import 'package:provider/provider.dart';
 //import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // secure storage can't web
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,8 +17,8 @@ class SignInView extends StatefulWidget {
 }
 
 class _SignInViewState extends State<SignInView> {
-  String user_id = "";
-  String user_pw = "";
+  String inputId = "";
+  String inputPw = "";
   int id_ok =
       0; // 아이디 사용 가능 여부 (회원가입 가능 여부) 0 : 중복확인 안함  //  1 : 중복아이디  // 2 : 사용가능 아이디
   int id_valid = 0;
@@ -37,28 +41,80 @@ class _SignInViewState extends State<SignInView> {
   // 비밀번호 유효성 검사를 위한 정규식
   RegExp regExp_pw = RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8,20}$');
 
-  //final storage = FlutterSecureStorage();
-
-  bool is_login = false;
-
-  Future<void> write_token() async {
-    //await storage.write(key: "token", value: "ok");
-
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', 'ok');
-    setState(() {
-      is_login = true;
-    });
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
 
+  Future<void> _handleCheckId() async {
+    // ✨ 1. (안전) await 전에 context/변수 준비
+    final userModel = context.read<UserModel>();
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final currentId = inputId; // (중요) inputId는 계속 바뀔 수 있으므로 현재 값을 복사
+
+    // ✨ 2. Model의 함수 호출
+    final bool isAvailable = await userModel.checkIdDuplication(currentId);
+
+    // ✨ 3. (안전) mounted 확인
+    if (!context.mounted) return;
+
+    // ✨ 4. 결과에 따라 UI 처리
+    if (isAvailable) {
+      // 성공: "id_ok" 상태를 2로 변경
+      setState(() {
+        id_ok = 2; // 사용 가능
+      });
+      // (선택적) SnackBar로 알려주기
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text("사용 가능한 아이디입니다."),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      // 실패: "id_ok" 상태를 1로 변경
+      setState(() {
+        id_ok = 1; // 중복됨
+      });
+      // (선택적) 에러 메시지 표시
+      scaffoldMessenger.showSnackBar(
+        SnackBar(
+          content: Text(userModel.error ?? "알 수 없는 오류"), // Model의 에러 메시지
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> _handleSignUp() async {
+    // ✨ 1. (안전) await 전에 context/변수 준비
+    final userModel = context.read<UserModel>();
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+    // ✨ 2. Model의 signUp 함수 호출
+    await userModel.signUp(inputId, inputPw);
+
+    // ✨ 3. (안전) mounted 확인
+    if (!context.mounted) return;
+
+    // ✨ 4. 결과 처리
+    if (userModel.error != null) {
+      // 실패 시 에러 표시
+      scaffoldMessenger.showSnackBar(
+        SnackBar(content: Text(userModel.error!), backgroundColor: Colors.red),
+      );
+    }
+    // ✨ 5. 성공 시?
+    // 아무것도 안 해도 됩니다!
+    // AuthWrapper가 userModel.isLoggedIn == true가 된 것을 감지하고
+    // 알아서 MainView로 전환시켜 줍니다.
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Model의 로딩 상태를 구독(watch)
+    final bool isLoading = context.watch<UserModel>().isLoading;
     return Scaffold(
       // appBar: AppBar(
       //   title: Center(child: Text("밀리!!")),
@@ -133,7 +189,7 @@ class _SignInViewState extends State<SignInView> {
                         onChanged: (String str) {
                           setState(() {
                             id_ok = 0;
-                            user_id = str;
+                            inputId = str;
                           });
 
                           if (str.length < 5 || str.length >= 20) {
@@ -172,9 +228,9 @@ class _SignInViewState extends State<SignInView> {
                     SizedBox(
                       width: kIsWeb ? 80 : 80.w,
                       child: ElevatedButton(
-                        onPressed: id_valid == 0
+                        onPressed: (id_valid == 0 || isLoading)
                             ? null
-                            : () => id_duplicate_check(context),
+                            : _handleCheckId, // 👈 Model 호출 함수로 변경
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFF007BFF),
                           foregroundColor: Colors.white,
@@ -186,7 +242,15 @@ class _SignInViewState extends State<SignInView> {
                           ),
                           textStyle: TextStyle(color: Colors.white),
                         ),
-                        child: Text("중복확인"),
+                        child: isLoading
+                            ? SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Text("중복확인"),
                       ),
                     ),
                   ],
@@ -238,7 +302,7 @@ class _SignInViewState extends State<SignInView> {
                     } else if (regExp_pw.hasMatch(str)) {
                       // 조건에 일치
                       setState(() {
-                        user_pw = str;
+                        inputPw = str;
                         pw_ok = 1;
                       });
                     } else {
@@ -279,19 +343,9 @@ class _SignInViewState extends State<SignInView> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: id_ok == 2 && pw_ok == 1
-                        ? () {
-                            write_token();
-                            // 최초 회원가입 시 설문조사 페이지로 넘어감
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    // SurveyView(user_id: user_id),
-                                    MainView(),
-                              ),
-                            );
-                          }
+                    onPressed:
+                        (id_ok == 2 && pw_ok == 1 && !isLoading) // ✨ 로딩 중 아닐 때만
+                        ? _handleSignUp // 👈 Model 호출 함수로 변경
                         : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF007BFF),
@@ -307,7 +361,9 @@ class _SignInViewState extends State<SignInView> {
                         fontSize: kIsWeb ? 20 : 20.r,
                       ),
                     ),
-                    child: Text("확인"),
+                    child: isLoading
+                        ? CircularProgressIndicator(color: Colors.white)
+                        : Text("회원가입"),
                   ),
                 ),
                 SizedBox(height: kIsWeb ? 10 : 10.h),
@@ -348,36 +404,6 @@ class _SignInViewState extends State<SignInView> {
       ),
     );
   }
-
-  Future<dynamic> id_duplicate_check(BuildContext context) {
-    String alertContent = "";
-
-    if (user_id == "test") {
-      setState(() {
-        alertContent = "이미 사용중인 닉네임입니다. \n다른 닉네임을 사용하세요";
-        id_ok = 1;
-      });
-    } else {
-      setState(() {
-        alertContent = "사용가능";
-        id_ok = 2;
-      });
-    }
-
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("중복확인"),
-        content: Text(alertContent),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'OK'),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class LoginView extends StatefulWidget {
@@ -390,29 +416,9 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   //final storage = FlutterSecureStorage();
 
-  bool is_login = false;
-  String user_id = "";
-  String user_pw = "";
-
-  Future<void> check_login() async {
-    print("로그인 확인");
-    //String? value = await storage.read(key: "token");
-
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? value = prefs.getString('token');
-
-    setState(() {
-      is_login = (value != null);
-      print(value);
-    });
-  }
-
-  Future<void> write_token() async {
-    //await storage.write(key: "token", value: "ok");
-
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', 'ok');
-  }
+  bool isLogin = false;
+  String inputId = ""; // 사용자에게 입력받을것!!
+  String inputPw = "";
 
   @override
   Widget build(BuildContext context) {
@@ -485,7 +491,7 @@ class _LoginViewState extends State<LoginView> {
                   child: TextField(
                     onChanged: (String str) {
                       setState(() {
-                        user_id = str;
+                        inputId = str;
                       });
                     },
                     decoration: InputDecoration(
@@ -524,7 +530,7 @@ class _LoginViewState extends State<LoginView> {
                   child: TextField(
                     onChanged: (String str) {
                       setState(() {
-                        user_pw = str;
+                        inputPw = str;
                       });
                     },
                     decoration: InputDecoration(
@@ -549,16 +555,41 @@ class _LoginViewState extends State<LoginView> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: user_id == "" || user_pw == ""
+                    onPressed: inputId == "" || inputPw == ""
                         ? null
-                        : () {
-                            write_token();
-                            Navigator.push(
+                        : () async {
+                            // (안전) "await"가 시작되기 "전"에
+                            //    context에서 필요한 것들을 미리 변수에 담아둡니다.
+                            //    (이 시점의 context는 100% 안전합니다.)
+                            final userModel = context.read<UserModel>();
+                            final scaffoldMessenger = ScaffoldMessenger.of(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => MainView(),
-                              ),
                             );
+
+                            // Model의 login 함수 호출 (페이지 전환은 auth_wrapper에서 담당)
+                            await userModel.login(inputId, inputPw);
+
+                            // --- 3. (비동기 갭 이후) ---
+                            //    (이 아래부터는 위젯이 사라졌을 수도 있음 )
+
+                            //    위젯이 화면에 없으면(mounted == false) 즉시 함수를 종료합니다.
+                            if (!context.mounted) return;
+
+                            // (안전) 이제 위젯이 살아있음이 보장되었으므로,
+                            //    미리 준비해둔 변수들을 안전하게 사용합니다.
+                            if (userModel.error != null) {
+                              scaffoldMessenger.showSnackBar(
+                                SnackBar(
+                                  content: Text(userModel.error!),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
+
+                            // (성공한 경우)
+                            // userModel.error == null 이므로, 이 코드는 무시됩니다.
+                            // AuthWrapper가 변경된 userModel.isLoggedIn 상태를 감지하고
+                            // 알아서 MainView로 전환시켜 줍니다.
                           },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF007BFF),

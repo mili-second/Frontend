@@ -34,10 +34,7 @@ class _MainViewState extends State<MainView> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: HeaderView(
-          userNickName: 'Mili',
-          userProfileImage: 'assets/icons/profile_default.png',
-        ), // 사용자 정보 - 보내기
+        title: HeaderView(), // 사용자 정보 - 보내기
         toolbarHeight: kIsWeb ? 125 : 125.h,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1),

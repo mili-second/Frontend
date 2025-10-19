@@ -1,19 +1,28 @@
-// lib/main.dart
+// lib/main.dart (FIXED)
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_web_frame/flutter_web_frame.dart';
-import 'package:mili_second/login_view.dart';
-import 'package:provider/provider.dart'; // 1. provider import
-import 'home/viewmodel/usage_data_viewmodel.dart'; // 2. ViewModel import (경로는 실제 위치에 맞게 수정)
+// 'views/auth_wrapper.dart'가 맞을 수 있습니다.
+import 'package:mili_second/auth_wrapper.dart';
+import 'package:mili_second/model/user_model.dart';
+import 'package:provider/provider.dart';
+// 'viewmodels/usage_data_viewmodel.dart'가 맞을 수 있습니다.
+import 'home/viewmodel/usage_data_viewmodel.dart';
 
 void main() {
-  // 3. runApp에 Provider를 추가하여 앱 전체를 감쌉니다.
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => UsageDataViewModel(),
-      child: const MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserModel()),
+        ChangeNotifierProxyProvider<UserModel, UsageDataViewModel>(
+          create: (context) => UsageDataViewModel(context.read<UserModel>()),
+          update: (context, userModel, previousViewModel) =>
+              previousViewModel!..updateUserModel(userModel),
+        ),
+      ],
+      child: const MyApp(), // 👈 MultiProvider가 MyApp을 감쌈
     ),
   );
 }
@@ -23,25 +32,42 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (kIsWeb) {
-      return FlutterWebFrame(
-        maximumSize: Size(412, 917),
-        enabled: kIsWeb,
-        builder: (context) {
-          return MaterialApp(
-            home: LoginView(), // login부터
-            color: Color(0xFFFFFFFF),
+    // ScreenUtilInit이 MaterialApp을 감싸도록 설정
+    return ScreenUtilInit(
+      designSize: const Size(412, 917), // 👈 본인 디자인 사이즈로 수정
+      minTextAdapt: true,
+      splitScreenMode: true,
+
+      // ✨ 1. builder가 'child' (AuthWrapper)를 받습니다.
+      builder: (context, child) {
+        // ✨ 2. (웹 경우) FlutterWebFrame이 MaterialApp을 감쌉니다.
+        if (kIsWeb) {
+          return FlutterWebFrame(
+            maximumSize: const Size(412, 917),
+            enabled: kIsWeb,
+            builder: (context) {
+              return MaterialApp(
+                title: 'Mili Second',
+                color: const Color(0xFFFFFFFF),
+                debugShowCheckedModeBanner: false,
+                home: child, // 👈 3. (웹) child(AuthWrapper)를 home으로 사용
+              );
+            },
           );
-        },
-      );
-    } else {
-      return ScreenUtilInit(
-        designSize: Size(412, 917),
-        builder: (_, child) => MaterialApp(
-          home: LoginView(), // login부터
-          color: Color(0xFFFFFFFF),
-        ),
-      );
-    }
+        }
+
+        // ✨ 4. (모바일 경우) 그냥 MaterialApp을 반환
+        return MaterialApp(
+          title: 'Mili Second',
+          color: const Color(0xFFFFFFFF),
+          debugShowCheckedModeBanner: false,
+          home: child, // 👈 5. (모바일) child(AuthWrapper)를 home으로 사용
+        );
+      },
+
+      // ✨ 6. (핵심!) AuthWrapper는 ScreenUtilInit의 "child"로 단 한번만 정의됩니다.
+      // 이 위젯이 'builder'의 'child' 매개변수로 전달됩니다.
+      child: const AuthWrapper(),
+    );
   }
 }
