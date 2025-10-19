@@ -18,17 +18,9 @@ class _HomeViewState extends State<HomeView> {
 
   //final storage = FlutterSecureStorage();
 
-  Future<void> test_logout() async {
-    print("logout");
-    //await storage.delete(key: "token");
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
-  }
-
   @override
   void dispose() {
     // TODO: implement dispose
-    test_logout();
     super.dispose();
   }
 

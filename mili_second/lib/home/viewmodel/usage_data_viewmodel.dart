@@ -6,11 +6,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mili_second/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // ✨ 1. 패키지 import
 import '../model/usage_event_info.dart';
 import 'package:http/http.dart' as http;
 
 class UsageDataViewModel extends ChangeNotifier {
+  // ✨ 1. UserModel을 저장할 변수
+  UserModel _userModel;
+
+  // ✨ 2. 생성자에서 UserModel을 받도록 수정
+  UsageDataViewModel(this._userModel) {
+    if (!kIsWeb) {
+      _platform = const MethodChannel('com.example.mili_second/usagestats');
+    }
+    // ViewModel이 생성될 때 데이터 로딩 시작
+    initializeAndFetchData();
+  }
+
+  // ✨ 3. UserModel이 변경될 때(로그인/로그아웃) main.dart에서 호출할 함수
+  void updateUserModel(UserModel newUserModel) {
+    _userModel = newUserModel;
+
+    // (중요!) 유저가 바뀌었으니(로그아웃 등) 기존 데이터를 초기화합니다.
+    _jsonList.clear();
+    _totalDurationMs = 0;
+    _totalUnlockCountValue = 0;
+
+    // 만약 새 유저로 로그인 시 바로 데이터를 불러와야 한다면,
+    // 여기서 fetchNewUsageData(); 같은 함수를 호출할 수 있습니다.
+
+    notifyListeners(); // ViewModel 상태 변경 알림
+  }
+
   //static const _platform = MethodChannel('com.example.mili_second/usagestats');
   late final MethodChannel _platform;
   final _encoder = const JsonEncoder.withIndent('  ');
@@ -38,15 +66,14 @@ class UsageDataViewModel extends ChangeNotifier {
   // ✨ 2. SharedPreferences 인스턴스를 저장할 변수
   late SharedPreferences _prefs;
 
-  UsageDataViewModel() {
-    if (!kIsWeb) {
-      _platform = const MethodChannel('com.example.mili_second/usagestats');
-    }
-    // ViewModel이 생성될 때 데이터 로딩 시작
-    initializeAndFetchData();
-  }
-
   Future<void> _sendDataToServer(List<Map<String, dynamic>> newData) async {
+    final currentUserId = _userModel.userId;
+
+    if (currentUserId == null) {
+      print('로그인되지 않아 서버 전송을 스킵합니다.');
+      return;
+    }
+
     // 보낼 데이터가 없으면 함수 종료
     if (newData.isEmpty) {
       print('서버로 보낼 새로운 데이터가 없습니다.');
@@ -54,6 +81,7 @@ class UsageDataViewModel extends ChangeNotifier {
     }
 
     final body = json.encode({
+      'user_id': currentUserId,
       'source_info': _sourceInfo, // 기기 정보
       'timestamp': DateTime.now().toIso8601String(), // 전송 시간
       'event_count': newData.length, // 이벤트 개수

@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mili_second/model/user_model.dart';
+import 'package:provider/provider.dart';
 import 'profile/view/profile_info.dart';
 import 'package:mili_second/login_view.dart';
 
@@ -22,11 +24,6 @@ class HeaderView extends StatefulWidget {
 
 class _HeaderViewState extends State<HeaderView> {
   final storage = FlutterSecureStorage();
-
-  Future<void> test_logout() async {
-    print("logout");
-    await storage.delete(key: "token");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,13 +96,7 @@ class _HeaderViewState extends State<HeaderView> {
               SizedBox(height: kIsWeb ? 5 : 5.h),
               IconButton(
                 onPressed: () {
-                  test_logout();
-                  // 현재까지의 모든 페이지 기록을 삭제하고 LoginView로 이동합니다.
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginView()),
-                    (route) => false, // false를 반환하면 이전 모든 라우트를 제거합니다.
-                  );
+                  context.read<UserModel>().logout();
                 },
                 icon: Image.asset(
                   'assets/icons/logout.png',
