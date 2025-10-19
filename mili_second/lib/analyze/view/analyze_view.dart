@@ -15,6 +15,7 @@ class AnalyzeView extends StatefulWidget {
 
 class _AnalyzeViewState extends State<AnalyzeView> {
   // 7일간 사용 트렌트 데이터
+  List<double> _sevenDaysUsageTrendDatas = [0, 6, 12, 18, 24, 0, 18];
 
   // Top3 앱 사용 트렌드 데이터
   // usagePattern은 오늘, 오늘 - 1, 오늘 - 2로 3개의 리스트로 넘겨주며, 분 단위(Date)로 넘겨줌
@@ -53,7 +54,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
         children: [
           SizedBox(height: kIsWeb ? 20 : 20.h),
           // 7일간 사용 트렌트
-          SevenDaysUsageTrends(),
+          SevenDaysUsageTrends(datas: _sevenDaysUsageTrendDatas),
 
           SizedBox(height: kIsWeb ? 20 : 20.h),
 

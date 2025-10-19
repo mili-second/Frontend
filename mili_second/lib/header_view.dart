@@ -60,7 +60,7 @@ class _HeaderViewState extends State<HeaderView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    userModel.userId!,
+                    userModel.userId ?? 'Mili',
                     style: TextStyle(
                       color: Color(0xFF000000),
                       fontSize: kIsWeb ? 24 : 24.r,
