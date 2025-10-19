@@ -129,7 +129,7 @@ class WeeklyChangingTrends extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.only(
                       top: kIsWeb ? 8.0 : 8.0.h,
-                      left: kIsWeb ? 20 : 20.w,
+                      left: kIsWeb ? 15 : 20.w,
                     ),
                     child: Row(
                       children: [

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/usage_data_viewmodel.dart'; // ViewModel import
-//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // secure storage can't web
 
 class HomeView extends StatefulWidget {
@@ -16,13 +16,11 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   bool isfront = true;
 
-  //final storage = FlutterSecureStorage();
+  final storage = FlutterSecureStorage();
 
   Future<void> test_logout() async {
     print("logout");
-    //await storage.delete(key: "token");
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
+    await storage.delete(key: "token");
   }
 
   @override
@@ -45,12 +43,9 @@ class _HomeViewState extends State<HomeView> {
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(
-                kIsWeb ? 5 : 5.w,
-                kIsWeb ? 5 : 5.h,
-                kIsWeb ? 10 : 10.w,
-                kIsWeb ? 5 : 5.h,
-              ),
+              padding: kIsWeb
+                  ? EdgeInsets.fromLTRB(5, 5, 10, 5)
+                  : EdgeInsets.fromLTRB(5.w, 5.h, 10.w, 5.h),
               child: Align(
                 alignment: Alignment.centerRight,
                 child: SizedBox(
@@ -80,14 +75,16 @@ class _HomeViewState extends State<HomeView> {
                   },
                   child: isfront
                       ? SizedBox(
-                          height: kIsWeb ? 0.5 : 0.5.sh,
+                          width: kIsWeb ? 350 : 350.w,
+                          height: kIsWeb ? 340 : 340.h,
                           child: Image.asset(
                             'assets/icons/character/shoppingAddictType_front.png',
                             fit: BoxFit.contain,
                           ),
                         )
                       : SizedBox(
-                          height: kIsWeb ? 0.5 : 0.5.sh,
+                          width: kIsWeb ? 350 : 350.w,
+                          height: kIsWeb ? 340 : 340.h,
                           child: Image.asset(
                             'assets/icons/character/shoppingAddictType_back.png',
                             fit: BoxFit.contain,
@@ -96,20 +93,20 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
             ),
+            SizedBox(height: kIsWeb ? 5 : 5.h),
             Padding(
-              padding: EdgeInsets.fromLTRB(
-                kIsWeb ? 45 : 45.w,
-                0,
-                kIsWeb ? 45 : 45.w,
-                0,
-              ),
+              padding: kIsWeb
+                  ? EdgeInsets.fromLTRB(45, 0, 45, 0)
+                  : EdgeInsets.fromLTRB(45.w, 0, 45.w, 0),
               child: Center(
                 child: Container(
-                  width: kIsWeb ? 0.4 : 0.4.sh,
-                  height: kIsWeb ? 125 : 125.h,
+                  width: kIsWeb ? 275 : 275.w,
+                  height: kIsWeb ? 90 : 90.h,
                   decoration: BoxDecoration(
                     color: const Color(0xFF3A78EB).withValues(alpha: 0.8),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(kIsWeb ? 10.0 : 10.0.r),
+                    ),
                   ),
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -181,29 +178,29 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ),
 
-                        SizedBox(
-                          width: kIsWeb ? 290 : 290.w,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '평균 세션',
-                                style: TextStyle(
-                                  fontSize: kIsWeb ? 15 : 15.r,
-                                  color: Color(0xFFFFFFFF),
-                                ),
-                              ),
-                              Text(
-                                "test", // ViewModel의 데이터 사용
-                                style: TextStyle(
-                                  color: Color(0xFFFFFFFF),
-                                  fontSize: kIsWeb ? 15 : 15.r,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // SizedBox(
+                        //   width: kIsWeb ? 290 : 290.w,
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     children: [
+                        //       Text(
+                        //         '평균 세션',
+                        //         style: TextStyle(
+                        //           fontSize: kIsWeb ? 15 : 15.r,
+                        //           color: Color(0xFFFFFFFF),
+                        //         ),
+                        //       ),
+                        //       Text(
+                        //         "test", // ViewModel의 데이터 사용
+                        //         style: TextStyle(
+                        //           color: Color(0xFFFFFFFF),
+                        //           fontSize: kIsWeb ? 15 : 15.r,
+                        //           fontWeight: FontWeight.w500,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
 
                         // Center(
                         //   child: ElevatedButton(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 class UsagePatternsByTimeOfDay extends StatefulWidget {
   //final String timeOfDayPatternSummary;
@@ -20,6 +21,8 @@ class UsagePatternsByTimeOfDay extends StatefulWidget {
 }
 
 class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
+  int _currentIndex = 0; // 0: 오늘, 1: 오늘-1, 2: 오늘-2
+
   // 60 이상일 때, 시간 단위로 바꾸기 + String 타입의 ' 분' , ' 시간' 추가하기
   String formatMinutes(int minutes) {
     if (minutes < 60) {
@@ -35,9 +38,31 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
 
   @override
   Widget build(BuildContext context) {
+    // 현재 시간이 어느 구간에 속하는지 계산
+    final now = DateTime.now();
+    final currentHour = int.parse(DateFormat('HH').format(now));
+
+    String currentPeriod;
+    if (currentHour >= 0 && currentHour < 6) {
+      currentPeriod = 'night';
+    } else if (currentHour >= 6 && currentHour < 12) {
+      currentPeriod = 'morning';
+    } else if (currentHour >= 12 && currentHour < 18) {
+      currentPeriod = 'lunch';
+    } else {
+      currentPeriod = 'evening';
+    }
+
+    Color getTextColor(String period) {
+      // 현재 시간대면 강조색, 아니면 기본색
+      return currentPeriod == period
+          ? const Color(0xFF2F83F7)
+          : const Color(0xFF000000);
+    }
+
     return Container(
       width: kIsWeb ? 362 : 362.w,
-      height: kIsWeb ? 240 : 240.h,
+      height: kIsWeb ? 230 : 230.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(kIsWeb ? 10 : 10.r),
@@ -47,47 +72,68 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
         padding: EdgeInsets.only(
           top: kIsWeb ? 5 : 5.h,
           bottom: kIsWeb ? 5 : 5.h,
-          left: kIsWeb ? 10 : 10.w,
+          left: kIsWeb ? 15 : 10.w,
           right: kIsWeb ? 5 : 5.w,
         ),
         child: Column(
           children: [
-            SizedBox(
-              width: kIsWeb ? 355 : 355.w,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // back으로 넘길게 있으면 해당 버튼 아이콘이 보이게, 없으면 SizedBox로 빈칸
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      'assets/icons/arrow_back_gray.png',
-                      width: kIsWeb ? 25 : 25.w,
-                      height: kIsWeb ? 25 : 25.h,
+            Stack(
+              children: [
+                SizedBox(
+                  width: kIsWeb ? 362 : 362.w,
+                  height: kIsWeb ? 45 : 45.h,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: kIsWeb ? 8 : 8.h,
+                      left: kIsWeb ? 95.0 : 95.w,
+                    ),
+                    child: Text(
+                      '시간대별 사용 패턴',
+                      style: TextStyle(
+                        color: Color(0xFF000000),
+                        fontSize: kIsWeb ? 17 : 17.r,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                  SizedBox(width: kIsWeb ? 40 : 40.w),
-                  Text(
-                    '시간대별 사용 패턴',
-                    style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: kIsWeb ? 17 : 17.r,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  SizedBox(width: kIsWeb ? 45 : 45.w),
-                  // front로 넘길게 있으면 해당 버튼 아이콘이 보이게, 없으면 SizedBox로 빈칸
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      'assets/icons/arrow_front_gray.png',
-                      width: kIsWeb ? 25 : 25.w,
-                      height: kIsWeb ? 25 : 25.h,
-                    ),
-                  ),
-                  SizedBox(width: kIsWeb ? 10 : 10.w),
-                ],
-              ),
+                ),
+                // back으로 넘길게 있으면 해당 버튼 아이콘이 보이게, 없으면 SizedBox로 빈칸
+                Positioned(
+                  left: kIsWeb ? 10 : 10.w,
+                  child: _currentIndex < widget.datas.length - 1
+                      ? IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _currentIndex++;
+                            });
+                          },
+                          icon: Image.asset(
+                            'assets/icons/arrow_back_gray.png',
+                            width: kIsWeb ? 25 : 25.w,
+                            height: kIsWeb ? 25 : 25.h,
+                          ),
+                        )
+                      : SizedBox(width: kIsWeb ? 25 : 25.w),
+                ),
+                // front로 넘길게 있으면 해당 버튼 아이콘이 보이게, 없으면 SizedBox로 빈칸
+                Positioned(
+                  left: kIsWeb ? 280 : 280.w,
+                  child: _currentIndex > 0
+                      ? IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _currentIndex--;
+                            });
+                          },
+                          icon: Image.asset(
+                            'assets/icons/arrow_front_gray.png',
+                            width: kIsWeb ? 25 : 25.w,
+                            height: kIsWeb ? 25 : 25.h,
+                          ),
+                        )
+                      : SizedBox(width: kIsWeb ? 25 : 25.w),
+                ),
+              ],
             ),
             SizedBox(height: kIsWeb ? 10 : 10.w),
             SizedBox(
@@ -108,17 +154,17 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                       Text(
                         '야간 (24-06시)',
                         style: TextStyle(
-                          color: Color(0xFF000000),
+                          color: getTextColor('night'),
                           fontSize: kIsWeb ? 12 : 12.r,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       SizedBox(height: kIsWeb ? 5 : 5.h),
                       // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
-                        '0 분',
+                        formatMinutes(widget.datas[_currentIndex][0]),
                         style: TextStyle(
-                          color: Color(0xFF000000),
+                          color: getTextColor('night'),
                           fontSize: kIsWeb ? 16 : 16.r,
                           fontWeight: FontWeight.w700,
                         ),
@@ -138,17 +184,17 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                       Text(
                         '오전 (6-12시)',
                         style: TextStyle(
-                          color: Color(0xFF000000),
+                          color: getTextColor('morning'),
                           fontSize: kIsWeb ? 12 : 12.r,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       SizedBox(height: kIsWeb ? 5 : 5.h),
                       // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
-                        '2시간',
+                        formatMinutes(widget.datas[_currentIndex][1]),
                         style: TextStyle(
-                          color: Color(0xFF000000),
+                          color: getTextColor('morning'),
                           fontSize: kIsWeb ? 16 : 16.r,
                           fontWeight: FontWeight.w700,
                         ),
@@ -167,17 +213,17 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                       Text(
                         '오후 (12-18시)',
                         style: TextStyle(
-                          color: Color(0xFF000000),
+                          color: getTextColor('lunch'),
                           fontSize: kIsWeb ? 12 : 12.r,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       SizedBox(height: kIsWeb ? 5 : 5.h),
                       // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
-                        '1.2시간',
+                        formatMinutes(widget.datas[_currentIndex][2]),
                         style: TextStyle(
-                          color: Color(0xFF000000),
+                          color: getTextColor('lunch'),
                           fontSize: kIsWeb ? 16 : 16.r,
                           fontWeight: FontWeight.w700,
                         ),
@@ -197,16 +243,16 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                       Text(
                         '저녁 (18-24시)',
                         style: TextStyle(
-                          color: Color(0xFF000000),
+                          color: getTextColor('evening'),
                           fontSize: kIsWeb ? 12 : 12.r,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       SizedBox(height: kIsWeb ? 5 : 5.h),
                       Text(
-                        '4.5시간',
+                        formatMinutes(widget.datas[_currentIndex][3]),
                         style: TextStyle(
-                          color: Color(0xFF000000),
+                          color: getTextColor('evening'),
                           fontSize: kIsWeb ? 16 : 16.r,
                           fontWeight: FontWeight.w700,
                         ),
@@ -249,14 +295,32 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                     width: kIsWeb ? 20 : 20.w,
                     height: kIsWeb ? 20 : 20.w,
                   ),
-                  Text(
-                    ' 가장 활발한 시간 : ',
-                    style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: kIsWeb ? 15 : 15.r,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+                  _currentIndex == 0
+                      ? Text(
+                          ' 오늘 가장 활발한 시간 : ',
+                          style: TextStyle(
+                            color: Color(0xFF000000),
+                            fontSize: kIsWeb ? 15 : 15.r,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        )
+                      : _currentIndex == 1
+                      ? Text(
+                          ' 1일전 가장 활발한 시간 : ',
+                          style: TextStyle(
+                            color: Color(0xFF000000),
+                            fontSize: kIsWeb ? 15 : 15.r,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        )
+                      : Text(
+                          ' 2일전 활발한 시간 : ',
+                          style: TextStyle(
+                            color: Color(0xFF000000),
+                            fontSize: kIsWeb ? 15 : 15.r,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                   Text(
                     widget.timeOfDayPatternPeakTime,
                     style: TextStyle(
