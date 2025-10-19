@@ -8,12 +8,16 @@ class UserModel extends ChangeNotifier {
   String? _userJob;
   bool _isLoading = false; // ✨ "자동 로그인 확인 중" 상태 추가
   String? _error;
+  String? _userProfileImage;
+  String? _userGender;
 
   String? get userId => _userId;
   String? get userJob => _userJob;
   bool get isLoading => _isLoading;
   String? get error => _error;
   bool get isLoggedIn => _userId != null;
+  String? get userProfileImage => _userProfileImage;
+  String? get userGender => _userGender;
 
   // --- 내부 저장소 로직 ---
 
@@ -49,6 +53,8 @@ class UserModel extends ChangeNotifier {
       // 지금은 저장된 ID가 곧 로그인 성공이라고 가정합니다.
       _userId = savedUserId;
       _userJob = "Developer (Auto-login)"; // (예시) 서버에서 받아온 직업
+      _userProfileImage = 'assets/icons/profile_default.png'; // 임시사용
+      _userGender = '여성';
     }
 
     _isLoading = false;
