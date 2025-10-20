@@ -84,8 +84,8 @@ class _HeaderViewState extends State<HeaderView> {
                 },
                 icon: Image.asset(
                   'assets/icons/logout.png',
-                  width: kIsWeb ? 30 : 30.w,
-                  height: kIsWeb ? 30 : 30.h,
+                  width: kIsWeb ? 25 : 25.w,
+                  height: kIsWeb ? 25 : 25.h,
                 ),
               ),
               SizedBox(height: kIsWeb ? 10 : 10.h),

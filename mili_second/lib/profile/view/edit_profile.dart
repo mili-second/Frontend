@@ -159,6 +159,7 @@ class _EditProfileState extends State<EditProfile> {
                         fontSize: kIsWeb ? 20 : 20.sp,
                         fontWeight: FontWeight.w500,
                       ),
+                      cursorColor: Color(0xFF007BFF),
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
