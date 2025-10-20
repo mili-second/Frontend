@@ -243,8 +243,8 @@ class _EditProfileState extends State<ProfileInfo> {
                   Image.asset(
                     'assets/icons/profile_edit.png',
                     // widget.userProfileImage = 'assets/icons/profile_default.png' ? 'assets/icons/profileEdit.png' : ,
-                    width: kIsWeb ? 50 : 50.w,
-                    height: kIsWeb ? 50 : 50.h,
+                    width: kIsWeb ? 45 : 45.w,
+                    height: kIsWeb ? 45 : 45.h,
                   ),
                 ],
               ),

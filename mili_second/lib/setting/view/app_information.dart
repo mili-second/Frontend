@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../setting/view/account_management.dart';
+import 'package:mili_second/setting/view/delete_account.dart';
 
-class Setting extends StatelessWidget {
+class AppInformation extends StatelessWidget {
   final String userNickName;
-  const Setting({super.key, required this.userNickName});
+
+  const AppInformation({super.key, required this.userNickName});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +15,9 @@ class Setting extends StatelessWidget {
         title: SizedBox(
           child: Row(
             children: [
-              SizedBox(width: kIsWeb ? 120 : 120.w),
+              SizedBox(width: kIsWeb ? 100 : 100.w),
               Text(
-                '설정',
+                '앱 정보',
                 style: TextStyle(
                   color: Color(0xFF000000),
                   fontSize: kIsWeb ? 20 : 20.r,
@@ -45,7 +46,7 @@ class Setting extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        AccountManagement(userNickName: userNickName),
+                        DeleteAccount(userNickName: userNickName),
                   ),
                 );
               },
@@ -63,7 +64,7 @@ class Setting extends StatelessWidget {
                         ),
                         SizedBox(width: kIsWeb ? 25 : 25.w),
                         Text(
-                          '계정 관리',
+                          '회원 탈퇴',
                           style: TextStyle(
                             color: Color(0xFF000000),
                             fontSize: kIsWeb ? 20 : 20.r,
