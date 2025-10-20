@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mili_second/model/user_model.dart';
 import 'package:provider/provider.dart';
 import 'profile/view/profile_info.dart';
-import 'package:mili_second/login_view.dart';
 
 class HeaderView extends StatefulWidget {
   const HeaderView({super.key});
@@ -41,7 +39,8 @@ class _HeaderViewState extends State<HeaderView> {
                   );
                 },
                 icon: Image.asset(
-                  userModel.userProfileImage!,
+                  userModel.userProfileImage ??
+                      'assets/icons/profile_default.png',
                   width: kIsWeb ? 70 : 70.w,
                   height: kIsWeb ? 70 : 70.h,
                 ),
