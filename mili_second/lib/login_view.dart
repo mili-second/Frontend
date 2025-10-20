@@ -93,13 +93,15 @@ class _SignInViewState extends State<SignInView> {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     // ✨ 2. Model의 signUp 함수 호출
-    await userModel.signUp(inputId, inputPw);
+    await userModel.signUp(inputId, inputPw, 3);
 
     // ✨ 3. (안전) mounted 확인
     if (!context.mounted) return;
 
     // ✨ 4. 결과 처리
-    if (userModel.error != null) {
+    if (userModel.error == null) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    } else {
       // 실패 시 에러 표시
       scaffoldMessenger.showSnackBar(
         SnackBar(content: Text(userModel.error!), backgroundColor: Colors.red),
@@ -577,7 +579,11 @@ class _LoginViewState extends State<LoginView> {
 
                             // (안전) 이제 위젯이 살아있음이 보장되었으므로,
                             //    미리 준비해둔 변수들을 안전하게 사용합니다.
-                            if (userModel.error != null) {
+                            if (userModel.error == null) {
+                              Navigator.of(
+                                context,
+                              ).popUntil((route) => route.isFirst);
+                            } else {
                               scaffoldMessenger.showSnackBar(
                                 SnackBar(
                                   content: Text(userModel.error!),

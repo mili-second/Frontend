@@ -43,9 +43,11 @@ class UsageDataViewModel extends ChangeNotifier {
   late final MethodChannel _platform;
   final _encoder = const JsonEncoder.withIndent('  ');
 
-  final _serverUrl = Uri.parse(
-    'https://webhook.site/8e39dfae-b1f0-4267-b83c-a847e10d9205',
-  );
+  // final _serverUrl = Uri.parse(
+  //   'https://webhook.site/9f4be958-c34a-4743-ae47-90d2a3922ef0',
+  // );
+
+  final _serverUrl = Uri.parse('http://210.178.40.108:30088/usage/raw-data');
 
   String _status = '앱 사용 기록을 불러오는 중...';
   final List<Map<String, dynamic>> _jsonList = [];
@@ -80,13 +82,15 @@ class UsageDataViewModel extends ChangeNotifier {
       return;
     }
 
-    final body = json.encode({
-      'user_id': currentUserId,
-      'source_info': _sourceInfo, // 기기 정보
-      'timestamp': DateTime.now().toIso8601String(), // 전송 시간
-      'event_count': newData.length, // 이벤트 개수
-      'events': newData, // 실제 이벤트 데이터 목록
-    });
+    // final body = json.encode({
+    //   'user_id': currentUserId,
+    //   'source_info': _sourceInfo, // 기기 정보
+    //   'timestamp': DateTime.now().toIso8601String(), // 전송 시간
+    //   'event_count': newData.length, // 이벤트 개수
+    //   'events': newData, // 실제 이벤트 데이터 목록
+    // });
+
+    final body = json.encode(newData);
 
     try {
       print('${newData.length}개의 새로운 데이터를 서버로 전송합니다...');
@@ -195,8 +199,14 @@ class UsageDataViewModel extends ChangeNotifier {
             'endTime': endTime.millisecondsSinceEpoch,
           });
 
+      final String? currentUserId = _userModel.userId;
+
       if (rawData != null && rawData.isNotEmpty) {
-        final arguments = {'rawData': rawData, 'sourceInfo': _sourceInfo};
+        final arguments = {
+          'rawData': rawData,
+          'sourceInfo': _sourceInfo,
+          'userId': currentUserId,
+        };
         final processedResult = await compute(
           processDataInBackground,
           arguments,

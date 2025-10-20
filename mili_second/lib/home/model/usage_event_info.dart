@@ -5,6 +5,8 @@
 import 'package:flutter/foundation.dart';
 import 'dart:math';
 
+import 'package:mili_second/model/user_model.dart';
+
 class UsageEventInfo {
   final String packageName;
   final int eventType;
@@ -52,6 +54,8 @@ const String _defaultEventType = 'OTHER';
 Map<String, dynamic> processDataInBackground(Map<String, dynamic> arguments) {
   final List<dynamic> rawData = arguments['rawData'];
   final String sourceInfo = arguments['sourceInfo'];
+  final String? userId = arguments['userId'] as String?; // provider 구독 불가능
+  final String subjectId = userId ?? "unknown"; // userId가 null이면 "unknown"을 사용
 
   List<UsageEventInfo> events = rawData
       .map((item) => UsageEventInfo.fromMap(item as Map<dynamic, dynamic>))
@@ -93,9 +97,11 @@ Map<String, dynamic> processDataInBackground(Map<String, dynamic> arguments) {
       .where((event) => event.eventTypeName != _defaultEventType) // 'other' 필터링
       .map((event) {
         return {
-          "subject_id": 1,
+          //"subject_id": subjectId,
+          "subject_id": "550e8400-e29b-41d4-a716-446655440000", // 테스트용 임시사용
           "timestamp": event.timeStamp,
-          "source_type": "PHONE",
+          "utcoffset": 9,
+          "source_type": "ANDROID",
           "source_info": sourceInfo,
           "package_name": event.packageName,
           "name": event.name,
