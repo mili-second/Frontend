@@ -45,11 +45,6 @@ class _HeaderViewState extends State<HeaderView> {
                   height: kIsWeb ? 70 : 70.h,
                 ),
               ),
-              Positioned(
-                left: kIsWeb ? 50 : 50.w,
-                top: kIsWeb ? 45 : 45.h,
-                child: Image.asset('assets/icons/profileEdit.png'),
-              ),
             ],
           ),
           SizedBox(width: kIsWeb ? 10 : 10.w),
@@ -89,8 +84,8 @@ class _HeaderViewState extends State<HeaderView> {
                 },
                 icon: Image.asset(
                   'assets/icons/logout.png',
-                  width: kIsWeb ? 35 : 35.w,
-                  height: kIsWeb ? 35 : 35.h,
+                  width: kIsWeb ? 30 : 30.w,
+                  height: kIsWeb ? 30 : 30.h,
                 ),
               ),
               SizedBox(height: kIsWeb ? 10 : 10.h),
