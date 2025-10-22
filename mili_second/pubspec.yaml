@@ -113,5 +113,4 @@ flutter:
   assets:
     - assets/icons/
     - assets/icons/profile/
-    - assets/icons/character/shoppingAddictType_front.png
-    - assets/icons/character/shoppingAddictType_back.png
+    - assets/icons/character/
