@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mili_second/model/user_model.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/usage_data_viewmodel.dart'; // ViewModel import
 //import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -28,6 +29,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     // ViewModel의 데이터가 변경될 때마다 이 위젯을 다시 빌드하도록 설정
     final viewModel = context.watch<UsageDataViewModel>();
+    final userModel = context.watch<UserModel>();
 
     return Scaffold(
       body: RefreshIndicator(
@@ -58,8 +60,8 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(
               child: Padding(
                 padding: EdgeInsetsGeometry.only(
-                  left: kIsWeb ? 45 : 40.w,
-                  right: kIsWeb ? 45 : 40.w,
+                  left: kIsWeb ? 55 : 20.w,
+                  right: kIsWeb ? 55 : 20.w,
                 ),
                 child: GestureDetector(
                   onTap: () {
@@ -69,21 +71,21 @@ class _HomeViewState extends State<HomeView> {
                   },
                   child: isfront
                       ? Image.asset(
-                          'assets/icons/character/shoppingAddictType_front.png',
+                          'assets/icons/character/${userModel.userType}_front.png',
                           fit: BoxFit.contain,
                         )
                       : Image.asset(
-                          'assets/icons/character/shoppingAddictType_back.png',
+                          'assets/icons/character/${userModel.userType}_back.png',
                           fit: BoxFit.contain,
                         ),
                 ),
               ),
             ),
-            SizedBox(height: kIsWeb ? 5 : 5.h),
+            SizedBox(height: kIsWeb ? 5 : 20.h),
             Padding(
               padding: kIsWeb
-                  ? EdgeInsets.fromLTRB(40, 0, 40, 0)
-                  : EdgeInsets.fromLTRB(40.w, 0, 40.w, 0),
+                  ? EdgeInsets.fromLTRB(55, 0, 55, 0)
+                  : EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
               child: Center(
                 child: Container(
                   //width: kIsWeb ? 275 : 275.w,

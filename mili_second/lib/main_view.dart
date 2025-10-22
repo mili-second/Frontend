@@ -35,7 +35,7 @@ class _MainViewState extends State<MainView> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: HeaderView(), // 사용자 정보 - 보내기
-        toolbarHeight: kIsWeb ? 125 : 125.h,
+        toolbarHeight: kIsWeb ? 100 : 125.h,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1),
           child: Container(height: kIsWeb ? 1 : 1.h, color: Color(0xFFCDCBCB)),
@@ -46,14 +46,18 @@ class _MainViewState extends State<MainView> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(height: kIsWeb ? 1 : 1.h, color: const Color(0xFFCDCBCB)),
-          SizedBox(
-            height: kIsWeb ? 155 : 155.h,
+          Center(
             child: BottomNavigationBar(
+              selectedFontSize: 0,
+              unselectedFontSize: 0,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   label: '',
                   icon: Column(
                     children: [
+                      kIsWeb ? SizedBox(height: 10) : SizedBox(height: 15.h),
                       _selectedIndex == 0
                           ? Image.asset(
                               'assets/icons/home_blue.png',
@@ -65,7 +69,7 @@ class _MainViewState extends State<MainView> {
                               width: kIsWeb ? 42 : 42.w,
                               height: kIsWeb ? 42 : 42.h,
                             ),
-                      SizedBox(height: kIsWeb ? 15 : 15.h),
+                      SizedBox(height: kIsWeb ? 10 : 15.h),
                       _selectedIndex == 0
                           ? Text(
                               '홈',
@@ -90,6 +94,7 @@ class _MainViewState extends State<MainView> {
                   label: '',
                   icon: Column(
                     children: [
+                      kIsWeb ? SizedBox(height: 10) : SizedBox(height: 15.h),
                       _selectedIndex == 1
                           ? Image.asset(
                               'assets/icons/analyze_blue.png',
@@ -126,6 +131,7 @@ class _MainViewState extends State<MainView> {
                   label: '',
                   icon: Column(
                     children: [
+                      kIsWeb ? SizedBox(height: 10) : SizedBox(height: 15.h),
                       _selectedIndex == 2
                           ? Image.asset(
                               'assets/icons/insight_blue.png',

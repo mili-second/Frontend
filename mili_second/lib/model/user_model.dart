@@ -14,6 +14,7 @@ class UserModel extends ChangeNotifier {
   String? _error;
   String? _userProfileImage;
   String? _userGender;
+  String? _userType;
 
   String? get userId => _userId;
   String? get userJob => _userJob;
@@ -22,6 +23,7 @@ class UserModel extends ChangeNotifier {
   bool get isLoggedIn => _userId != null;
   String? get userProfileImage => _userProfileImage;
   String? get userGender => _userGender;
+  String? get userType => _userType;
 
   // --- 내부 저장소 로직 ---
 
@@ -70,6 +72,18 @@ class UserModel extends ChangeNotifier {
     _isLoading = true;
     _error = null;
     notifyListeners();
+
+    if (inputId == "test_front") {
+      // front tets용 계정
+      _userId = inputId;
+      _userJob = "Developer (front_test)"; // (예시)
+      _userType = "shoppingAddictType"; // 임시 타입
+
+      _isLoading = false;
+      notifyListeners();
+
+      return;
+    }
 
     // 1. 서버 URL (❗️ 엔드포인트가 '/users/login'이 맞는지 확인하세요)
     final url = Uri.parse('$_baseUrl/users/login');
