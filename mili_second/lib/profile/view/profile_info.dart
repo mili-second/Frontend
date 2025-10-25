@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mili_second/profile/view/setting_view.dart';
 import 'edit_profile.dart';
 import '../../setting/view/setting.dart';
 
@@ -40,6 +41,25 @@ class _EditProfileState extends State<ProfileInfo> {
                 ),
               ),
               SizedBox(width: kIsWeb ? 20 : 20.w),
+              GestureDetector(
+                onTap: () {
+                  // 설정창으로 이동
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SettingView()),
+                  );
+                },
+                child: Row(
+                  children: [
+                    SizedBox(width: kIsWeb ? 70 : 70.w),
+                    Image.asset(
+                      'assets/icons/setting.png',
+                      width: kIsWeb ? 30 : 30.w,
+                      height: kIsWeb ? 30 : 30.h,
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
