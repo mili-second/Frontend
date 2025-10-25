@@ -65,7 +65,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
       print('⚠️ subjectId가 없습니다.');
       return;
     }
-
+    print('📡 API 요청 시작: /usage/stats/top3/$subjectId');
     final data = await _top3AppUsageViewModel.fetchTop3AppUsageTrend(subjectId);
     setState(() {
       _top3AppsDatas = data;
@@ -99,7 +99,11 @@ class _AnalyzeViewState extends State<AnalyzeView> {
   Future<void> _loadCategoryUsage() async {
     final userModel = Provider.of<UserModel>(context, listen: false);
     final subjectId = userModel.userId;
-    if (subjectId == null) return;
+
+    if (subjectId == null) {
+      print('⚠️ subjectId가 없습니다.');
+      return;
+    }
 
     final data = await _categoryViewModel.fetchUsagePatternsByTimeOfDay(
       subjectId,

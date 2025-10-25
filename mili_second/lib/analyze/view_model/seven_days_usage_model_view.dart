@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 class SevenDaysUsageViewModel {
   Future<List<double>> fetchWeeklyUsageTrend(String subjectId) async {
-    final String baseUrl = "http://210.178.40.108:30088";
+    final String baseUrl = "http://api.yolang.shop";
     final url = Uri.parse('$baseUrl/usage/stats/weelky/$subjectId');
 
     try {
@@ -40,11 +40,11 @@ class SevenDaysUsageViewModel {
 
         return trendData;
       } else {
-        print('❌ 서버 응답 오류: ${response.statusCode}');
+        print('❌ 분석 - seven_days 서버 응답 오류: ${response.statusCode}');
         return [];
       }
     } catch (e) {
-      print('⚠️ 요청 중 오류 발생: $e');
+      print('⚠️ 분석 - seven_days 요청 중 오류 발생: $e');
       return [];
     }
   }

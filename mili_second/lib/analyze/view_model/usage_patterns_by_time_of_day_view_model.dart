@@ -6,7 +6,7 @@ class UsagePatternsByTimeOfDayViewModel {
   Future<List<UsagePatternsByTimeOfDayModel>> fetchUsagePatternsByTimeOfDay(
     String subjectId,
   ) async {
-    final String baseUrl = "http://210.178.40.108:30088";
+    final String baseUrl = "http://api.yolang.shop";
     final url = Uri.parse('$baseUrl/usage/stats/category/$subjectId');
 
     try {
@@ -18,11 +18,11 @@ class UsagePatternsByTimeOfDayViewModel {
             .map((e) => UsagePatternsByTimeOfDayModel.fromJson(e))
             .toList();
       } else {
-        print('❌ 서버 오류: ${response.statusCode}');
+        print('❌ 분석 - 카테고리 서버 오류: ${response.statusCode}');
         return [];
       }
     } catch (e) {
-      print('⚠️ 요청 중 오류 발생: $e');
+      print('⚠️ 분석 - 카테고리 요청 중 오류 발생: $e');
       return [];
     }
   }
