@@ -496,6 +496,7 @@ class _LoginViewState extends State<LoginView> {
                         inputId = str;
                       });
                     },
+                    cursorColor: Color(0xFF0088FF),
                     decoration: InputDecoration(
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
@@ -535,6 +536,7 @@ class _LoginViewState extends State<LoginView> {
                         inputPw = str;
                       });
                     },
+                    cursorColor: Color(0xFF0088FF),
                     decoration: InputDecoration(
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
