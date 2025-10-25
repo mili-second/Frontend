@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mili_second/analyze/model/top3_app_usage_model.dart';
 
 class Top3AppUsageTrends extends StatefulWidget {
   //final String top3AppSummary;
-  final List<List> datas;
+  final List<Top3AppUsage> datas;
 
   const Top3AppUsageTrends({
     super.key,
@@ -86,9 +87,8 @@ class _Top3AppUsageTrendsState extends State<Top3AppUsageTrends> {
                   left: kIsWeb ? 13 : 13.w,
                   child: top3Info(
                     info_image: 'top1AppIcon',
-                    appName: widget.datas[0][1],
-                    usageTime: widget.datas[0][2],
-                    state: widget.datas[0][3],
+                    appName: widget.datas[0].appName,
+                    usageTime: widget.datas[0].usageMinutes,
                   ),
                 ),
                 Positioned(
@@ -96,9 +96,8 @@ class _Top3AppUsageTrendsState extends State<Top3AppUsageTrends> {
                   left: kIsWeb ? 13 : 13.w,
                   child: top3Info(
                     info_image: 'top2AppIcon',
-                    appName: widget.datas[1][1],
-                    usageTime: widget.datas[1][2],
-                    state: widget.datas[1][3],
+                    appName: widget.datas[1].appName,
+                    usageTime: widget.datas[1].usageMinutes,
                   ),
                 ),
                 Positioned(
@@ -106,9 +105,8 @@ class _Top3AppUsageTrendsState extends State<Top3AppUsageTrends> {
                   left: kIsWeb ? 13 : 13.w,
                   child: top3Info(
                     info_image: 'top3AppIcon',
-                    appName: widget.datas[2][1],
-                    usageTime: widget.datas[2][2],
-                    state: widget.datas[2][3],
+                    appName: widget.datas[2].appName,
+                    usageTime: widget.datas[2].usageMinutes,
                   ),
                 ),
               ],
@@ -140,14 +138,12 @@ class top3Info extends StatelessWidget {
   final String info_image;
   final String appName;
   final int usageTime;
-  final String state;
 
   const top3Info({
     super.key,
     required this.info_image,
     required this.appName,
     required this.usageTime,
-    required this.state,
   });
 
   String formatMinutes(int minutes) {
@@ -198,17 +194,17 @@ class top3Info extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            width: kIsWeb ? 100 : 100.w,
-            child: Text(
-              state,
-              style: TextStyle(
-                color: Color(0xFF000000),
-                fontSize: kIsWeb ? 15 : 15.r,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
+          // SizedBox(
+          //   width: kIsWeb ? 100 : 100.w,
+          //   child: Text(
+          //     state,
+          //     style: TextStyle(
+          //       color: Color(0xFF000000),
+          //       fontSize: kIsWeb ? 15 : 15.r,
+          //       fontWeight: FontWeight.w600,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

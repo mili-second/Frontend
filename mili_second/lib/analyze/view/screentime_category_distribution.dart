@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mili_second/analyze/model/usage_patterns_by_time_of_day_model.dart';
 
 class ScreentimeCategoryDistribution extends StatefulWidget {
   //final String categoryDistributionSummary;
 
-  final List<List> chartData;
+  final List<UsagePatternsByTimeOfDayModel> chartData;
 
   const ScreentimeCategoryDistribution({
     super.key,
@@ -25,28 +26,28 @@ class _ScreentimeCategoryDistributionState
   Widget build(BuildContext context) {
     final data = [
       _Slice(
-        widget.chartData[0][0],
-        widget.chartData[0][1].toDouble(),
+        widget.chartData[0].categoryName,
+        widget.chartData[0].ratio.toDouble(),
         Colors.red,
       ),
       _Slice(
-        widget.chartData[1][0],
-        widget.chartData[1][1].toDouble(),
+        widget.chartData[1].categoryName,
+        widget.chartData[1].ratio.toDouble(),
         Colors.orange,
       ),
       _Slice(
-        widget.chartData[2][0],
-        widget.chartData[2][1].toDouble(),
+        widget.chartData[2].categoryName,
+        widget.chartData[2].ratio.toDouble(),
         Colors.green,
       ),
       _Slice(
-        widget.chartData[3][0],
-        widget.chartData[3][1].toDouble(),
+        widget.chartData[3].categoryName,
+        widget.chartData[3].ratio.toDouble(),
         Colors.blue,
       ),
       _Slice(
-        widget.chartData[4][0],
-        widget.chartData[4][1].toDouble(),
+        widget.chartData[4].categoryName,
+        widget.chartData[4].ratio.toDouble(),
         Colors.purple,
       ),
     ];
@@ -172,22 +173,22 @@ class _ScreentimeCategoryDistributionState
                         ChartInfo(
                           widget: widget,
                           colorInfo: Colors.red,
-                          title: widget.chartData[0][0],
-                          percentage: widget.chartData[0][1],
+                          title: widget.chartData[0].categoryName,
+                          percentage: widget.chartData[0].ratio,
                         ),
                         SizedBox(width: kIsWeb ? 10 : 10.w),
                         ChartInfo(
                           widget: widget,
                           colorInfo: Colors.orange,
-                          title: widget.chartData[1][0],
-                          percentage: widget.chartData[1][1],
+                          title: widget.chartData[1].categoryName,
+                          percentage: widget.chartData[1].ratio,
                         ),
                         SizedBox(width: kIsWeb ? 10 : 10.w),
                         ChartInfo(
                           widget: widget,
                           colorInfo: Colors.green,
-                          title: widget.chartData[2][0],
-                          percentage: widget.chartData[2][1],
+                          title: widget.chartData[2].categoryName,
+                          percentage: widget.chartData[2].ratio,
                         ),
                       ],
                     ),
@@ -197,15 +198,15 @@ class _ScreentimeCategoryDistributionState
                         ChartInfo(
                           widget: widget,
                           colorInfo: Colors.blue,
-                          title: widget.chartData[3][0],
-                          percentage: widget.chartData[3][1],
+                          title: widget.chartData[3].categoryName,
+                          percentage: widget.chartData[3].ratio,
                         ),
                         SizedBox(width: kIsWeb ? 10 : 10.w),
                         ChartInfo(
                           widget: widget,
                           colorInfo: Colors.purple,
-                          title: widget.chartData[4][0],
-                          percentage: widget.chartData[4][1],
+                          title: widget.chartData[4].categoryName,
+                          percentage: widget.chartData[4].ratio,
                         ),
                       ],
                     ),
