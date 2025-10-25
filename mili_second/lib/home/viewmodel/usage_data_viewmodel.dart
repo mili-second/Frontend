@@ -47,7 +47,9 @@ class UsageDataViewModel extends ChangeNotifier {
   //   'https://webhook.site/9f4be958-c34a-4743-ae47-90d2a3922ef0',
   // );
 
-  final _serverUrl = Uri.parse('http://210.178.40.108:30088/usage/raw-data');
+  final _serverUrl = Uri.parse(
+    'https://api.yolang.shop/usage/raw-data/test-account',
+  );
 
   String _status = '앱 사용 기록을 불러오는 중...';
   final List<Map<String, dynamic>> _jsonList = [];

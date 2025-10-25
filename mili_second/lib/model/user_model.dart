@@ -7,14 +7,14 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserModel extends ChangeNotifier {
-  final String _baseUrl = "http://210.178.40.108:30088";
+  final String _baseUrl = "https://api.yolang.shop";
   String? _userId; // user id == inputId
   String? _userJob;
   bool _isLoading = false; // ✨ "자동 로그인 확인 중" 상태 추가
   String? _error;
-  String? _userProfileImage;
+  String? _userProfileImage = 'assets/icons/profile_default.png';
   String? _userGender;
-  String? _userType;
+  String? _userType = 'shoppingAddictType';
 
   String? get userId => _userId;
   String? get userJob => _userJob;
@@ -60,6 +60,7 @@ class UserModel extends ChangeNotifier {
       _userId = savedUserId;
       _userJob = "Developer (Auto-login)"; // (예시) 서버에서 받아온 직업
       _userProfileImage = 'assets/icons/profile_default.png'; // 임시사용
+      _userType = 'shoppingAddictType';
       _userGender = '여성';
     }
 
@@ -134,6 +135,7 @@ class UserModel extends ChangeNotifier {
         // (checkAutoLogin 로직과 호환을 위해)
         _userId = inputId;
         _userJob = "Developer (from server)"; // (예시)
+        _userType = 'shoppingAddictType';
         print("로그인성공 ");
         await _saveToken(_userId!); // 👈 입력한 ID를 토큰으로 저장
       } else {
