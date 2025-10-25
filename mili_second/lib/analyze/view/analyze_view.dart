@@ -162,11 +162,11 @@ class _AnalyzeViewState extends State<AnalyzeView> {
           SizedBox(height: kIsWeb ? 20 : 20.h),
 
           // 시간대별 사용 패턴
-          // UsagePatternsByTimeOfDay(
-          //   //timeOfDayPatternSummary: _timeOfDayPatternSummary,
-          //   datas: _timeOfDayPatternDatas,
-          //   timeOfDayPatternPeakTime: _timeOfDayPatternPeakTime,
-          // ),
+          UsagePatternsByTimeOfDay(
+            //timeOfDayPatternSummary: _timeOfDayPatternSummary,
+            datas: _timeOfDayPatternDatas,
+            timeOfDayPatternPeakTime: _timeOfDayPatternPeakTime,
+          ),
           SizedBox(height: kIsWeb ? 20 : 20.h),
 
           // Top3 앱 사용 트렌드

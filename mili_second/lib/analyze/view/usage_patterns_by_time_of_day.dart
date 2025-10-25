@@ -315,31 +315,31 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                             fontWeight: FontWeight.w700,
                           ),
                         )
-                      : _currentIndex == 1
-                      ? Text(
-                          ' 1일전 가장 활발한 시간 : ',
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: kIsWeb ? 15 : 15.r,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        )
                       : Text(
-                          ' 2일전 활발한 시간 : ',
+                          ' ',
                           style: TextStyle(
                             color: Color(0xFF000000),
                             fontSize: kIsWeb ? 15 : 15.r,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                  Text(
-                    widget.timeOfDayPatternPeakTime,
-                    style: TextStyle(
-                      color: Color(0xFFF23C14),
-                      fontSize: kIsWeb ? 17 : 17.r,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+                  _currentIndex == 0
+                      ? Text(
+                          widget.timeOfDayPatternPeakTime,
+                          style: TextStyle(
+                            color: Color(0xFFF23C14),
+                            fontSize: kIsWeb ? 17 : 17.r,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        )
+                      : Text(
+                          ' ',
+                          style: TextStyle(
+                            color: Color(0xFFF23C14),
+                            fontSize: kIsWeb ? 17 : 17.r,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                   SizedBox(width: kIsWeb ? 10 : 10.w),
                 ],
               ),
