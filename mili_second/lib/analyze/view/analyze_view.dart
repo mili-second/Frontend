@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mili_second/analyze/model/usage_patterns_by_time_of_day_model.dart';
-import 'package:mili_second/analyze/view_model/usage_patterns_by_time_of_day_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:mili_second/analyze/view_model/seven_days_usage_model_view.dart';
 import 'package:mili_second/analyze/view_model/usage_patterns_by_time_of_day_view_model.dart';
 import 'package:mili_second/analyze/view_model/top3_app_usage_model_view.dart';
+import 'package:mili_second/analyze/view_model/screentime_category_distribution_model_view.dart';
 import 'package:mili_second/analyze/model/top3_app_usage_model.dart';
-import 'package:mili_second/analyze/model/seven_days_usage_model.dart';
-import 'package:mili_second/analyze/model/usage_patterns_by_time_of_day_model.dart';
+import 'package:mili_second/analyze/model/screentime_category_distribution_model.dart';
 import '/analyze/view/seven_days_usage_trends.dart';
 import '/analyze/view/usage_patterns_by_time_of_day.dart';
 import '/analyze/view/top3_app_usage_trends.dart';
@@ -73,13 +71,43 @@ class _AnalyzeViewState extends State<AnalyzeView> {
   }
 
   // usagePattern은 오늘, 오늘 - 1, 오늘 - 2로 3개의 리스트로 넘겨주며, 분 단위(Date)로 넘겨줌
-  final List<List<int>> _timeOfDayPatternDatas = [
-    [80, 150, 200, 45],
-    [0, 210, 30, 75],
-    [100, 70, 75, 35],
-  ];
+  // final List<List<int>> _timeOfDayPatternDatas = [
+  //   [80, 150, 200, 45],
+  //   [0, 210, 30, 75],
+  //   [100, 70, 75, 35],
+  // ];
+  // final String _timeOfDayPatternPeakTime = '오후 2-4시';
+  List<List<int>> _timeOfDayPatternDatas = [];
+  String _timeOfDayPatternPeakTime = '';
 
-  final String _timeOfDayPatternPeakTime = '오후 2-4시';
+  final UsagePatternsByTimeOfDayViewModel _usagePatternsByTimeOfDayViewModel =
+      UsagePatternsByTimeOfDayViewModel();
+
+  Future<void> _usagePatternsUsage() async {
+    final userModel = Provider.of<UserModel>(context, listen: false);
+    final subjectId = userModel.userId;
+
+    if (subjectId == null) {
+      print('⚠️ subjectId가 없습니다.');
+      return;
+    }
+
+    final data = await _usagePatternsByTimeOfDayViewModel
+        .fetchUsagePatternsByTimeOfDay(subjectId);
+    setState(() {
+      _timeOfDayPatternDatas = data.map((day) {
+        // [dawnMinutes, morningMinutes, afternoonMinutes, eveningMinutes]
+        return [
+          day.dawnMinutes,
+          day.morningMinutes,
+          day.afternoonMinutes,
+          day.eveningMinutes,
+        ];
+      }).toList();
+
+      _timeOfDayPatternPeakTime = data[0].mostActiveHourStart ?? 'No data';
+    });
+  }
 
   // 스크린타임 카테고리 분포 데이터
   // final String _categoryDistributionSummary =
@@ -92,9 +120,9 @@ class _AnalyzeViewState extends State<AnalyzeView> {
   //   ['E', 10],
   // ];
 
-  final UsagePatternsByTimeOfDayViewModel _categoryViewModel =
-      UsagePatternsByTimeOfDayViewModel();
-  List<UsagePatternsByTimeOfDayModel> _categoryDistribution = [];
+  final ScreentimeCategoryDistributionViewModel _categoryViewModel =
+      ScreentimeCategoryDistributionViewModel();
+  List<ScreentimeCategoryDistributionModel> _categoryDistribution = [];
 
   Future<void> _loadCategoryUsage() async {
     final userModel = Provider.of<UserModel>(context, listen: false);
@@ -105,7 +133,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
       return;
     }
 
-    final data = await _categoryViewModel.fetchUsagePatternsByTimeOfDay(
+    final data = await _categoryViewModel.fetchScreentimeCategoryDistribution(
       subjectId,
     );
     setState(() {
@@ -119,6 +147,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
     _loadWeeklyUsage();
     _loadTop3Usage();
     _loadCategoryUsage();
+    _usagePatternsUsage();
   }
 
   @override
@@ -133,12 +162,11 @@ class _AnalyzeViewState extends State<AnalyzeView> {
           SizedBox(height: kIsWeb ? 20 : 20.h),
 
           // 시간대별 사용 패턴
-          UsagePatternsByTimeOfDay(
-            //timeOfDayPatternSummary: _timeOfDayPatternSummary,
-            datas: _timeOfDayPatternDatas,
-            timeOfDayPatternPeakTime: _timeOfDayPatternPeakTime,
-          ),
-
+          // UsagePatternsByTimeOfDay(
+          //   //timeOfDayPatternSummary: _timeOfDayPatternSummary,
+          //   datas: _timeOfDayPatternDatas,
+          //   timeOfDayPatternPeakTime: _timeOfDayPatternPeakTime,
+          // ),
           SizedBox(height: kIsWeb ? 20 : 20.h),
 
           // Top3 앱 사용 트렌드

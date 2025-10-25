@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mili_second/analyze/model/usage_patterns_by_time_of_day_model.dart';
+import 'package:mili_second/analyze/model/screentime_category_distribution_model.dart';
 
 class ScreentimeCategoryDistribution extends StatefulWidget {
   //final String categoryDistributionSummary;
 
-  final List<UsagePatternsByTimeOfDayModel> chartData;
+  final List<ScreentimeCategoryDistributionModel> chartData;
 
   const ScreentimeCategoryDistribution({
     super.key,
