@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserModel extends ChangeNotifier {
   final String _baseUrl = "https://api.yolang.shop";
   String? _userId; // user id == inputId
+  String? _userToken;
   String? _userJob;
   bool _isLoading = false; // ✨ "자동 로그인 확인 중" 상태 추가
   String? _error;
@@ -17,6 +18,7 @@ class UserModel extends ChangeNotifier {
   String? _userType = 'shoppingAddictType';
 
   String? get userId => _userId;
+  String? get userToken => _userToken;
   String? get userJob => _userJob;
   bool get isLoading => _isLoading;
   String? get error => _error;
@@ -27,13 +29,39 @@ class UserModel extends ChangeNotifier {
 
   // --- 내부 저장소 로직 ---
 
-  // ✨ 토큰(userId) 저장
-  Future<void> _saveToken(String userId) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', userId);
+  /// JWT의 Payload(두 번째 부분)를 디코딩하여 Map으로 반환합니다.
+  /// (보안 검증(Signature)은 수행하지 않음!)
+  Map<String, dynamic> _decodeJwtPayload(String token) {
+    try {
+      final parts = token.split('.');
+      if (parts.length != 3) {
+        throw Exception('Invalid token format');
+      }
+
+      String payloadBase64Url = parts[1];
+
+      // Base64Url 형식을 일반 Base64 형식으로 변환 (padding 추가)
+      String normalizedPayload = base64Url.normalize(payloadBase64Url);
+
+      // Base64 디코딩
+      String payloadJson = utf8.decode(base64.decode(normalizedPayload));
+
+      // JSON 파싱
+      return json.decode(payloadJson) as Map<String, dynamic>;
+    } catch (e) {
+      print("JWT 페이로드 디코딩 실패: $e");
+      // 실패 시 빈 Map 반환
+      return {};
+    }
   }
 
-  // ✨ 토큰(userId) 읽기
+  // ✨ 토큰(userId) 저장
+  Future<void> _saveToken(String usertoken) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', usertoken);
+  }
+
+  // ✨ 토큰 읽기
   Future<String?> _readToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
@@ -47,21 +75,49 @@ class UserModel extends ChangeNotifier {
 
   // --- Public 함수 ---
 
-  // ✨ 1. "자동 로그인" 기능 (View에서 호출할 함수)
   Future<void> checkAutoLogin() async {
     _isLoading = true;
     notifyListeners(); // "로딩 시작" 알림
 
-    final savedUserId = await _readToken(); // 저장된 ID(토큰) 읽기
+    final savedToken = await _readToken(); // 저장된 "JWT 토큰" 읽기
 
-    if (savedUserId != null) {
-      // (중요!) 실제 앱에서는 이 토큰/ID로 서버에 사용자 정보를 요청해야 합니다.
-      // 지금은 저장된 ID가 곧 로그인 성공이라고 가정합니다.
-      _userId = savedUserId;
-      _userJob = "Developer (Auto-login)"; // (예시) 서버에서 받아온 직업
-      _userProfileImage = 'assets/icons/profile_default.png'; // 임시사용
-      _userType = 'shoppingAddictType';
-      _userGender = '여성';
+    if (savedToken != null && savedToken.isNotEmpty) {
+      try {
+        // 1. (수정) 저장된 토큰의 페이로드를 직접 디코딩
+        final Map<String, dynamic> payload = _decodeJwtPayload(savedToken);
+
+        if (payload.isNotEmpty) {
+          // 2. (수정) 페이로드에서 만료 시간(exp)과 ID(sub) 추출
+          final int exp = payload['exp'] ?? 0; // 만료 시간 (Unix timestamp)
+          final String userId = payload['sub'] ?? ''; // 사용자 ID
+
+          // 3. (수정) 현재 시간과 만료 시간 비교
+          final int nowInSeconds =
+              DateTime.now().millisecondsSinceEpoch ~/ 1000;
+
+          if (userId.isNotEmpty && exp > nowInSeconds) {
+            // --- 토큰 유효 (만료 안 됨) ---
+            print("자동 로그인 성공 (ID: $userId)");
+
+            // 4. (수정) 토큰에서 읽은 ID로 상태 업데이트
+            _userId = userId; // 👈 토큰에서 꺼낸 ID
+            _userToken = savedToken; // 👈 저장되어 있던 토큰
+
+            // (나머지 정보는 임시로 세팅)
+            _userJob = "Developer (Auto-login)";
+            _userProfileImage = 'assets/icons/profile_default.png';
+            _userType = 'shoppingAddictType';
+            _userGender = '여성';
+          } else {
+            // --- 토큰 만료 또는 ID 없음 ---
+            print("토큰이 만료되었거나 유효하지 않습니다.");
+            await _deleteToken(); // 만료된 토큰 삭제
+          }
+        }
+      } catch (e) {
+        print("자동 로그인 중 토큰 처리 오류: $e");
+        await _deleteToken(); // 파싱 실패 시 토큰 삭제
+      }
     }
 
     _isLoading = false;
@@ -116,16 +172,17 @@ class UserModel extends ChangeNotifier {
         //
         // --- (예시: 서버가 JSON으로 토큰과 유저 정보를 줄 때) ---
         //
-        // final responseData = json.decode(response.body);
-        // final serverToken = responseData['token']; // (예시)
+        final responseData = json.decode(response.body);
+        final serverToken = responseData['token']; // (예시)
         // final userJob = responseData['user']['job']; // (예시)
         // final userGender = responseData['user']['gender']; // (예시)
         //
         // // 1. 서버가 준 "실제 토큰"을 저장
-        // await _saveToken(serverToken);
+        await _saveToken(serverToken);
         //
         // // 2. 상태 업데이트
-        // _userId = inputId; // (또는 responseData['user']['nickname'])
+        _userId = inputId; // (또는 responseData['user']['nickname'])
+        _userToken = serverToken;
         // _userJob = userJob;
         // _userGender = userGender;
         // ---
@@ -133,11 +190,10 @@ class UserModel extends ChangeNotifier {
         // (임시) 지금은 200 OK만 확인하고,
         // 기존 코드처럼 입력한 ID를 "토큰"처럼 저장합니다.
         // (checkAutoLogin 로직과 호환을 위해)
-        _userId = inputId;
+        // _userId = inputId;
         _userJob = "Developer (from server)"; // (예시)
         _userType = 'shoppingAddictType';
         print("로그인성공 ");
-        await _saveToken(_userId!); // 👈 입력한 ID를 토큰으로 저장
       } else {
         // 4-1. 서버가 에러 응답을 준 경우 (200이 아닌 경우)
         // (서버가 {"message": "..."} 같은 에러 응답을 줄 수도 있습니다)

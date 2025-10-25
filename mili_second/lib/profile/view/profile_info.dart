@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mili_second/profile/view/setting_view.dart';
+import 'package:mili_second/model/user_model.dart';
+import 'package:provider/provider.dart';
 import 'edit_profile.dart';
 import '../../setting/view/setting.dart';
 
 class ProfileInfo extends StatefulWidget {
-  final userProfileImage;
-  final userNickName;
-  final userGender;
-  final userJob;
-
-  const ProfileInfo({
-    super.key,
-    required this.userProfileImage,
-    required this.userNickName,
-    required this.userGender,
-    required this.userJob,
-  });
+  const ProfileInfo({super.key});
 
   @override
   State<ProfileInfo> createState() => _EditProfileState();
@@ -26,6 +16,7 @@ class ProfileInfo extends StatefulWidget {
 class _EditProfileState extends State<ProfileInfo> {
   @override
   Widget build(BuildContext context) {
+    final userModel = context.watch<UserModel>();
     return Scaffold(
       appBar: AppBar(
         title: SizedBox(
@@ -46,7 +37,7 @@ class _EditProfileState extends State<ProfileInfo> {
                   // 설정창으로 이동
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SettingView()),
+                    MaterialPageRoute(builder: (context) => Setting()),
                   );
                 },
                 child: Row(
@@ -81,7 +72,8 @@ class _EditProfileState extends State<ProfileInfo> {
                     SizedBox(width: kIsWeb ? 60 : 60.w),
                     SizedBox(
                       child: Image.asset(
-                        widget.userProfileImage,
+                        userModel.userProfileImage ??
+                            'assets/icons/profile_default.png',
                         width: kIsWeb ? 250 : 250.w,
                         height: kIsWeb ? 250 : 250.h,
                       ),
@@ -94,7 +86,7 @@ class _EditProfileState extends State<ProfileInfo> {
                   children: [
                     SizedBox(width: kIsWeb ? 30 : 30.w),
                     Text(
-                      widget.userNickName,
+                      userModel.userId ?? "Default user",
                       style: TextStyle(
                         color: Color(0xFF000000),
                         fontSize: kIsWeb ? 32 : 32.r,
@@ -106,10 +98,7 @@ class _EditProfileState extends State<ProfileInfo> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                Setting(userNickName: widget.userNickName),
-                          ),
+                          MaterialPageRoute(builder: (context) => Setting()),
                         );
                       },
                       child: Image.asset(
@@ -247,14 +236,7 @@ class _EditProfileState extends State<ProfileInfo> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => EditProfile(
-                      currentUserNickName: widget.userNickName,
-                      currentGender: widget.userGender,
-                      currentJob: widget.userJob,
-                      currentProfilePath: widget.userProfileImage,
-                    ),
-                  ),
+                  MaterialPageRoute(builder: (context) => EditProfile()),
                 );
               },
               child: Row(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mili_second/model/user_model.dart';
+import 'package:provider/provider.dart';
 
 class DeleteAccount extends StatefulWidget {
-  final String userNickName;
-
-  const DeleteAccount({super.key, required this.userNickName});
+  const DeleteAccount({super.key});
 
   State<DeleteAccount> createState() => _DeleteAccountState();
 }
@@ -100,6 +100,12 @@ class _DeleteAccountState extends State<DeleteAccount> {
               GestureDetector(
                 onTap: () {
                   // 회원 탈퇴 로직
+                  context.read<UserModel>().logout();
+                  // 탈퇴 api가 없어서 로그아웃으로 대체
+
+                  if (!context.mounted) return;
+
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 child: Container(
                   width: kIsWeb ? 350 : 350.w,

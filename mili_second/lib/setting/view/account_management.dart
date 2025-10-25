@@ -5,8 +5,7 @@ import 'package:mili_second/setting/view/app_information.dart';
 import '../../setting/view/terms_and_conditions.dart';
 
 class AccountManagement extends StatelessWidget {
-  final String userNickName;
-  const AccountManagement({super.key, required this.userNickName});
+  const AccountManagement({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,10 +87,7 @@ class AccountManagement extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        AppInformation(userNickName: userNickName),
-                  ),
+                  MaterialPageRoute(builder: (context) => AppInformation()),
                 );
               },
               child: Stack(

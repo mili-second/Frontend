@@ -4,9 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mili_second/setting/view/delete_account.dart';
 
 class AppInformation extends StatelessWidget {
-  final String userNickName;
-
-  const AppInformation({super.key, required this.userNickName});
+  const AppInformation({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +42,7 @@ class AppInformation extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        DeleteAccount(userNickName: userNickName),
-                  ),
+                  MaterialPageRoute(builder: (context) => DeleteAccount()),
                 );
               },
               child: Stack(
