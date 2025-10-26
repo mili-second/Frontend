@@ -4,8 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../setting/view/account_management.dart';
 
 class Setting extends StatelessWidget {
-  final String userNickName;
-  const Setting({super.key, required this.userNickName});
+  const Setting({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +42,7 @@ class Setting extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        AccountManagement(userNickName: userNickName),
-                  ),
+                  MaterialPageRoute(builder: (context) => AccountManagement()),
                 );
               },
               child: Stack(

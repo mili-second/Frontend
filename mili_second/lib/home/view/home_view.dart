@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 import 'package:mili_second/model/user_model.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/usage_data_viewmodel.dart'; // ViewModel import
@@ -18,6 +19,14 @@ class _HomeViewState extends State<HomeView> {
   bool isfront = true; // 카드 앞뒷면 구분
 
   //final storage = FlutterSecureStorage();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    context.read<UserModel>().get_phonebti();
+  }
 
   @override
   void dispose() {
@@ -65,11 +74,21 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 child: GestureDetector(
                   onTap: () {
+                    if (userModel.userType == null) return;
                     setState(() {
                       isfront = !isfront;
                     });
                   },
-                  child: isfront
+                  child: (userModel.userType == null)
+                      // 1. userType이 null일 때 (로딩 중)
+                      ? Container(
+                          // 이미지와 비슷한 높이를 주어 UI가 깨지지 않게 함
+                          height: 300.h, // 이 높이는 실제 이미지 높이에 맞게 조절하세요.
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(),
+                        )
+                      // 2. userType이 null이 아닐 때 (로딩 완료)
+                      : isfront
                       ? Image.asset(
                           'assets/icons/character/${userModel.userType}_front.png',
                           fit: BoxFit.contain,

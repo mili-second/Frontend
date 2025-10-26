@@ -28,14 +28,7 @@ class _HeaderViewState extends State<HeaderView> {
                   // 프로필 수정 화면으로 이동
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => ProfileInfo(
-                        userNickName: userModel.userId,
-                        userProfileImage: userModel.userProfileImage,
-                        userGender: userModel.userGender,
-                        userJob: userModel.userJob,
-                      ),
-                    ),
+                    MaterialPageRoute(builder: (context) => ProfileInfo()),
                   );
                 },
                 icon: Image.asset(

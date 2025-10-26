@@ -24,9 +24,13 @@ class _SignInViewState extends State<SignInView> {
   int id_valid = 0;
   List<String> id_valid_comments = [
     "아이디는 영문과 숫자 조합으로 5~20자 이내여야 합니다.",
-    "사용 가능한 아이디입니다.",
+    "(규칙확인) 사용 가능한 아이디입니다.",
   ];
-  List<String> id_comments = ["아이디 중복확인을 해주세요", "중복된 아이디 입니다", "사용가능한 아이디입니다"];
+  List<String> id_comments = [
+    "아이디 중복확인을 해주세요",
+    "중복된 아이디 입니다",
+    "(중복확인) 사용가능한 아이디입니다",
+  ];
   List<Color> id_comments_color = [Colors.black, Colors.red, Colors.green];
   List<Color> id_valid_comments_color = [Colors.red, Colors.green];
   RegExp regExp_id = RegExp(r'^[a-zA-Z0-9]{5,20}$');

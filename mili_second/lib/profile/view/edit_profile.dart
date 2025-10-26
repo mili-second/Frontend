@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mili_second/model/user_model.dart';
+import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
-  final String currentUserNickName;
-  final String currentGender;
-  final String currentJob;
-  final String currentProfilePath;
-
-  const EditProfile({
-    super.key,
-    required this.currentUserNickName,
-    required this.currentGender,
-    required this.currentJob,
-    required this.currentProfilePath,
-  });
+  const EditProfile({super.key});
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -55,34 +46,36 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     super.initState();
-    // 기존 닉네임을 초기값으로 설정
-    // 최종 저장 시, _currentUserNickNameController.text에 새로 입력한 값이 저장되므로 이걸로 백엔드에 보내기
-    // _currentUserNickNameController = TextEditingController(
-    //   text: widget.currentUserNickName,
-    // );
 
-    // 기존 성별을 초기값으로 설정
-    //_selectedGenderIndex = userGender.indexOf(widget.currentGender);
+    // 1. initState 맨 위에서 UserModel을 *한 번만* 읽어옵니다.
+    final userModel = context.read<UserModel>();
 
-    // 기존 직업을 초기값으로 설정
-    //_selectedJobIndex = userJob.indexOf(widget.currentJob);
-    // _userJobController = TextEditingController();
-    // if (widget.currentJob != null && widget.currentJob!.isNotEmpty) {
-    //   int index = userJob.indexOf(widget.currentJob!);
-    //   if (index != -1) {
-    //     _selectedJobIndex = index;
-    //     _userJobController.text = '';
-    //   } else {
-    //     _selectedJobIndex = null;
-    //     _userJobController.text = widget.currentJob;
-    //   }
-    // }
+    // 2. 이제 'userModel' 변수를 사용해 모든 값을 초기화합니다.
 
-    // 기존 프로필이 리스트 중 몇 번째인지 찾아서 선택 상태로 초기화
+    // 닉네임 초기화
+    String initialUserId = userModel.userId ?? "Default User";
+    _currentUserNickNameController = TextEditingController(text: initialUserId);
+
+    // 성별 초기화
+    _selectedGenderIndex = userGender.indexOf(userModel.userGender ?? "성별없음");
+
+    // 직업 초기화
+    _userJobController = TextEditingController();
+    if (userModel.userJob != null && userModel.userJob!.isNotEmpty) {
+      int index = userJob.indexOf(userModel.userJob!);
+      if (index != -1) {
+        _selectedJobIndex = index;
+        _userJobController.text = ''; // 기존 로직 유지
+      } else {
+        _selectedJobIndex = null;
+        _userJobController.text = userModel.userJob ?? "직업 선택 안함";
+      }
+    }
+
+    // 프로필 이미지 초기화
     _selectedProfileIndex = userProfilesPaths.indexOf(
-      widget.currentProfilePath,
+      userModel.userProfileImage ?? 'assets/icons/profile_default.png',
     );
-    // 만약 리스트에 해당 경로가 없을 경우 -1이 나오므로 예외 처리
     if (_selectedProfileIndex == -1) {
       _selectedProfileIndex = 0;
     }
