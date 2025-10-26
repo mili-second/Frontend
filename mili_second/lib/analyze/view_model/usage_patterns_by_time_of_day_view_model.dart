@@ -4,15 +4,12 @@ import '../model/usage_patterns_by_time_of_day_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UsagePatternsByTimeOfDayViewModel {
-  final String baseUrl = "https://api.yolang.shop";
-
-  Future<List<UsagePatternsByTimeOfDayModel>> fetchUsagePatternsByTimeOfDay(
-    String subjectId,
-  ) async {
+  Future<List<UsagePatternsByTimeOfDayModel>>
+  fetchUsagePatternsByTimeOfDay() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
     final String baseUrl = "https://api.yolang.shop";
-    final url = Uri.parse('$baseUrl/usage/stats/3day/$subjectId');
+    final url = Uri.parse('$baseUrl/usage/stats/3day');
 
     try {
       final response = await http.get(

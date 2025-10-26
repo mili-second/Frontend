@@ -5,11 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SevenDaysUsageViewModel {
-  Future<List<double>> fetchWeeklyUsageTrend(String subjectId) async {
+  Future<List<double>> fetchWeeklyUsageTrend() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
     final String baseUrl = "https://api.yolang.shop";
-    final url = Uri.parse('$baseUrl/usage/stats/weelky/$subjectId');
+    final url = Uri.parse('$baseUrl/usage/stats/weelky');
 
     try {
       final response = await http.get(
