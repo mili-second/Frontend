@@ -36,6 +36,14 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
     }
   }
 
+  List<int> getSafeDataForCurrentIndex(int index) {
+    // 범위 내에 있으면 해당 데이터 반환, 없으면 기본 값 [0, 0, 0, 0] 반환
+    if (index >= 0 && index < widget.datas.length) {
+      return widget.datas[index];
+    }
+    return [0, 0, 0, 0]; // 범위를 벗어나면 기본 값으로 처리
+  }
+
   @override
   Widget build(BuildContext context) {
     // 현재 시간이 어느 구간에 속하는지 계산
@@ -59,6 +67,9 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
           ? const Color(0xFF2F83F7)
           : const Color(0xFF000000);
     }
+
+    // 현재 인덱스의 데이터를 안전하게 가져오기
+    List<int> currentData = getSafeDataForCurrentIndex(_currentIndex);
 
     return Container(
       width: kIsWeb ? 362 : 362.w,
@@ -162,7 +173,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                       SizedBox(height: kIsWeb ? 5 : 5.h),
                       // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
-                        formatMinutes(widget.datas[_currentIndex][0]),
+                        formatMinutes(currentData[0]),
                         style: TextStyle(
                           color: getTextColor('night'),
                           fontSize: kIsWeb ? 16 : 16.r,
@@ -192,7 +203,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                       SizedBox(height: kIsWeb ? 5 : 5.h),
                       // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
-                        formatMinutes(widget.datas[_currentIndex][1]),
+                        formatMinutes(currentData[1]),
                         style: TextStyle(
                           color: getTextColor('morning'),
                           fontSize: kIsWeb ? 16 : 16.r,
@@ -221,7 +232,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                       SizedBox(height: kIsWeb ? 5 : 5.h),
                       // 현재 핸드폰 사용 시간일 경우 다른 색상으로 표현하기
                       Text(
-                        formatMinutes(widget.datas[_currentIndex][2]),
+                        formatMinutes(currentData[2]),
                         style: TextStyle(
                           color: getTextColor('lunch'),
                           fontSize: kIsWeb ? 16 : 16.r,
@@ -250,7 +261,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                       ),
                       SizedBox(height: kIsWeb ? 5 : 5.h),
                       Text(
-                        formatMinutes(widget.datas[_currentIndex][3]),
+                        formatMinutes(currentData[3]),
                         style: TextStyle(
                           color: getTextColor('evening'),
                           fontSize: kIsWeb ? 16 : 16.r,
@@ -304,31 +315,31 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
                             fontWeight: FontWeight.w700,
                           ),
                         )
-                      : _currentIndex == 1
-                      ? Text(
-                          ' 1일전 가장 활발한 시간 : ',
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: kIsWeb ? 15 : 15.r,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        )
                       : Text(
-                          ' 2일전 활발한 시간 : ',
+                          ' ',
                           style: TextStyle(
                             color: Color(0xFF000000),
                             fontSize: kIsWeb ? 15 : 15.r,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                  Text(
-                    widget.timeOfDayPatternPeakTime,
-                    style: TextStyle(
-                      color: Color(0xFFF23C14),
-                      fontSize: kIsWeb ? 17 : 17.r,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+                  _currentIndex == 0
+                      ? Text(
+                          widget.timeOfDayPatternPeakTime,
+                          style: TextStyle(
+                            color: Color(0xFFF23C14),
+                            fontSize: kIsWeb ? 17 : 17.r,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        )
+                      : Text(
+                          ' ',
+                          style: TextStyle(
+                            color: Color(0xFFF23C14),
+                            fontSize: kIsWeb ? 17 : 17.r,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                   SizedBox(width: kIsWeb ? 10 : 10.w),
                 ],
               ),

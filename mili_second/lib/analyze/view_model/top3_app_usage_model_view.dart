@@ -1,0 +1,35 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import '../model/top3_app_usage_model.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class Top3AppUsageModelView {
+  Future<List<Top3AppUsage>> fetchTop3AppUsageTrend(String subjectId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final String baseUrl = "https://api.yolang.shop";
+    final url = Uri.parse('$baseUrl/usage/stats/top3/$subjectId');
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        return data.map((e) => Top3AppUsage.fromJson(e)).toList();
+      } else {
+        print('❌ 분석 - top3 서버 오류: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      print('⚠️ 분석 - top3 요청 중 오류 발생: $e');
+      return [];
+    }
+  }
+}
