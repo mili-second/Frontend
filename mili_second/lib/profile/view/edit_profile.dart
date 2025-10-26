@@ -53,24 +53,24 @@ class _EditProfileState extends State<EditProfile> {
     // 2. 이제 'userModel' 변수를 사용해 모든 값을 초기화합니다.
 
     // 닉네임 초기화
-    String initialUserId = userModel.userId ?? "Default User";
-    _currentUserNickNameController = TextEditingController(text: initialUserId);
+    // String initialUserId = userModel.userId ?? "Default User";
+    // _currentUserNickNameController = TextEditingController(text: initialUserId);
 
-    // 성별 초기화
-    _selectedGenderIndex = userGender.indexOf(userModel.userGender ?? "성별없음");
+    // // 성별 초기화
+    // _selectedGenderIndex = userGender.indexOf(userModel.userGender ?? "성별없음");
 
-    // 직업 초기화
-    _userJobController = TextEditingController();
-    if (userModel.userJob != null && userModel.userJob!.isNotEmpty) {
-      int index = userJob.indexOf(userModel.userJob!);
-      if (index != -1) {
-        _selectedJobIndex = index;
-        _userJobController.text = ''; // 기존 로직 유지
-      } else {
-        _selectedJobIndex = null;
-        _userJobController.text = userModel.userJob ?? "직업 선택 안함";
-      }
-    }
+    // // 직업 초기화
+    // _userJobController = TextEditingController();
+    // if (userModel.userJob != null && userModel.userJob!.isNotEmpty) {
+    //   int index = userJob.indexOf(userModel.userJob!);
+    //   if (index != -1) {
+    //     _selectedJobIndex = index;
+    //     _userJobController.text = ''; // 기존 로직 유지
+    //   } else {
+    //     _selectedJobIndex = null;
+    //     _userJobController.text = userModel.userJob ?? "직업 선택 안함";
+    //   }
+    // }
 
     // 프로필 이미지 초기화
     _selectedProfileIndex = userProfilesPaths.indexOf(
