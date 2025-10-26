@@ -29,16 +29,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
   List<double> _sevenDaysUsageTrendDatas = [];
 
   Future<void> _loadWeeklyUsage() async {
-    final userModel = Provider.of<UserModel>(context, listen: false);
-    final subjectId = userModel.userId;
-
-    if (subjectId == null) {
-      print('subjectId가 없습니다. 로그인 후 시도해주세요.');
-      return;
-    }
-    final trend = await _sevenDaysUsageViewModel.fetchWeeklyUsageTrend(
-      subjectId,
-    );
+    final trend = await _sevenDaysUsageViewModel.fetchWeeklyUsageTrend();
     setState(() {
       _sevenDaysUsageTrendDatas = trend;
     });
@@ -56,14 +47,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
   List<Top3AppUsage> _top3AppsDatas = [];
 
   Future<void> _loadTop3Usage() async {
-    final userModel = Provider.of<UserModel>(context, listen: false);
-    final subjectId = userModel.userId;
-
-    if (subjectId == null) {
-      print('⚠️ subjectId가 없습니다.');
-      return;
-    }
-    final data = await _top3AppUsageViewModel.fetchTop3AppUsageTrend(subjectId);
+    final data = await _top3AppUsageViewModel.fetchTop3AppUsageTrend();
     setState(() {
       _top3AppsDatas = data;
     });
@@ -83,16 +67,8 @@ class _AnalyzeViewState extends State<AnalyzeView> {
       UsagePatternsByTimeOfDayViewModel();
 
   Future<void> _usagePatternsUsage() async {
-    final userModel = Provider.of<UserModel>(context, listen: false);
-    final subjectId = userModel.userId;
-
-    if (subjectId == null) {
-      print('⚠️ subjectId가 없습니다.');
-      return;
-    }
-
     final data = await _usagePatternsByTimeOfDayViewModel
-        .fetchUsagePatternsByTimeOfDay(subjectId);
+        .fetchUsagePatternsByTimeOfDay();
     setState(() {
       if (data.isNotEmpty) {
         setState(() {
@@ -134,17 +110,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
   List<ScreentimeCategoryDistributionModel> _categoryDistribution = [];
 
   Future<void> _loadCategoryUsage() async {
-    final userModel = Provider.of<UserModel>(context, listen: false);
-    final subjectId = userModel.userId;
-
-    if (subjectId == null) {
-      print('⚠️ subjectId가 없습니다.');
-      return;
-    }
-
-    final data = await _categoryViewModel.fetchScreentimeCategoryDistribution(
-      subjectId,
-    );
+    final data = await _categoryViewModel.fetchScreentimeCategoryDistribution();
     setState(() {
       _categoryDistribution = data;
     });
