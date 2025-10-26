@@ -10,6 +10,7 @@ import 'package:mili_second/model/user_model.dart';
 import 'package:provider/provider.dart';
 // 'viewmodels/usage_data_viewmodel.dart'가 맞을 수 있습니다.
 import 'home/viewmodel/usage_data_viewmodel.dart';
+import 'package:mili_second/profile/view_model/profile_provider.dart';
 
 void main() {
   runApp(
@@ -21,6 +22,7 @@ void main() {
           update: (context, userModel, previousViewModel) =>
               previousViewModel!..updateUserModel(userModel),
         ),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
       ],
       child: const MyApp(), // 👈 MultiProvider가 MyApp을 감쌈
     ),

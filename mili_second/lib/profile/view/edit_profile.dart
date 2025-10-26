@@ -22,22 +22,22 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   // 닉네임 수정 데이터 처리
-  late TextEditingController _currentUserNickNameController;
-  String user_id = "";
-  int id_ok =
-      0; // 아이디 사용 가능 여부 (회원가입 가능 여부) 0 : 중복확인 안함  //  1 : 중복아이디  // 2 : 사용가능 아이디
-  List<String> id_comments = ["중복확인을 해주세요", "중복된 닉네임 입니다", "사용가능한 닉네임입니다"];
-  List<Color> id_comments_color = [Colors.black, Colors.red, Colors.green];
+  //late TextEditingController _currentUserNickNameController;
+  //String user_id = "";
+  //int id_ok =
+  //    0; // 아이디 사용 가능 여부 (회원가입 가능 여부) 0 : 중복확인 안함  //  1 : 중복아이디  // 2 : 사용가능 아이디
+  //List<String> id_comments = ["중복확인을 해주세요", "중복된 닉네임 입니다", "사용가능한 닉네임입니다"];
+  // List<Color> id_comments_color = [Colors.black, Colors.red, Colors.green];
 
   // 성별 수정 데이터 처리
-  final List<String> userGender = ['남성', '여성'];
-  int? _selectedGenderIndex;
+  //final List<String> userGender = ['남성', '여성'];
+  //int? _selectedGenderIndex;
 
   // 직업 수정 데이터 처리
-  final List<String> userJob = ['학생', '회사원', '프리랜서'];
-  int? _selectedJobIndex;
+  //final List<String> userJob = ['학생', '회사원', '프리랜서'];
+  //int? _selectedJobIndex;
 
-  TextEditingController _userJobController = TextEditingController();
+  //TextEditingController _userJobController = TextEditingController();
 
   // 프로필 수정 데이터 처리
   final List<String> userProfilesPaths = [
@@ -50,33 +50,33 @@ class _EditProfileState extends State<EditProfile> {
     'assets/icons/profile/profile7.png',
     'assets/icons/profile/profile8.png',
   ];
-  int? _selectedProfileIndex;
+  int _selectedProfileIndex = 0;
 
   @override
   void initState() {
     super.initState();
     // 기존 닉네임을 초기값으로 설정
     // 최종 저장 시, _currentUserNickNameController.text에 새로 입력한 값이 저장되므로 이걸로 백엔드에 보내기
-    _currentUserNickNameController = TextEditingController(
-      text: widget.currentUserNickName,
-    );
+    // _currentUserNickNameController = TextEditingController(
+    //   text: widget.currentUserNickName,
+    // );
 
     // 기존 성별을 초기값으로 설정
-    _selectedGenderIndex = userGender.indexOf(widget.currentGender);
+    //_selectedGenderIndex = userGender.indexOf(widget.currentGender);
 
     // 기존 직업을 초기값으로 설정
     //_selectedJobIndex = userJob.indexOf(widget.currentJob);
-    _userJobController = TextEditingController();
-    if (widget.currentJob != null && widget.currentJob!.isNotEmpty) {
-      int index = userJob.indexOf(widget.currentJob!);
-      if (index != -1) {
-        _selectedJobIndex = index;
-        _userJobController.text = '';
-      } else {
-        _selectedJobIndex = null;
-        _userJobController.text = widget.currentJob;
-      }
-    }
+    // _userJobController = TextEditingController();
+    // if (widget.currentJob != null && widget.currentJob!.isNotEmpty) {
+    //   int index = userJob.indexOf(widget.currentJob!);
+    //   if (index != -1) {
+    //     _selectedJobIndex = index;
+    //     _userJobController.text = '';
+    //   } else {
+    //     _selectedJobIndex = null;
+    //     _userJobController.text = widget.currentJob;
+    //   }
+    // }
 
     // 기존 프로필이 리스트 중 몇 번째인지 찾아서 선택 상태로 초기화
     _selectedProfileIndex = userProfilesPaths.indexOf(
@@ -84,18 +84,18 @@ class _EditProfileState extends State<EditProfile> {
     );
     // 만약 리스트에 해당 경로가 없을 경우 -1이 나오므로 예외 처리
     if (_selectedProfileIndex == -1) {
-      _selectedProfileIndex = null;
+      _selectedProfileIndex = 0;
     }
   }
 
   // 직업 선택(버튼 or 텍스트필드)
-  String getSelectedJob() {
-    if (_selectedJobIndex != null) {
-      return userJob[_selectedJobIndex!];
-    } else {
-      return _userJobController.text;
-    }
-  }
+  // String getSelectedJob() {
+  //   if (_selectedJobIndex != null) {
+  //     return userJob[_selectedJobIndex!];
+  //   } else {
+  //     return _userJobController.text;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext contet) {
@@ -445,15 +445,6 @@ class _EditProfileState extends State<EditProfile> {
               width: kIsWeb ? 329 : 329.w,
               child: GestureDetector(
                 onTap: () {
-                  // 닉네임, 프로필 저장하기
-                  // 프로필 저장은 프론트에서 처리하고 백엔드에는 enum으로 1,2,3,4.. 로 보내기
-                  // 저장 완료 후 이전 화면으로 돌아가기 (프로필 정보 화면)
-                  // if (success){
-                  // Navigator.pop(context, true);
-                  // }
-                  // else {
-
-                  // }
                   Navigator.pop(context, true);
                 },
                 child: Container(
@@ -481,33 +472,33 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Future<dynamic> id_duplicate_check(BuildContext context) {
-    String alertContent = "";
+  //   Future<dynamic> id_duplicate_check(BuildContext context) {
+  //     String alertContent = "";
 
-    if (user_id == "test") {
-      setState(() {
-        alertContent = "이미 사용중인 아이디입니다. \n다른 아이디를 사용하세요";
-        id_ok = 1;
-      });
-    } else {
-      setState(() {
-        alertContent = "사용가능";
-        id_ok = 2;
-      });
-    }
+  //     if (user_id == "test") {
+  //       setState(() {
+  //         alertContent = "이미 사용중인 아이디입니다. \n다른 아이디를 사용하세요";
+  //         id_ok = 1;
+  //       });
+  //     } else {
+  //       setState(() {
+  //         alertContent = "사용가능";
+  //         id_ok = 2;
+  //       });
+  //     }
 
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("중복확인"),
-        content: Text(alertContent),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'OK'),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
+  //     return showDialog(
+  //       context: context,
+  //       builder: (context) => AlertDialog(
+  //         title: Text("중복확인"),
+  //         content: Text(alertContent),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () => Navigator.pop(context, 'OK'),
+  //             child: const Text('OK'),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   }
 }
