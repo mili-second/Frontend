@@ -132,98 +132,98 @@ class _EditProfileState extends State<EditProfile> {
         child: Column(
           children: [
             // 닉네임 수정
-            SizedBox(
-              width: kIsWeb ? 340 : 340.w,
-              height: kIsWeb ? 30 : 30.h,
-              child: Text(
-                '닉네임',
-                style: TextStyle(
-                  color: Color(0xFF0090FF),
-                  fontSize: kIsWeb ? 17 : 17.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            SizedBox(height: kIsWeb ? 15 : 15.h),
-            SizedBox(
-              width: kIsWeb ? 340 : 340.w,
-              height: kIsWeb ? 50 : 50.h,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: kIsWeb ? 250 : 250.w,
-                    child: TextField(
-                      controller: _currentUserNickNameController,
-                      style: TextStyle(
-                        color: Color(0xFF000000),
-                        fontSize: kIsWeb ? 20 : 20.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      cursorColor: Color(0xFF007BFF),
-                      decoration: InputDecoration(
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFF0088FF),
-                            width: kIsWeb ? 1.5 : 1.5.w,
-                          ),
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFFD1D1D1),
-                            width: kIsWeb ? 1.0 : 1.0.w,
-                          ),
-                        ),
-                        hintText: "닉네임을 입력하세요",
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: kIsWeb ? 10 : 10.h),
-                  // 중복 확인 버튼
-                  SizedBox(
-                    width: kIsWeb ? 80 : 80.w,
-                    height: kIsWeb ? 60 : 60.h,
-                    child: ElevatedButton(
-                      onPressed:
-                          _currentUserNickNameController.text.trim().isEmpty
-                          ? null
-                          : () => id_duplicate_check(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF007BFF),
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.all(10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            kIsWeb ? 10.0 : 10.0.r,
-                          ),
-                        ),
-                        textStyle: TextStyle(color: Colors.white),
-                      ),
-                      child: Text(
-                        "중복확인",
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: kIsWeb ? 5 : 5.h),
-            SizedBox(
-              width: kIsWeb ? 340 : 340.w,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  id_comments[id_ok],
-                  style: TextStyle(
-                    fontSize: kIsWeb ? 12 : 12.sp,
-                    fontWeight: FontWeight.w500,
-                    color: id_comments_color[id_ok],
-                  ),
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   width: kIsWeb ? 340 : 340.w,
+            //   height: kIsWeb ? 30 : 30.h,
+            //   child: Text(
+            //     '닉네임',
+            //     style: TextStyle(
+            //       color: Color(0xFF0090FF),
+            //       fontSize: kIsWeb ? 17 : 17.sp,
+            //       fontWeight: FontWeight.w700,
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(height: kIsWeb ? 15 : 15.h),
+            // SizedBox(
+            //   width: kIsWeb ? 340 : 340.w,
+            //   height: kIsWeb ? 50 : 50.h,
+            //   child: Row(
+            //     children: [
+            //       SizedBox(
+            //         width: kIsWeb ? 250 : 250.w,
+            //         child: TextField(
+            //           controller: _currentUserNickNameController,
+            //           style: TextStyle(
+            //             color: Color(0xFF000000),
+            //             fontSize: kIsWeb ? 20 : 20.sp,
+            //             fontWeight: FontWeight.w500,
+            //           ),
+            //           cursorColor: Color(0xFF007BFF),
+            //           decoration: InputDecoration(
+            //             focusedBorder: UnderlineInputBorder(
+            //               borderSide: BorderSide(
+            //                 color: Color(0xFF0088FF),
+            //                 width: kIsWeb ? 1.5 : 1.5.w,
+            //               ),
+            //             ),
+            //             enabledBorder: UnderlineInputBorder(
+            //               borderSide: BorderSide(
+            //                 color: Color(0xFFD1D1D1),
+            //                 width: kIsWeb ? 1.0 : 1.0.w,
+            //               ),
+            //             ),
+            //             hintText: "닉네임을 입력하세요",
+            //           ),
+            //         ),
+            //       ),
+            //       SizedBox(width: kIsWeb ? 10 : 10.h),
+            //       // 중복 확인 버튼
+            //       SizedBox(
+            //         width: kIsWeb ? 80 : 80.w,
+            //         height: kIsWeb ? 60 : 60.h,
+            //         child: ElevatedButton(
+            //           onPressed:
+            //               _currentUserNickNameController.text.trim().isEmpty
+            //               ? null
+            //               : () => id_duplicate_check(context),
+            //           style: ElevatedButton.styleFrom(
+            //             backgroundColor: Color(0xFF007BFF),
+            //             foregroundColor: Colors.white,
+            //             padding: EdgeInsets.all(10),
+            //             shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.circular(
+            //                 kIsWeb ? 10.0 : 10.0.r,
+            //               ),
+            //             ),
+            //             textStyle: TextStyle(color: Colors.white),
+            //           ),
+            //           child: Text(
+            //             "중복확인",
+            //             style: TextStyle(fontWeight: FontWeight.w500),
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // SizedBox(height: kIsWeb ? 5 : 5.h),
+            // SizedBox(
+            //   width: kIsWeb ? 340 : 340.w,
+            //   child: Align(
+            //     alignment: Alignment.centerLeft,
+            //     child: Text(
+            //       id_comments[id_ok],
+            //       style: TextStyle(
+            //         fontSize: kIsWeb ? 12 : 12.sp,
+            //         fontWeight: FontWeight.w500,
+            //         color: id_comments_color[id_ok],
+            //       ),
+            //     ),
+            //   ),
+            // ),
 
-            SizedBox(height: kIsWeb ? 25 : 25.h),
+            // SizedBox(height: kIsWeb ? 25 : 25.h),
 
             // 성별 수정
             // SizedBox(

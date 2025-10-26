@@ -106,6 +106,8 @@ class UserModel extends ChangeNotifier {
         body: body,
       );
 
+      print("로그인 응답: ${response.body}");
+
       // 4. 응답 처리 (200 = 성공)
       if (response.statusCode == 200) {
         // --- 로그인 성공 ---

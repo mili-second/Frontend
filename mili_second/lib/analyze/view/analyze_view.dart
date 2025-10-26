@@ -63,7 +63,6 @@ class _AnalyzeViewState extends State<AnalyzeView> {
       print('⚠️ subjectId가 없습니다.');
       return;
     }
-    print('📡 API 요청 시작: /usage/stats/top3/$subjectId');
     final data = await _top3AppUsageViewModel.fetchTop3AppUsageTrend(subjectId);
     setState(() {
       _top3AppsDatas = data;
@@ -95,17 +94,27 @@ class _AnalyzeViewState extends State<AnalyzeView> {
     final data = await _usagePatternsByTimeOfDayViewModel
         .fetchUsagePatternsByTimeOfDay(subjectId);
     setState(() {
-      _timeOfDayPatternDatas = data.map((day) {
-        // [dawnMinutes, morningMinutes, afternoonMinutes, eveningMinutes]
-        return [
-          day.dawnMinutes,
-          day.morningMinutes,
-          day.afternoonMinutes,
-          day.eveningMinutes,
-        ];
-      }).toList();
+      if (data.isNotEmpty) {
+        setState(() {
+          _timeOfDayPatternDatas = data.map((day) {
+            return [
+              day.dawnMinutes,
+              day.morningMinutes,
+              day.afternoonMinutes,
+              day.eveningMinutes,
+            ];
+          }).toList();
 
-      _timeOfDayPatternPeakTime = data[0].mostActiveHourStart ?? 'No data';
+          _timeOfDayPatternPeakTime =
+              data.first.mostActiveHourStart ?? '데이터 없음';
+        });
+      } else {
+        print('⚠️ 서버에서 빈 데이터가 반환되었습니다.');
+        setState(() {
+          _timeOfDayPatternDatas = [];
+          _timeOfDayPatternPeakTime = '데이터 없음';
+        });
+      }
     });
   }
 
