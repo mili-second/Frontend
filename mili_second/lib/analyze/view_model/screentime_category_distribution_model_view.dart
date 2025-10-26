@@ -5,11 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreentimeCategoryDistributionViewModel {
   Future<List<ScreentimeCategoryDistributionModel>>
-  fetchScreentimeCategoryDistribution(String subjectId) async {
+  fetchScreentimeCategoryDistribution() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
     final String baseUrl = "https://api.yolang.shop";
-    final url = Uri.parse('$baseUrl/usage/stats/category/$subjectId');
+    final url = Uri.parse('$baseUrl/usage/stats/category');
 
     try {
       final response = await http.get(

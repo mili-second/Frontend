@@ -5,11 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Top3AppUsageModelView {
-  Future<List<Top3AppUsage>> fetchTop3AppUsageTrend(String subjectId) async {
+  Future<List<Top3AppUsage>> fetchTop3AppUsageTrend() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
     final String baseUrl = "https://api.yolang.shop";
-    final url = Uri.parse('$baseUrl/usage/stats/top3/$subjectId');
+    final url = Uri.parse('$baseUrl/usage/stats/top3');
 
     try {
       final response = await http.get(
