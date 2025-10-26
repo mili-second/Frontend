@@ -1,15 +1,24 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mili_second/analyze/model/screentime_category_distribution_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreentimeCategoryDistributionViewModel {
   Future<List<ScreentimeCategoryDistributionModel>>
   fetchScreentimeCategoryDistribution(String subjectId) async {
-    final String baseUrl = "http://api.yolang.shop";
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final String baseUrl = "https://api.yolang.shop";
     final url = Uri.parse('$baseUrl/usage/stats/category/$subjectId');
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      );
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);

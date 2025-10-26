@@ -236,8 +236,8 @@ class _ScreentimeCategoryDistributionState
         );
       } else {
         return _Slice(
-          'No Data', // 빈 데이터에 대한 categoryName
-          0.0, // 빈 데이터에 대한 ratio
+          'data', // 빈 데이터에 대한 categoryName
+          0, // 빈 데이터에 대한 ratio
           Colors.grey, // 빈 데이터에 대한 색상
         );
       }

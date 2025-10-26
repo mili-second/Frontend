@@ -1,15 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../model/top3_app_usage_model.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mili_second/insight/model/pattern_analysis_by_day_of_the_week_model.dart';
 
-class Top3AppUsageModelView {
-  Future<List<Top3AppUsage>> fetchTop3AppUsageTrend(String subjectId) async {
+class BehaviorPatternsViewModel {
+  Future<List<BehaviorPatternModel>> fetchBehaviorPatterns() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
     final String baseUrl = "https://api.yolang.shop";
-    final url = Uri.parse('$baseUrl/usage/stats/top3/$subjectId');
+    final url = Uri.parse('$baseUrl/insights/behavior-patterns');
 
     try {
       final response = await http.get(
@@ -22,13 +21,13 @@ class Top3AppUsageModelView {
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
-        return data.map((e) => Top3AppUsage.fromJson(e)).toList();
+        return data.map((e) => BehaviorPatternModel.fromJson(e)).toList();
       } else {
-        print('❌ 분석 - top3 서버 오류: ${response.statusCode}');
+        print('❌ 행동 패턴 서버 오류: ${response.statusCode}');
         return [];
       }
     } catch (e) {
-      print('⚠️ 분석 - top3 요청 중 오류 발생: $e');
+      print('⚠️ 행동 패턴 요청 중 오류 발생: $e');
       return [];
     }
   }

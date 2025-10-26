@@ -5,6 +5,9 @@ import '/insight/view/special_this_weeks.dart';
 import '/insight/view/engagement_analysis.dart';
 import '/insight/view/pattern_analysis_by_day_of_the_week.dart';
 import '/insight/view/weekly_changing_trends.dart';
+import 'package:mili_second/insight/view_model/special_this_weeks_view_model.dart';
+import 'package:mili_second/insight/view_model/pattern_analysis_by_day_of_the_week_view_model.dart';
+import 'package:mili_second/insight/model/pattern_analysis_by_day_of_the_week_model.dart';
 
 class InsightView extends StatefulWidget {
   const InsightView({super.key});
@@ -15,18 +18,57 @@ class InsightView extends StatefulWidget {
 
 class _InsightViewState extends State<InsightView> {
   // 이번주 특이사항 데이터
-  final String _specialThisWeeksComment =
-      '목요일에 사용량이 최대치를 기록했어요. 새 게임 설치 후 다른 앱 사용 패턴이 완전히 바뀌었네요!';
+  // final String _specialThisWeeksComment =
+  //    '목요일에 사용량이 최대치를 기록했어요. 새 게임 설치 후 다른 앱 사용 패턴이 완전히 바뀌었네요!';
+  String _specialThisWeeksComment = '';
+  final _specialThisWeeksViewModel = SpecialThisWeeksViewModel();
+
+  Future<void> _loadSpecialThisWeeksComment() async {
+    final summary = await _specialThisWeeksViewModel.fetchSpecialThisWeek();
+    if (summary != null) {
+      setState(() {
+        _specialThisWeeksComment = summary;
+      });
+    } else {
+      print("요약 데이터를 가져오지 못했습니다.");
+    }
+  }
 
   // SNS 몰입도 분석 데이터
   final String _engagementAnalysisComment =
       '인스타 그램 실행횟수 30회 증가! 이번주는 SNS에 유독 많이들어가는군요!';
 
-  // 요일별 패턴 분석 데이터
-  final String _patternAnalysisByDayOfTheWeekComment =
-      '목요일에 스트레스가 쌓여 폰 사용이 급증하고, 금요일엔 해방감으로 엔터테인먼트에 몰두하는 패턴이 뚜렷해요.';
   final int _averageDailySNSTime = 150;
   final int _EarlyMorningConnectionRate = 67;
+
+  // 요일별 패턴 분석 데이터
+  // final List<String> _patternAnalysisByDayOfTheWeekComment = [
+  //   '늦잠 + SNS 몰아보기',
+  //   '늦잠 + SNS 몰아보기',
+  //   '늦잠 + SNS 몰아보기',
+  //   '늦잠 + SNS 몰아보기',
+  //   '늦잠 + SNS 몰아보기',
+  //   '늦잠 + SNS 몰아보기',
+  //   '늦잠 + SNS 몰아보기',
+  // ];
+  final BehaviorPatternsViewModel _behaviorPatternsViewModel =
+      BehaviorPatternsViewModel();
+  List<BehaviorPatternModel> _patternAnalysisByDayOfTheWeekComment = [];
+
+  Future<void> _loadBehaviorPatterns() async {
+    final data = await _behaviorPatternsViewModel.fetchBehaviorPatterns();
+
+    // 날짜순 정렬 (오래된 → 최근)
+    data.sort((a, b) {
+      final aDate = DateTime.parse(a.date);
+      final bDate = DateTime.parse(b.date);
+      return aDate.compareTo(bDate);
+    });
+
+    setState(() {
+      _patternAnalysisByDayOfTheWeekComment = data;
+    });
+  }
 
   // 주간 변화 트렌드 데이터
   final String _weeklyChangingTrendsComment =
@@ -37,6 +79,13 @@ class _InsightViewState extends State<InsightView> {
     ['독서', '- 60%'],
     ['게임', '+ 35%'],
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSpecialThisWeeksComment();
+    _loadBehaviorPatterns();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +110,7 @@ class _InsightViewState extends State<InsightView> {
 
           // 요일별 패턴 분석
           PatternAnalysisByDayOfTheWeek(
-            comment: _patternAnalysisByDayOfTheWeekComment,
+            patterns: _patternAnalysisByDayOfTheWeekComment,
           ),
 
           SizedBox(height: kIsWeb ? 20 : 20.h),
