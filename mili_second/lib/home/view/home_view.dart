@@ -43,6 +43,10 @@ class _HomeViewState extends State<HomeView> {
     final viewModel = context.watch<UsageDataViewModel>();
     final userModel = context.watch<UserModel>();
 
+    final String imageBasePath = kIsWeb
+        ? 'icons/character/' // 👈 웹(Web)일 때 경로
+        : 'assets/icons/character/'; // 👈 모바일(Mobile)일 때 경로
+
     return Scaffold(
       body: RefreshIndicator(
         // 새로고침 시 ViewModel의 함수 호출
