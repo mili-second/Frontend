@@ -15,7 +15,7 @@ class UserModel extends ChangeNotifier {
   String? _error;
   String? _userProfileImage = 'assets/icons/profile_default.png';
   String? _userGender;
-  String? _userType = 'shoppingAddictType';
+  String? _userType = 'default';
 
   String? get userId => _userId;
   String get baseUrl => _baseUrl;
@@ -143,7 +143,7 @@ class UserModel extends ChangeNotifier {
       return;
     }
 
-    // 1. 서버 URL (❗️ 엔드포인트가 '/users/login'이 맞는지 확인하세요)
+    // 1. 서버 URL
     final url = Uri.parse('$_baseUrl/users/login');
     // final url = Uri.parse(
     //   'https://webhook.site/dd07b461-0805-4e32-a81c-0dfa06336f9f',
@@ -303,8 +303,8 @@ class UserModel extends ChangeNotifier {
     // 2. 서버에 보낼 데이터 (JSON 형식으로 변환)
     final body = json.encode({
       'nickname': userId,
-      'password': password,
       'profileImageNumber': profileImageNumber,
+      'password': password,
     });
 
     try {
@@ -358,6 +358,10 @@ class UserModel extends ChangeNotifier {
   // usermodel.dart
 
   Future<void> get_phonebti() async {
+    if (_userType != 'default') {
+      print('이미 핸bti를 로드했거나 로드에 실패했습니다: $_userType');
+      return;
+    }
     if (_userId == "test_front") {
       // front tets용 계정
       print("front_test 계정");
@@ -391,7 +395,7 @@ class UserModel extends ChangeNotifier {
     };
 
     try {
-      final response = await http.post(url, headers: headers);
+      final response = await http.get(url, headers: headers);
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         print('핸비티아이 가져오기 성공');

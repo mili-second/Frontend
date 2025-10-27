@@ -25,7 +25,10 @@ class _HomeViewState extends State<HomeView> {
     // TODO: implement initState
     super.initState();
 
-    context.read<UserModel>().get_phonebti();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // initState에서는 context.read가 안전합니다.
+      context.read<UserModel>().get_phonebti();
+    });
   }
 
   @override
