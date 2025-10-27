@@ -32,25 +32,25 @@ class _EditProfileState extends State<ProfileInfo> {
                 ),
               ),
               SizedBox(width: kIsWeb ? 20 : 20.w),
-              GestureDetector(
-                onTap: () {
-                  // 설정창으로 이동
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Setting()),
-                  );
-                },
-                child: Row(
-                  children: [
-                    SizedBox(width: kIsWeb ? 70 : 70.w),
-                    Image.asset(
-                      'assets/icons/setting.png',
-                      width: kIsWeb ? 30 : 30.w,
-                      height: kIsWeb ? 30 : 30.h,
-                    ),
-                  ],
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     // 설정창으로 이동
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => Setting()),
+              //     );
+              //   },
+              //   child: Row(
+              //     children: [
+              //       SizedBox(width: kIsWeb ? 70 : 70.w),
+              //       Image.asset(
+              //         'assets/icons/setting.png',
+              //         width: kIsWeb ? 30 : 30.w,
+              //         height: kIsWeb ? 30 : 30.h,
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -229,29 +229,29 @@ class _EditProfileState extends State<ProfileInfo> {
               ],
             ),
           ),
-          Positioned(
-            top: kIsWeb ? 270 : 270.h,
-            left: kIsWeb ? 180 : 180.w,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EditProfile()),
-                );
-              },
-              child: Row(
-                children: [
-                  SizedBox(width: kIsWeb ? 70 : 70.w),
-                  Image.asset(
-                    'assets/icons/profile_edit.png',
-                    // widget.userProfileImage = 'assets/icons/profile_default.png' ? 'assets/icons/profileEdit.png' : ,
-                    width: kIsWeb ? 45 : 45.w,
-                    height: kIsWeb ? 45 : 45.h,
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: kIsWeb ? 270 : 270.h,
+          //   left: kIsWeb ? 180 : 180.w,
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(builder: (context) => EditProfile()),
+          //       );
+          //     },
+          //     child: Row(
+          //       children: [
+          //         SizedBox(width: kIsWeb ? 70 : 70.w),
+          //         Image.asset(
+          //           'assets/icons/profile_edit.png',
+          //           // widget.userProfileImage = 'assets/icons/profile_default.png' ? 'assets/icons/profileEdit.png' : ,
+          //           width: kIsWeb ? 45 : 45.w,
+          //           height: kIsWeb ? 45 : 45.h,
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
