@@ -8,6 +8,7 @@ import '/insight/view/weekly_changing_trends.dart';
 import 'package:mili_second/insight/view_model/special_this_weeks_view_model.dart';
 import 'package:mili_second/insight/view_model/pattern_analysis_by_day_of_the_week_view_model.dart';
 import 'package:mili_second/insight/model/pattern_analysis_by_day_of_the_week_model.dart';
+import 'package:mili_second/insight/view_model/engagement_analysis_view_model.dart';
 
 class InsightView extends StatefulWidget {
   const InsightView({super.key});
@@ -35,11 +36,23 @@ class _InsightViewState extends State<InsightView> {
   }
 
   // SNS 몰입도 분석 데이터
-  final String _engagementAnalysisComment =
-      '인스타 그램 실행횟수 30회 증가! 이번주는 SNS에 유독 많이들어가는군요!';
+  // final int _averageDailySNSTime = 150;
+  // final int _EarlyMorningConnectionRate = 67;
+  final EngagementAnalysisViewModel _engagementAnalysisViewModel =
+      EngagementAnalysisViewModel();
 
-  final int _averageDailySNSTime = 150;
-  final int _EarlyMorningConnectionRate = 67;
+  int snsUsageRate = 0;
+  int dawnAccessRate = 0;
+
+  Future<void> _loadEngagementAnalysis() async {
+    final result = await _engagementAnalysisViewModel.fetchUsageInsight();
+    if (result != null) {
+      setState(() {
+        snsUsageRate = result.snsUsageRate;
+        dawnAccessRate = result.dawnAccessRate;
+      });
+    }
+  }
 
   // 요일별 패턴 분석 데이터
   // final List<String> _patternAnalysisByDayOfTheWeekComment = [
@@ -85,6 +98,7 @@ class _InsightViewState extends State<InsightView> {
     super.initState();
     _loadSpecialThisWeeksComment();
     _loadBehaviorPatterns();
+    _loadEngagementAnalysis();
   }
 
   @override
@@ -101,9 +115,8 @@ class _InsightViewState extends State<InsightView> {
 
           // SNS 몰입도 분석
           EngagementAnalysis(
-            comment: _engagementAnalysisComment,
-            SNSTime: _averageDailySNSTime,
-            rate: _EarlyMorningConnectionRate,
+            snsUsageRate: snsUsageRate,
+            dawnAccessRate: dawnAccessRate,
           ),
 
           SizedBox(height: kIsWeb ? 20 : 20.h),

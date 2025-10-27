@@ -3,22 +3,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
 
 class EngagementAnalysis extends StatelessWidget {
-  final String comment;
-  final int SNSTime;
-  final int rate;
+  //final String comment;
+  final int snsUsageRate;
+  final int dawnAccessRate;
 
   const EngagementAnalysis({
     super.key,
-    required this.comment,
-    required this.SNSTime,
-    required this.rate,
+    //required this.comment,
+    required this.snsUsageRate,
+    required this.dawnAccessRate,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: kIsWeb ? 362 : 362.w,
-      height: kIsWeb ? 237 : 237.h,
+      height: kIsWeb ? 180 : 180.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(kIsWeb ? 10 : 10.r),
@@ -54,24 +54,23 @@ class EngagementAnalysis extends StatelessWidget {
               ],
             ),
 
-            SizedBox(height: kIsWeb ? 5 : 5.h),
+            SizedBox(height: kIsWeb ? 10 : 10.h),
 
-            SizedBox(
-              width: kIsWeb ? 280 : 280.w,
-              height: kIsWeb ? 60 : 60.h,
-              child: Text(
-                comment.replaceAllMapped(
-                  RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
-                  (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
-                ),
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: kIsWeb ? 15 : 15.r,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-
+            // SizedBox(
+            //   width: kIsWeb ? 280 : 280.w,
+            //   height: kIsWeb ? 60 : 60.h,
+            //   child: Text(
+            //     comment.replaceAllMapped(
+            //       RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
+            //       (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
+            //     ),
+            //     style: TextStyle(
+            //       color: Color(0xFF000000),
+            //       fontSize: kIsWeb ? 15 : 15.r,
+            //       fontWeight: FontWeight.w600,
+            //     ),
+            //   ),
+            // ),
             Stack(
               children: [
                 Container(
@@ -93,20 +92,20 @@ class EngagementAnalysis extends StatelessWidget {
                 ),
                 Positioned(
                   top: kIsWeb ? 15 : 15.h,
-                  left: kIsWeb ? 25 : 25.w,
+                  left: kIsWeb ? 45 : 45.w,
                   child: Column(
                     children: [
                       Text(
-                        '주간 평균 SNS시간',
+                        'SNS 사용률',
                         style: TextStyle(
                           color: Color(0xFF000000),
                           fontSize: kIsWeb ? 16 : 16.r,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(height: kIsWeb ? 5 : 5.h),
+                      SizedBox(height: kIsWeb ? 10 : 10.h),
                       Text(
-                        '${SNSTime}분',
+                        '${snsUsageRate}%',
                         style: TextStyle(
                           color: Color(0xFF0080FF),
                           fontSize: kIsWeb ? 20 : 20.r,
@@ -129,9 +128,9 @@ class EngagementAnalysis extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(height: kIsWeb ? 5 : 5.h),
+                      SizedBox(height: kIsWeb ? 10 : 10.h),
                       Text(
-                        '${rate}%',
+                        '${dawnAccessRate}%',
                         style: TextStyle(
                           color: Color(0xFFFFBB00),
                           fontSize: kIsWeb ? 20 : 20.r,
