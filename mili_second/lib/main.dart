@@ -9,7 +9,7 @@ import 'package:mili_second/auth_wrapper.dart';
 import 'package:mili_second/model/user_model.dart';
 import 'package:provider/provider.dart';
 // 'viewmodels/usage_data_viewmodel.dart'가 맞을 수 있습니다.
-import 'home/viewmodel/usage_data_viewmodel.dart';
+import 'home/view_model/usage_data_view_model.dart';
 import 'package:mili_second/profile/view_model/profile_provider.dart';
 
 void main() {

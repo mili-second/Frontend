@@ -39,49 +39,49 @@ class AccountManagement extends StatelessWidget {
         ),
         child: Column(
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TermsAndConditions()),
-                );
-              },
-              child: Stack(
-                children: [
-                  SizedBox(
-                    width: kIsWeb ? 500 : 500.w,
-                    height: kIsWeb ? 50 : 50.h,
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/icons/terms_and_conditions.png',
-                          width: kIsWeb ? 30 : 30.w,
-                          height: kIsWeb ? 30 : 30.h,
-                        ),
-                        SizedBox(width: kIsWeb ? 25 : 25.w),
-                        Text(
-                          '약관 및 정책',
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: kIsWeb ? 20 : 20.r,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: kIsWeb ? 10.h : 10,
-                    left: kIsWeb ? 350 : 350.w,
-                    child: Image.asset(
-                      'assets/icons/right.png',
-                      width: kIsWeb ? 35 : 35.w,
-                      height: kIsWeb ? 35 : 35.h,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => TermsAndConditions()),
+            //     );
+            //   },
+            //   child: Stack(
+            //     children: [
+            //       SizedBox(
+            //         width: kIsWeb ? 500 : 500.w,
+            //         height: kIsWeb ? 50 : 50.h,
+            //         child: Row(
+            //           children: [
+            //             Image.asset(
+            //               'assets/icons/terms_and_conditions.png',
+            //               width: kIsWeb ? 30 : 30.w,
+            //               height: kIsWeb ? 30 : 30.h,
+            //             ),
+            //             SizedBox(width: kIsWeb ? 25 : 25.w),
+            //             Text(
+            //               '약관 및 정책',
+            //               style: TextStyle(
+            //                 color: Color(0xFF000000),
+            //                 fontSize: kIsWeb ? 20 : 20.r,
+            //                 fontWeight: FontWeight.w700,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //       Positioned(
+            //         top: kIsWeb ? 10.h : 10,
+            //         left: kIsWeb ? 350 : 350.w,
+            //         child: Image.asset(
+            //           'assets/icons/right.png',
+            //           width: kIsWeb ? 35 : 35.w,
+            //           height: kIsWeb ? 35 : 35.h,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(height: kIsWeb ? 25 : 25.h),
             GestureDetector(
               onTap: () {
