@@ -500,7 +500,7 @@ class _LoginViewState extends State<LoginView> {
                         inputId = str;
                       });
                     },
-                    cursorColor: Color(0xFF0088FF),
+                    cursorColor: kIsWeb ? Colors.transparent : Color(0xFF0088FF),
                     decoration: InputDecoration(
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
@@ -540,7 +540,7 @@ class _LoginViewState extends State<LoginView> {
                         inputPw = str;
                       });
                     },
-                    cursorColor: Color(0xFF0088FF),
+                    cursorColor: kIsWeb ? Colors.transparent : Color(0xFF0088FF),
                     decoration: InputDecoration(
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
@@ -566,6 +566,17 @@ class _LoginViewState extends State<LoginView> {
                     onPressed: inputId == "" || inputPw == ""
                         ? null
                         : () async {
+                            final allowedAccounts = ["testuser1", "testuser2", "testuser3"];
+                            if (kIsWeb && !allowedAccounts.contains(inputId)) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content:
+                                      Text("웹 환경에서는 허용된 테스트 계정으로만 로그인이 가능합니다."),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              return;
+                            }
                             // (안전) "await"가 시작되기 "전"에
                             //    context에서 필요한 것들을 미리 변수에 담아둡니다.
                             //    (이 시점의 context는 100% 안전합니다.)
@@ -590,6 +601,7 @@ class _LoginViewState extends State<LoginView> {
                                 context,
                               ).popUntil((route) => route.isFirst);
                             } else {
+                              print("Error: ${userModel.error}");
                               scaffoldMessenger.showSnackBar(
                                 SnackBar(
                                   content: Text(userModel.error!),
