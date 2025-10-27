@@ -107,7 +107,6 @@ class UserModel extends ChangeNotifier {
             // (나머지 정보는 임시로 세팅)
             _userJob = "Developer (Auto-login)";
             _userProfileImage = 'assets/icons/profile_default.png';
-            _userType = 'balanced';
             _userGender = '여성';
           } else {
             // --- 토큰 만료 또는 ID 없음 ---
@@ -135,7 +134,6 @@ class UserModel extends ChangeNotifier {
       // front tets용 계정
       _userId = inputId;
       _userJob = "Developer (front_test)"; // (예시)
-      _userType = "balanced"; // 임시 타입
 
       _isLoading = false;
       notifyListeners();
@@ -194,7 +192,6 @@ class UserModel extends ChangeNotifier {
         // (checkAutoLogin 로직과 호환을 위해)
         // _userId = inputId;
         _userJob = "Developer (from server)"; // (예시)
-        _userType = 'balanced';
         print("로그인성공 ");
       } else {
         // 4-1. 서버가 에러 응답을 준 경우 (200이 아닌 경우)
@@ -379,13 +376,6 @@ class UserModel extends ChangeNotifier {
       print('핸bti 실패: _userToken이 null입니다. 로그아웃을 시도합니다.');
       await _clearLocalData(); // 로그아웃 처리
       return; // 함수 종료
-    }
-
-    // (추가) 이미 로드된 상태면(기본값이 아니면) 실행하지 않음
-    // 'balanced'는 실패 시 임시값이므로 제외
-    if (_userType != 'shoppingAddictType' && _userType != 'balanced') {
-      print('이미 핸bti가 로드되었습니다: $_userType');
-      return;
     }
 
     final url = Uri.parse('${_baseUrl}/insights/content-preferences');
