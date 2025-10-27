@@ -55,10 +55,11 @@ class SpecialThisWeeks extends StatelessWidget {
               width: kIsWeb ? 280 : 280.w,
               child: Text(
                 textAlign: TextAlign.start,
-                comment.replaceAllMapped(
-                  RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
-                  (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
-                ),
+                comment,
+                // .replaceAllMapped(
+                //   RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
+                //   (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
+                // ),
                 style: TextStyle(
                   color: Color(0xFFFFFFFF),
                   fontSize: kIsWeb ? 15 : 15.r,

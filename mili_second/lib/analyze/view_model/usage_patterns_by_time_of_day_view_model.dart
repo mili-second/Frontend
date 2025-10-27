@@ -23,17 +23,22 @@ class UsagePatternsByTimeOfDayViewModel {
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonData = jsonDecode(response.body);
 
-        final List<dynamic> data = jsonDecode(response.body);
-        data.sort((a, b) => b.date.compareTo(a.date)); // 최신 날짜가 먼저 오도록 정렬
-        return data
+        // dailySummaries를 리스트로 꺼내기
+        final List<dynamic> summaries = jsonData['dailySummaries'] ?? [];
+
+        // 최신 날짜가 먼저 오도록 정렬
+        summaries.sort((a, b) => b['date'].compareTo(a['date']));
+
+        // 모델로 변환
+        return summaries
             .map((e) => UsagePatternsByTimeOfDayModel.fromJson(e))
             .toList();
       } else {
-        print('❌ 분석 - 3일 서버 오류: ${response.statusCode}');
+        print('❌ 분석 - 시간대별 서버 오류: ${response.statusCode}');
         return [];
       }
     } catch (e) {
-      print('⚠️ 분석 - 3일 요청 오류 발생: $e');
+      print('⚠️ 분석 - 시간대별 요청 오류 발생: $e');
       return [];
     }
   }
