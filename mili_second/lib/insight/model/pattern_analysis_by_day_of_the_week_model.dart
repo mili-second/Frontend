@@ -17,3 +17,23 @@ class BehaviorPatternModel {
     );
   }
 }
+
+class ContentPreferenceModel {
+  final String date;
+  final String contentPreference;
+  final String contentPreferenceKo;
+
+  ContentPreferenceModel({
+    required this.date,
+    required this.contentPreference,
+    required this.contentPreferenceKo,
+  });
+
+  factory ContentPreferenceModel.fromJson(Map<String, dynamic> json) {
+    return ContentPreferenceModel(
+      date: json['date'],
+      contentPreference: json['contentPreference'],
+      contentPreferenceKo: json['contentPreferenceKo'],
+    );
+  }
+}

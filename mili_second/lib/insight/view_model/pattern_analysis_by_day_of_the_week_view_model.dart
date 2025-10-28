@@ -32,3 +32,33 @@ class BehaviorPatternsViewModel {
     }
   }
 }
+
+class ContentPreferenceViewModel {
+  Future<List<ContentPreferenceModel>> fetchContentPreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final String baseUrl = "https://api.yolang.shop";
+    final url = Uri.parse('$baseUrl/insights/content-preferences');
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        return data.map((e) => ContentPreferenceModel.fromJson(e)).toList();
+      } else {
+        print('❌ 컨텐츠 패턴 서버 오류: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      print('⚠️ 컨텐츠 패턴 요청 중 오류 발생: $e');
+      return [];
+    }
+  }
+}

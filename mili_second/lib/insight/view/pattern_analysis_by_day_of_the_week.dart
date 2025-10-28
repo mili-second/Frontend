@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
 import 'package:milli_second/insight/model/pattern_analysis_by_day_of_the_week_model.dart';
+import 'package:milli_second/insight/model/daily_pattern_comment.dart';
 
 // class PatternAnalysisByDayOfTheWeek extends StatelessWidget {
 //   final List<String> comment;
@@ -119,7 +120,7 @@ import 'package:milli_second/insight/model/pattern_analysis_by_day_of_the_week_m
 // }
 
 class PatternAnalysisByDayOfTheWeek extends StatelessWidget {
-  final List<BehaviorPatternModel> patterns;
+  final List<DailyPatternComment> patterns;
 
   const PatternAnalysisByDayOfTheWeek({super.key, required this.patterns});
 
@@ -133,8 +134,8 @@ class PatternAnalysisByDayOfTheWeek extends StatelessWidget {
     }
 
     return Container(
-      width: kIsWeb ? 362 : 362.w,
-      height: kIsWeb ? 440 : 440.h,
+      width: kIsWeb ? 355 : 355.w,
+      // height: kIsWeb ? 460 : 460.h,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(kIsWeb ? 10 : 10.r),
@@ -147,6 +148,7 @@ class PatternAnalysisByDayOfTheWeek extends StatelessWidget {
         padding: EdgeInsets.all(kIsWeb ? 20 : 20.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               children: [
@@ -157,7 +159,7 @@ class PatternAnalysisByDayOfTheWeek extends StatelessWidget {
                 ),
                 SizedBox(width: kIsWeb ? 10 : 10.w),
                 Text(
-                  '최근 7일 행동 패턴',
+                  '최근 7일 행동 패턴 \n(확인 빈도 / 분류 유형)',
                   style: TextStyle(
                     fontSize: kIsWeb ? 17 : 17.r,
                     fontWeight: FontWeight.w700,
@@ -167,43 +169,46 @@ class PatternAnalysisByDayOfTheWeek extends StatelessWidget {
             ),
             SizedBox(height: kIsWeb ? 10 : 10.h),
             Container(
-              width: kIsWeb ? 310 : 310.w,
+              width: kIsWeb ? 330 : 330.w,
               height: kIsWeb ? 1 : 1.h,
               color: const Color(0xFFBEBEBE),
             ),
             SizedBox(height: kIsWeb ? 15 : 15.h),
 
             // 날짜별 동적 렌더링
-            Expanded(
-              child: ListView.builder(
-                itemCount: patterns.length,
-                itemBuilder: (context, index) {
-                  final pattern = patterns[index];
-                  final date = DateTime.parse(pattern.date);
-                  final weekday = weekDays[date.weekday - 1];
-                  final formattedDate = "${date.month}/${date.day} ($weekday)";
+            ListView.builder(
+              // ✨ 3. shrinkWrap: true 추가 (내용물 크기만큼 높이 차지)
+              shrinkWrap: true,
+              // ✨ 4. physics: NeverScrollableScrollPhysics() 추가 (독립 스크롤 방지)
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: patterns.length,
+              itemBuilder: (context, index) {
+                final pattern = patterns[index];
+                final date = DateTime.parse(pattern.date);
+                final weekday = weekDays[date.weekday - 1];
+                final formattedDate = "${date.month}/${date.day} ($weekday)";
 
-                  // 이미지도 인덱스별로 다양하게 (랜덤 또는 요일 매핑)
-                  final dayImage = [
-                    'monday_lazy',
-                    'tuesday_flower',
-                    'wednesday_fighting',
-                    'thursday_letsgo',
-                    'friday_fire',
-                    'saturday_home',
-                    'sunday_relax',
-                  ][date.weekday - 1];
+                // 이미지도 인덱스별로 다양하게 (랜덤 또는 요일 매핑)
+                final dayImage = [
+                  'monday_lazy',
+                  'tuesday_flower',
+                  'wednesday_fighting',
+                  'thursday_letsgo',
+                  'friday_fire',
+                  'saturday_home',
+                  'sunday_relax',
+                ][date.weekday - 1];
 
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: kIsWeb ? 15 : 15.h),
-                    child: DayOfTheWeek(
-                      day: formattedDate,
-                      dayImage: dayImage,
-                      dayComment: pattern.behaviorPatternKo,
-                    ),
-                  );
-                },
-              ),
+                return Padding(
+                  padding: EdgeInsets.only(bottom: kIsWeb ? 15 : 15.h),
+                  child: DayOfTheWeek(
+                    day: formattedDate,
+                    dayImage: dayImage,
+                    behaviorComment: pattern.behaviorComment,
+                    contentComment: pattern.contentComment,
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -212,66 +217,109 @@ class PatternAnalysisByDayOfTheWeek extends StatelessWidget {
   }
 }
 
+// insight/view/pattern_analysis_by_day_of_the_week.dart
+
 class DayOfTheWeek extends StatelessWidget {
   final String day;
   final String dayImage;
-  final String dayComment;
+  final String behaviorComment;
+  final String contentComment;
+
   const DayOfTheWeek({
     super.key,
     required this.day,
     required this.dayImage,
-    required this.dayComment,
+    required this.behaviorComment,
+    required this.contentComment,
   });
 
   @override
   Widget build(BuildContext context) {
+    int lineCount = 0;
+    if (behaviorComment.isNotEmpty) lineCount++;
+    if (contentComment.isNotEmpty) lineCount++;
+    double bubbleHeight = (lineCount > 1) ? (kIsWeb ? 54 : 54.h) : (kIsWeb ? 35 : 35.h); // 높이 조절
+    double rowHeight = bubbleHeight;
+
     return SizedBox(
-      width: kIsWeb ? 280 : 280.w,
-      height: kIsWeb ? 30 : 30.h,
+      height: rowHeight,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            day,
-            style: TextStyle(
-              color: Color(0xFF000000),
-              fontSize: kIsWeb ? 16 : 16.r,
-              fontWeight: FontWeight.w700,
+          SizedBox(
+            width: kIsWeb ? 110 : 110.w, // 날짜 너비
+            child: Text(
+              day,
+              style: TextStyle(
+                color: Color(0xFF000000),
+                fontSize: kIsWeb ? 16 : 16.r,
+                fontWeight: FontWeight.w700,
+              ),
+              textAlign: TextAlign.left,
             ),
           ),
-
-          // if (day == '주말')
-          //   SizedBox(width: kIsWeb ? 25 : 25.w)
-          // else
-          SizedBox(width: kIsWeb ? 10 : 10.w),
-
           Image.asset(
             'assets/icons/${dayImage}.png',
             width: kIsWeb ? 25 : 25.w,
             height: kIsWeb ? 25 : 25.h,
           ),
-
           SizedBox(width: kIsWeb ? 10 : 10.w),
-
-          Stack(
-            children: [
-              Image.asset(
-                'assets/icons/speechBubble.png',
-                width: kIsWeb ? 181 : 181.w,
-                height: kIsWeb ? 40 : 40.h,
-              ),
-              Positioned(
-                top: kIsWeb ? 4 : 4.h,
-                left: kIsWeb ? 30 : 30.w,
-                child: Text(
-                  dayComment,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: kIsWeb ? 13 : 13.r,
-                    fontWeight: FontWeight.w400,
+          Expanded( // Expanded 유지
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: [
+                Container(
+                  height: bubbleHeight,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/icons/speechBubble.png'),
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
-              ),
-            ],
+                Positioned.fill(
+                  child: Padding(
+                    // ✨ 왼쪽 패딩 조절, 상하 패딩 유지 또는 조절
+                    padding: EdgeInsets.only(
+                      left: kIsWeb ? 30 : 30.w, // 말풍선 꼬리 부분 감안한 왼쪽 여백
+                      right: kIsWeb ? 10 : 10.w, // 오른쪽 여백
+                      top: kIsWeb ? 6 : 6.h, // 상하 위치 조절 (Center 제거 후 필요)
+                      bottom: kIsWeb ? 6 : 6.h,
+                    ),
+                    // ✨ Center 위젯 제거
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center, // Column 내용을 수직 중앙 정렬
+                      crossAxisAlignment: CrossAxisAlignment.start, // 텍스트 왼쪽 정렬 (이미 설정됨)
+                      children: [
+                        if (behaviorComment.isNotEmpty)
+                          Text(
+                            behaviorComment,
+                            style: TextStyle(
+                              color: Color(0xFF000000),
+                              fontSize: kIsWeb ? 13 : 13.r,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        if (lineCount > 1) SizedBox(height: kIsWeb ? 1 : 1.h),
+                        if (contentComment.isNotEmpty)
+                          Text(
+                            contentComment,
+                            style: TextStyle(
+                              color: Color(0xFF000000),
+                              fontSize: kIsWeb ? 13 : 13.r,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
