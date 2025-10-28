@@ -73,7 +73,7 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
 
     return Container(
       width: kIsWeb ? 362 : 362.w,
-      height: kIsWeb ? 230 : 230.h,
+      height: kIsWeb ? 200 : 200.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(kIsWeb ? 10 : 10.r),
@@ -296,54 +296,54 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
             //     ],
             //   ),
             // ),
-            SizedBox(height: kIsWeb ? 10 : 10.h),
-            SizedBox(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/icons/top3MainIcon.png',
-                    width: kIsWeb ? 20 : 20.w,
-                    height: kIsWeb ? 20 : 20.w,
-                  ),
-                  _currentIndex == 0
-                      ? Text(
-                          ' 오늘 가장 활발한 시간 : ',
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: kIsWeb ? 15 : 15.r,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        )
-                      : Text(
-                          ' ',
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: kIsWeb ? 15 : 15.r,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                  _currentIndex == 0
-                      ? Text(
-                          widget.timeOfDayPatternPeakTime,
-                          style: TextStyle(
-                            color: Color(0xFFF23C14),
-                            fontSize: kIsWeb ? 17 : 17.r,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        )
-                      : Text(
-                          ' ',
-                          style: TextStyle(
-                            color: Color(0xFFF23C14),
-                            fontSize: kIsWeb ? 17 : 17.r,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                  SizedBox(width: kIsWeb ? 10 : 10.w),
-                ],
-              ),
-            ),
+            // SizedBox(height: kIsWeb ? 10 : 10.h),
+            // SizedBox(
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Image.asset(
+            //         'assets/icons/top3MainIcon.png',
+            //         width: kIsWeb ? 20 : 20.w,
+            //         height: kIsWeb ? 20 : 20.w,
+            //       ),
+            //       _currentIndex == 0
+            //           ? Text(
+            //               ' 오늘 가장 활발한 시간 : ',
+            //               style: TextStyle(
+            //                 color: Color(0xFF000000),
+            //                 fontSize: kIsWeb ? 15 : 15.r,
+            //                 fontWeight: FontWeight.w700,
+            //               ),
+            //             )
+            //           : Text(
+            //               ' ',
+            //               style: TextStyle(
+            //                 color: Color(0xFF000000),
+            //                 fontSize: kIsWeb ? 15 : 15.r,
+            //                 fontWeight: FontWeight.w700,
+            //               ),
+            //             ),
+            //       _currentIndex == 0
+            //           ? Text(
+            //               widget.timeOfDayPatternPeakTime,
+            //               style: TextStyle(
+            //                 color: Color(0xFFF23C14),
+            //                 fontSize: kIsWeb ? 17 : 17.r,
+            //                 fontWeight: FontWeight.w700,
+            //               ),
+            //             )
+            //           : Text(
+            //               ' ',
+            //               style: TextStyle(
+            //                 color: Color(0xFFF23C14),
+            //                 fontSize: kIsWeb ? 17 : 17.r,
+            //                 fontWeight: FontWeight.w700,
+            //               ),
+            //             ),
+            //       SizedBox(width: kIsWeb ? 10 : 10.w),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
