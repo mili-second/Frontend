@@ -187,7 +187,7 @@ class UsageDataViewModel extends ChangeNotifier {
     notifyListeners();
 
     if (kIsWeb) {
-      _status = '웹에서는 사용 기록을 지원하지 않습니다.';
+      _status = '';
       _totalUsageTime = 'N/A (웹)';
       _totalUnlockCount = 'N/A (웹)';
       notifyListeners();

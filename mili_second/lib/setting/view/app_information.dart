@@ -38,49 +38,50 @@ class AppInformation extends StatelessWidget {
         ),
         child: Column(
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DeleteAccount()),
-                );
-              },
-              child: Stack(
-                children: [
-                  SizedBox(
-                    width: kIsWeb ? 500 : 500.w,
-                    height: kIsWeb ? 50 : 50.h,
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/icons/account.png',
-                          width: kIsWeb ? 30 : 30.w,
-                          height: kIsWeb ? 30 : 30.h,
-                        ),
-                        SizedBox(width: kIsWeb ? 25 : 25.w),
-                        Text(
-                          '회원 탈퇴',
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: kIsWeb ? 20 : 20.r,
-                            fontWeight: FontWeight.w700,
+            if (!kIsWeb)
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DeleteAccount()),
+                  );
+                },
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      width: kIsWeb ? 500 : 500.w,
+                      height: kIsWeb ? 50 : 50.h,
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/icons/account.png',
+                            width: kIsWeb ? 30 : 30.w,
+                            height: kIsWeb ? 30 : 30.h,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: kIsWeb ? 25 : 25.w),
+                          Text(
+                            '회원 탈퇴',
+                            style: TextStyle(
+                              color: Color(0xFF000000),
+                              fontSize: kIsWeb ? 20 : 20.r,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    top: kIsWeb ? 10.h : 10,
-                    left: kIsWeb ? 350 : 350.w,
-                    child: Image.asset(
-                      'assets/icons/right.png',
-                      width: kIsWeb ? 35 : 35.w,
-                      height: kIsWeb ? 35 : 35.h,
+                    Positioned(
+                      top: kIsWeb ? 10.h : 10,
+                      left: kIsWeb ? 350 : 350.w,
+                      child: Image.asset(
+                        'assets/icons/right.png',
+                        width: kIsWeb ? 35 : 35.w,
+                        height: kIsWeb ? 35 : 35.h,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),

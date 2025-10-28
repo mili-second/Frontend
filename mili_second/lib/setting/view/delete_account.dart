@@ -12,7 +12,29 @@ class DeleteAccount extends StatefulWidget {
 
 class _DeleteAccountState extends State<DeleteAccount> {
   @override
+  void initState() {
+    super.initState();
+    // 웹 플랫폼에서 접근 시 자동으로 뒤로가기
+    if (kIsWeb) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // 웹 플랫폼에서는 빈 화면 표시
+    if (kIsWeb) {
+      return const Scaffold(
+        body: Center(
+          child: SizedBox.shrink(),
+        ),
+      );
+    }
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(
