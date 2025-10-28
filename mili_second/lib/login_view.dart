@@ -151,14 +151,16 @@ class _SignInViewState extends State<SignInView> {
                       ),
                       Row(
                         children: [
-                          Text(
-                            "회원가입",
-                            style: TextStyle(
-                              color: Color(0xFF007BFF),
-                              fontSize: kIsWeb ? 25 : 25.r,
-                              fontWeight: FontWeight.w700,
+                          if (!kIsWeb){
+                            Text(
+                              "회원가입",
+                              style: TextStyle(
+                                color: Color(0xFF007BFF),
+                                fontSize: kIsWeb ? 25 : 25.r,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
-                          ),
+                          }
                           Text(
                             "이 필요합니다.",
                             style: TextStyle(
