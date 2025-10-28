@@ -7,12 +7,14 @@ class UsagePatternsByTimeOfDay extends StatefulWidget {
   //final String timeOfDayPatternSummary;
   final List<List<int>> datas;
   final String timeOfDayPatternPeakTime;
+  final List<DateTime> dates; 
 
   const UsagePatternsByTimeOfDay({
     super.key,
     //required this.timeOfDayPatternSummary,
     required this.timeOfDayPatternPeakTime,
     required this.datas,
+    required this.dates,
   });
 
   @override
@@ -42,6 +44,23 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
       return widget.datas[index];
     }
     return [0, 0, 0, 0]; // 범위를 벗어나면 기본 값으로 처리
+  }
+
+  String getDateDisplayText(int index) {
+    if (index >= widget.dates.length) return '';
+    
+    final targetDate = widget.dates[index];
+    final today = DateTime.now();
+    final todayDate = DateTime(today.year, today.month, today.day);
+    final targetDateOnly = DateTime(targetDate.year, targetDate.month, targetDate.day);
+
+    // 오늘인지 확인
+    if (targetDateOnly.isAtSameMomentAs(todayDate)) {
+      return '오늘';
+    }
+    
+    // 그 외는 날짜 형식으로 표시 (MM/dd)
+    return DateFormat('MM/dd').format(targetDate);
   }
 
   @override
@@ -93,20 +112,32 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
               children: [
                 SizedBox(
                   width: kIsWeb ? 362 : 362.w,
-                  height: kIsWeb ? 45 : 45.h,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      top: kIsWeb ? 8 : 8.h,
-                      left: kIsWeb ? 95.0 : 95.w,
-                    ),
-                    child: Text(
-                      '시간대별 사용 패턴',
-                      style: TextStyle(
-                        color: Color(0xFF000000),
-                        fontSize: kIsWeb ? 17 : 17.r,
-                        fontWeight: FontWeight.w700,
+                  height: kIsWeb ? 60 : 60.h,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: kIsWeb ? 8 : 8.h,
+                        ),
+                        child: Text(
+                          '시간대별 사용 패턴',
+                          style: TextStyle(
+                            color: Color(0xFF000000),
+                            fontSize: kIsWeb ? 17 : 17.r,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ),
-                    ),
+                      SizedBox(height: kIsWeb ? 3 : 3.h),
+                      Text(
+                        getDateDisplayText(_currentIndex),
+                        style: TextStyle(
+                          color:Color.fromARGB(255, 51, 48, 57),
+                          fontSize: kIsWeb ? 12 : 12.r,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 // back으로 넘길게 있으면 해당 버튼 아이콘이 보이게, 없으면 SizedBox로 빈칸

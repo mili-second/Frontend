@@ -61,6 +61,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
   // ];
   // final String _timeOfDayPatternPeakTime = '오후 2-4시';
   List<List<int>> _timeOfDayPatternDatas = [];
+  List<DateTime> _timeOfDayPatternDates = [];
   String _timeOfDayPatternPeakTime = '';
 
   final UsagePatternsByTimeOfDayViewModel _usagePatternsByTimeOfDayViewModel =
@@ -80,6 +81,8 @@ class _AnalyzeViewState extends State<AnalyzeView> {
               day.eveningMinutes,
             ];
           }).toList();
+
+          _timeOfDayPatternDates = data.map((day) => day.date).toList();
 
           _timeOfDayPatternPeakTime =
               data.first.mostActiveHourStart ?? '데이터 없음';
@@ -140,6 +143,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
           UsagePatternsByTimeOfDay(
             //timeOfDayPatternSummary: _timeOfDayPatternSummary,
             datas: _timeOfDayPatternDatas,
+            dates: _timeOfDayPatternDates,
             timeOfDayPatternPeakTime: _timeOfDayPatternPeakTime,
           ),
           SizedBox(height: kIsWeb ? 20 : 20.h),
