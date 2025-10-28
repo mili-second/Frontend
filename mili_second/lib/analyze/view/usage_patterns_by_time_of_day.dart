@@ -62,10 +62,11 @@ class _UsagePatternsByTimeOfDayState extends State<UsagePatternsByTimeOfDay> {
     }
 
     Color getTextColor(String period) {
-      // 현재 시간대면 강조색, 아니면 기본색
-      return currentPeriod == period
-          ? const Color(0xFF2F83F7)
-          : const Color(0xFF000000);
+      // 오늘이고 현재 시간대면 강조색, 아니면 기본색
+      if(_currentIndex==0 && currentPeriod == period){
+        return const Color(0xFF2F83F7);
+      }
+      return const Color(0xFF000000);
     }
 
     // 현재 인덱스의 데이터를 안전하게 가져오기
