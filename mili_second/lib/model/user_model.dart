@@ -153,6 +153,8 @@ class UserModel extends ChangeNotifier {
       'password': password,
     });
 
+    http.Response? response;
+    
     try {
       // 3. http.post 요청
       final response = await http.post(
@@ -199,11 +201,27 @@ class UserModel extends ChangeNotifier {
         // final errorData = json.decode(response.body);
         // throw Exception(errorData['message'] ?? '아이디나 비밀번호가 틀립니다.');
         print("로그인오류 ${response.statusCode}");
-        throw Exception('로그인 실패 (Status: ${response.statusCode})');
+        String serverErrorMessage = '로그인 실패 (Status: ${response.statusCode})'; // 기본 에러 메시지
+        try {
+          // ✨ 서버 응답 본문을 JSON으로 파싱 시도
+          final errorData = json.decode(response.body);
+          // ✨ 'error' 키가 있으면 그 값을 사용, 없으면 기본 메시지 사용
+          if (errorData is Map && errorData.containsKey('error')) {
+            serverErrorMessage = errorData['error'];
+          }
+        } catch (e) {
+          // JSON 파싱 실패 시 응답 본문 텍스트를 그대로 사용 (선택 사항)
+          serverErrorMessage = response.body.isNotEmpty ? response.body : serverErrorMessage;
+          print("서버 에러 메시지 파싱 실패: $e");
+        }
+        _error = serverErrorMessage;
       }
     } catch (e) {
       // 4-2. http 요청 자체에서 에러가 난 경우 (네트워크 오류 등)
       _error = "로그인 중 오류 발생: ${e.toString()}";
+      if (response != null) {
+         _error = _error! + " (Status: ${response.statusCode})";
+      }
     } finally {
       // 5. 로딩 종료
       _isLoading = false;

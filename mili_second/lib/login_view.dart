@@ -151,16 +151,14 @@ class _SignInViewState extends State<SignInView> {
                       ),
                       Row(
                         children: [
-                          if (!kIsWeb){
-                            Text(
-                              "회원가입",
-                              style: TextStyle(
-                                color: Color(0xFF007BFF),
-                                fontSize: kIsWeb ? 25 : 25.r,
-                                fontWeight: FontWeight.w700,
-                              ),
+                          Text(
+                            "회원가입",
+                            style: TextStyle(
+                              color: Color(0xFF007BFF),
+                              fontSize: kIsWeb ? 25 : 25.r,
+                              fontWeight: FontWeight.w700,
                             ),
-                          }
+                          ),
                           Text(
                             "이 필요합니다.",
                             style: TextStyle(
@@ -589,7 +587,20 @@ class _LoginViewState extends State<LoginView> {
 
                             // Model의 login 함수 호출 (페이지 전환은 auth_wrapper에서 담당)
                             await userModel.login(inputId, inputPw);
-
+                            if (userModel.error == null) {
+                              // 성공 시 네비게이션
+                              Navigator.of(context).popUntil((route) => route.isFirst);
+                            } else {
+                              // ❌ 실패 시 SnackBar 표시
+                              print("Displaying Error: ${userModel.error}"); // 디버깅 로그 추가
+                              scaffoldMessenger.showSnackBar(
+                                SnackBar(
+                                  // ✨ userModel.error 값을 content로 사용해야 함! ✨
+                                  content: Text(userModel.error!),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
                             // --- 3. (비동기 갭 이후) ---
                             //    (이 아래부터는 위젯이 사라졌을 수도 있음 )
 
@@ -650,13 +661,15 @@ class _LoginViewState extends State<LoginView> {
                           bottom: BorderSide(width: kIsWeb ? 0.5 : 0.5.w),
                         ),
                       ),
-                      child: Text(
-                        "회원가입",
-                        style: TextStyle(
-                          fontSize: kIsWeb ? 15 : 15.r,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      child: !kIsWeb
+                        ? Text(       // Text 위젯을 보여줌
+                          "회원가입",
+                          style: TextStyle(
+                            fontSize: kIsWeb ? 15 : 15.r,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )
+                      : null,
                     ),
                   ),
                 ),
