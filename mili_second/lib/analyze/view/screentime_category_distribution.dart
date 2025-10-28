@@ -270,7 +270,7 @@ class _ScreentimeCategoryDistributionState
 
     return Container(
       width: kIsWeb ? 362 : 362.w,
-      height: kIsWeb ? 480 : 480.h,
+      height: kIsWeb ? 450 : 450.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(kIsWeb ? 10 : 10.r),
@@ -336,6 +336,59 @@ class _ScreentimeCategoryDistributionState
                       ),
                     ),
             ),
+            Positioned(
+              // 파이 차트의 SizedBox와 동일한 위치/크기
+              top: kIsWeb ? 100 : 100.h,
+              left: kIsWeb ? 80 : 80.w,
+              width: kIsWeb ? 150 : 150.w,
+              height: kIsWeb ? 150 : 150.h,
+              child: Center(
+                // data[0] (1등)의 값이 있을 때만 표시
+                child: (data.isNotEmpty && data[0].value > 0)
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // 1등 카테고리 퍼센트 (정수로 반올림)
+                          Text(
+                            '${data[0].value.round()}%',
+                            style: TextStyle(
+                              color: Color(0xFF000000),
+                              fontSize: kIsWeb ? 24 : 24.r,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          SizedBox(height: kIsWeb ? 4 : 4.h),
+                          Row(
+                            // Row가 중앙에 오도록 설정
+                            mainAxisSize: MainAxisSize.min, 
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // 1등 카테고리 색상 원
+                              Container(
+                                width: kIsWeb ? 10 : 10.w,
+                                height: kIsWeb ? 10 : 10.h,
+                                decoration: BoxDecoration(
+                                  color: data[0].color, // 1등 색상
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              SizedBox(width: kIsWeb ? 5 : 5.w),
+                              // 1등 카테고리 이름
+                              Text(
+                                data[0].name,
+                                style: TextStyle(
+                                  color: Color(0xFF6A6A6A),
+                                  fontSize: kIsWeb ? 15 : 15.r,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : SizedBox.shrink(), // 데이터가 없으면 비움
+              ),
+            ),
             // Positioned(
             //   top: kIsWeb ? 145 : 145.h,
             //   left: kIsWeb ? 117 : 117.w,
@@ -349,7 +402,14 @@ class _ScreentimeCategoryDistributionState
             //           fontWeight: FontWeight.w900,
             //         ),
             //       ),
-            //       Text('엔터테인먼트'),
+            //       Text(
+            //         data[0].name,
+            //         style: TextStyle(
+            //         color: Color(0xFF6A6A6A),
+            //         fontSize: kIsWeb ? 15 : 15.r,
+            //         fontWeight: FontWeight.w600,
+            //         ),
+            //       ),
             //     ],
             //   ),
             // ),
@@ -376,7 +436,8 @@ class _ScreentimeCategoryDistributionState
                 child: Wrap(
                   spacing: kIsWeb ? 10 : 10.w, // 아이템 간 가로 간격
                   runSpacing: kIsWeb ? 10 : 10.h, // 줄(Row) 간 세로 간격
-                  children: data.map((slice) {
+                  children: data.skip(1).map((slice) {
+                  // children: data.map((slice) {
                     // ChartInfo 위젯 생성
                     return ChartInfo(
                       widget: widget,
