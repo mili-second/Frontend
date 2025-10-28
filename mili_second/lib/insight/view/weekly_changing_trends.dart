@@ -16,6 +16,70 @@ class WeeklyChangingTrends extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color totalUsageColor = Color(0xFFFF6565); // 기본값
+    if (totalUsageTime.startsWith('+')) {
+      totalUsageColor = Colors.green;
+    } else if (totalUsageTime.startsWith('-')) {
+      totalUsageColor = Color(0xFF51B4FF);
+    }
+
+    List<Widget> categoryWidgets = categoryUsageTime
+        .take(3)
+        .map<Widget>((categoryData) {
+          Color changeColor = Color(0xFFFF8551);
+          if (categoryData.length > 1) {
+            if (categoryData[1].startsWith('+')) {
+              changeColor = Colors.green;
+            } else if (categoryData[1].startsWith('-')) {
+              changeColor = Color(0xFF51B4FF);
+            }
+          }
+          return SizedBox(
+            width: kIsWeb ? 80 : 80.w,
+            height: kIsWeb ? 95 : 95.h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  categoryData.isNotEmpty ? categoryData[0] : 'N/A',
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: kIsWeb ? 14 : 14.r,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: kIsWeb ? 5 : 5.h),
+                Text(
+                  categoryData.length > 1 ? categoryData[1] : 'N/A',
+                  style: TextStyle(
+                    color: changeColor,
+                    fontSize: kIsWeb ? 20 : 20.r,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          );
+        })
+        .expand((widget) => [
+              widget,
+              SizedBox(width: kIsWeb ? 20 : 20.w)
+            ])
+        .toList();
+
+    // 마지막 간격 제거
+    if (categoryWidgets.isNotEmpty) {
+      categoryWidgets.removeLast();
+    }
+
+    // ✨ 2. 아이템 개수에 따라 정렬 방식 결정
+    MainAxisAlignment rowAlignment = categoryUsageTime.length < 3
+        ? MainAxisAlignment.center // 3개 미만이면 가운데 정렬
+        : MainAxisAlignment.start;  // 3개면 왼쪽 정렬 (또는 spaceBetween 등)
+
     return Container(
       width: kIsWeb ? 362 : 362.w,
       height: kIsWeb ? 340 : 340.h,
@@ -92,7 +156,7 @@ class WeeklyChangingTrends extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        '+2.3 시간',
+                        totalUsageTime,
                         style: TextStyle(
                           color: Color(0xFFFF6565),
                           fontSize: kIsWeb ? 24 : 24.r,
@@ -125,92 +189,20 @@ class WeeklyChangingTrends extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: kIsWeb ? 5 : 5.h,
+                  top: 0, // 상단 정렬
+                  bottom: 0, // 하단 정렬 (Stack 높이 내에서 중앙 정렬 위함)
+                  left: 0, // 왼쪽 끝
+                  right: 0, // 오른쪽 끝
                   child: Padding(
-                    padding: EdgeInsets.only(
-                      top: kIsWeb ? 8.0 : 8.0.h,
-                      left: kIsWeb ? 15 : 20.w,
+                    // 내부 여백은 Row가 아닌 Padding으로 조절
+                    padding: EdgeInsets.symmetric(
+                      horizontal: kIsWeb ? 15 : 15.w, // 좌우 여백
+                      vertical: kIsWeb ? 2.5 : 2.5.h, // 상하 여백 (SizedBox 높이와 연관)
                     ),
                     child: Row(
-                      children: [
-                        SizedBox(
-                          width: kIsWeb ? 80 : 80.w,
-                          height: kIsWeb ? 72 : 72.h,
-                          child: Column(
-                            children: [
-                              Text(
-                                categoryUsageTime[0][0],
-                                style: TextStyle(
-                                  color: Color(0xFF000000),
-                                  fontSize: kIsWeb ? 17 : 17.r,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(height: kIsWeb ? 10 : 10.h),
-                              Text(
-                                categoryUsageTime[0][1],
-                                style: TextStyle(
-                                  color: Color(0xFFFF8551),
-                                  fontSize: kIsWeb ? 24 : 24.r,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: kIsWeb ? 20 : 20.w),
-                        SizedBox(
-                          width: kIsWeb ? 80 : 80.w,
-                          height: kIsWeb ? 72 : 72.h,
-                          child: Column(
-                            children: [
-                              Text(
-                                categoryUsageTime[1][0],
-                                style: TextStyle(
-                                  color: Color(0xFF000000),
-                                  fontSize: kIsWeb ? 17 : 17.r,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(height: kIsWeb ? 10 : 10.h),
-                              Text(
-                                categoryUsageTime[1][1],
-                                style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: kIsWeb ? 24 : 24.r,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: kIsWeb ? 20 : 20.w),
-                        SizedBox(
-                          width: kIsWeb ? 80 : 80.w,
-                          height: kIsWeb ? 72 : 72.h,
-                          child: Column(
-                            children: [
-                              Text(
-                                categoryUsageTime[2][0],
-                                style: TextStyle(
-                                  color: Color(0xFF000000),
-                                  fontSize: kIsWeb ? 17 : 17.r,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(height: kIsWeb ? 10 : 10.h),
-                              Text(
-                                categoryUsageTime[2][1],
-                                style: TextStyle(
-                                  color: Color(0xFF51B4FF),
-                                  fontSize: kIsWeb ? 24 : 24.r,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                      // ✨ 3. 결정된 정렬 방식 적용
+                      mainAxisAlignment: rowAlignment,
+                      children: categoryWidgets, // ✨ 4. 미리 생성된 위젯 리스트 사용
                     ),
                   ),
                 ),
