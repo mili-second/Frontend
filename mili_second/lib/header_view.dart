@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mili_second/model/user_model.dart';
+import 'package:milli_second/model/user_model.dart';
 import 'package:provider/provider.dart';
 import 'profile/view/profile_info.dart';
 
@@ -47,7 +47,7 @@ class _HeaderViewState extends State<HeaderView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    userModel.userId ?? 'Mili',
+                    userModel.userId ?? 'Milli',
                     style: TextStyle(
                       color: Color(0xFF000000),
                       fontSize: kIsWeb ? 24 : 24.r,

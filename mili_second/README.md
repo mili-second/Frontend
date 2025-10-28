@@ -1,4 +1,4 @@
-# mili_second
+# milli_second
 
 A new Flutter project.
 

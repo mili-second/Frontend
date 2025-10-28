@@ -1,4 +1,4 @@
-package com.example.mili_second
+package com.example.milli_second
 
 
 import io.flutter.embedding.android.FlutterActivity
@@ -18,7 +18,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager 
 
 class MainActivity : FlutterActivity() {
-    private val CHANNEL = "com.example.mili_second/usagestats"
+    private val CHANNEL = "com.example.milli_second/usagestats"
 
     private fun hasUsageStatsPermission(): Boolean {
         val appOps = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mili_second/model/user_model.dart';
+import 'package:milli_second/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // ✨ 1. 패키지 import
 import '../model/usage_event_info.dart';
 import 'package:http/http.dart' as http;
@@ -18,7 +18,7 @@ class UsageDataViewModel extends ChangeNotifier {
   // ✨ 2. 생성자에서 UserModel을 받도록 수정
   UsageDataViewModel(this._userModel) {
     if (!kIsWeb) {
-      _platform = const MethodChannel('com.example.mili_second/usagestats');
+      _platform = const MethodChannel('com.example.milli_second/usagestats');
     }
     // ViewModel이 생성될 때 데이터 로딩 시작
     initializeAndFetchData();
@@ -39,7 +39,7 @@ class UsageDataViewModel extends ChangeNotifier {
     notifyListeners(); // ViewModel 상태 변경 알림
   }
 
-  //static const _platform = MethodChannel('com.example.mili_second/usagestats');
+  //static const _platform = MethodChannel('com.example.milli_second/usagestats');
   late final MethodChannel _platform;
   final _encoder = const JsonEncoder.withIndent('  ');
 

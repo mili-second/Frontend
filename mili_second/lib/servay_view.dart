@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mili_second/main_view.dart';
+import 'package:milli_second/main_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mili_second/setting/view/app_information.dart';
+import 'package:milli_second/setting/view/app_information.dart';
 import '../../setting/view/terms_and_conditions.dart';
 
 class AccountManagement extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mili_second/model/user_model.dart';
+import 'package:milli_second/model/user_model.dart';
 import 'package:provider/provider.dart';
 import 'edit_profile.dart';
 import '../../setting/view/setting.dart';

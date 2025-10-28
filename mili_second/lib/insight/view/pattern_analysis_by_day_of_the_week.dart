@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mili_second/insight/model/pattern_analysis_by_day_of_the_week_model.dart';
+import 'package:milli_second/insight/model/pattern_analysis_by_day_of_the_week_model.dart';
 
 // class PatternAnalysisByDayOfTheWeek extends StatelessWidget {
 //   final List<String> comment;

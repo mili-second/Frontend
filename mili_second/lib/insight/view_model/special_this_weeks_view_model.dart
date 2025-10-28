@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mili_second/insight/model/special_this_weeks_model.dart';
+import 'package:milli_second/insight/model/special_this_weeks_model.dart';
 
 class SpecialThisWeeksViewModel {
   Future<String?> fetchSpecialThisWeek() async {

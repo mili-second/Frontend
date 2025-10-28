@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mili_second/setting/view/delete_account.dart';
+import 'package:milli_second/setting/view/delete_account.dart';
 
 class AppInformation extends StatelessWidget {
   const AppInformation({super.key});

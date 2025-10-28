@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mili_second/insight/model/pattern_analysis_by_day_of_the_week_model.dart';
+import 'package:milli_second/insight/model/pattern_analysis_by_day_of_the_week_model.dart';
 
 class BehaviorPatternsViewModel {
   Future<List<BehaviorPatternModel>> fetchBehaviorPatterns() async {

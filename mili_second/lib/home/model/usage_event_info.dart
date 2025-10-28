@@ -5,7 +5,7 @@
 import 'package:flutter/foundation.dart';
 import 'dart:math';
 
-import 'package:mili_second/model/user_model.dart';
+import 'package:milli_second/model/user_model.dart';
 
 class UsageEventInfo {
   final String packageName;

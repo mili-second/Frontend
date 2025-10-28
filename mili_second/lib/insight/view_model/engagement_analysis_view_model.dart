@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mili_second/insight/model/engagement_analysis_model.dart';
+import 'package:milli_second/insight/model/engagement_analysis_model.dart';
 
 class EngagementAnalysisViewModel {
   Future<EngagementAnalysisModel?> fetchUsageInsight() async {

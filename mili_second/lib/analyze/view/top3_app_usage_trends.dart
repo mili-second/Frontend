@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mili_second/analyze/model/top3_app_usage_model.dart';
+import 'package:milli_second/analyze/model/top3_app_usage_model.dart';
 
 class Top3AppUsageTrends extends StatefulWidget {
   //final String top3AppSummary;

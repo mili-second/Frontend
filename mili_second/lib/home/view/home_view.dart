@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:mili_second/model/user_model.dart';
+import 'package:milli_second/model/user_model.dart';
 import 'package:provider/provider.dart';
 import '../view_model/usage_data_view_model.dart'; // ViewModel import
 //import 'package:flutter_secure_storage/flutter_secure_storage.dart';

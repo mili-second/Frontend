@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:mili_second/analyze/model/screentime_category_distribution_model.dart';
+import 'package:milli_second/analyze/model/screentime_category_distribution_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreentimeCategoryDistributionViewModel {

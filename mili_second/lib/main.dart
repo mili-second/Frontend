@@ -5,12 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_web_frame/flutter_web_frame.dart';
 // 'views/auth_wrapper.dart'가 맞을 수 있습니다.
-import 'package:mili_second/auth_wrapper.dart';
-import 'package:mili_second/model/user_model.dart';
+import 'package:milli_second/auth_wrapper.dart';
+import 'package:milli_second/model/user_model.dart';
 import 'package:provider/provider.dart';
 // 'viewmodels/usage_data_viewmodel.dart'가 맞을 수 있습니다.
 import 'home/view_model/usage_data_view_model.dart';
-import 'package:mili_second/profile/view_model/profile_provider.dart';
+import 'package:milli_second/profile/view_model/profile_provider.dart';
 
 void main() {
   runApp(
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
             enabled: kIsWeb,
             builder: (context) {
               return MaterialApp(
-                title: 'Mili Second',
+                title: 'Milli Second',
                 color: const Color(0xFFFFFFFF),
                 debugShowCheckedModeBanner: false,
                 home: child, // 👈 3. (웹) child(AuthWrapper)를 home으로 사용
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
 
         // ✨ 4. (모바일 경우) 그냥 MaterialApp을 반환
         return MaterialApp(
-          title: 'Mili Second',
+          title: 'Milli Second',
           color: const Color(0xFFFFFFFF),
           debugShowCheckedModeBanner: false,
           home: child, // 👈 5. (모바일) child(AuthWrapper)를 home으로 사용

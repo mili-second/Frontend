@@ -1,8 +1,8 @@
-# Mili-Second 프로젝트 보고서 (Frontend)
+# Milli-Second 프로젝트 보고서 (Frontend)
 
 ## 1. 프로젝트 개요
 
-`Mili-Second`는 사용자의 스마트폰 사용 패턴을 정밀하게 추적하고 분석하여, 의미 있는 인사이트를 제공하는 디지털 웰니스 애플리케이션입니다. 본 프로젝트의 프론트엔드는 Flutter 프레임워크를 기반으로, 사용자에게 실시간 사용 현황, 심층 분석 데이터, 그리고 개인화된 피드백을 시각적으로 명확하게 전달하는 것을 목표로 합니다.
+`Milli-Second`는 사용자의 스마트폰 사용 패턴을 정밀하게 추적하고 분석하여, 의미 있는 인사이트를 제공하는 디지털 웰니스 애플리케이션입니다. 본 프로젝트의 프론트엔드는 Flutter 프레임워크를 기반으로, 사용자에게 실시간 사용 현황, 심층 분석 데이터, 그리고 개인화된 피드백을 시각적으로 명확하게 전달하는 것을 목표로 합니다.
 
 ## 2. 핵심 아키텍처: MVVM (Model-View-ViewModel) 패턴
 
@@ -11,21 +11,24 @@
 ### MVVM 패턴의 구성 요소
 
 #### 1) Model
+
 - **역할**: 애플리케이션의 데이터와 핵심 비즈니스 로직을 담당하는 'Source of Truth'입니다.
 - **구현**:
-    - `model/user_model.dart`: 사용자의 프로필 정보, 인증 상태(로그인/로그아웃), API 통신을 통한 서버 데이터 관리 등을 책임집니다.
-    - `home/model/usage_event_info.dart`: 스마트폰의 사용 이벤트(앱 실행, 화면 켜짐 등)에 대한 순수 데이터 구조를 정의합니다.
+  - `model/user_model.dart`: 사용자의 프로필 정보, 인증 상태(로그인/로그아웃), API 통신을 통한 서버 데이터 관리 등을 책임집니다.
+  - `home/model/usage_event_info.dart`: 스마트폰의 사용 이벤트(앱 실행, 화면 켜짐 등)에 대한 순수 데이터 구조를 정의합니다.
 
 #### 2) View
+
 - **역할**: ViewModel로부터 데이터를 받아 사용자에게 보여주는 UI 계층입니다. 사용자의 입력을 받아 ViewModel에 전달하는 역할 외에는 별도의 로직을 포함하지 않는 'Dumb'한 구조를 지향합니다.
 - **구현**:
-    - `home/view/home_view.dart`, `analyze/view/analyze_view.dart` 등 `view` 폴더 내의 위젯들이 해당됩니다.
-    - `provider` 패키지의 `context.watch` 또는 `Consumer` 위젯을 사용하여 ViewModel의 상태 변화를 실시간으로 감지하고 UI를 갱신합니다.
+  - `home/view/home_view.dart`, `analyze/view/analyze_view.dart` 등 `view` 폴더 내의 위젯들이 해당됩니다.
+  - `provider` 패키지의 `context.watch` 또는 `Consumer` 위젯을 사용하여 ViewModel의 상태 변화를 실시간으로 감지하고 UI를 갱신합니다.
 
 #### 3) ViewModel
+
 - **역할**: View와 Model 사이의 중재자 역할을 수행합니다. Model로부터 원시 데이터를 가져와 View가 표시하기 좋은 형태로 가공하고, View의 상태(State)를 관리합니다.
 - **구현**:
-    - `home/viewmodel/usage_data_viewmodel.dart`: `ChangeNotifier`를 상속받아 구현되었습니다. 네이티브 코드로부터 스마트폰 사용 기록을 가져와 총 사용 시간, 잠금 해제 횟수 등을 계산하고, 가공된 데이터를 `totalUsageTime`과 같은 속성으로 노출합니다. 데이터 변경 시 `notifyListeners()`를 호출하여 View에 변경 사항을 알립니다.
+  - `home/viewmodel/usage_data_viewmodel.dart`: `ChangeNotifier`를 상속받아 구현되었습니다. 네이티브 코드로부터 스마트폰 사용 기록을 가져와 총 사용 시간, 잠금 해제 횟수 등을 계산하고, 가공된 데이터를 `totalUsageTime`과 같은 속성으로 노출합니다. 데이터 변경 시 `notifyListeners()`를 호출하여 View에 변경 사항을 알립니다.
 
 ### 데이터 흐름 다이어그램
 
@@ -84,10 +87,10 @@ MVVM 패턴의 구현을 위해 Flutter의 대표적인 상태 관리 라이브�
 - **`ChangeNotifierProxyProvider`**: 본 프로젝트의 핵심적인 특징 중 하나입니다. `UsageDataViewModel`이 `UserModel`에 의존하는 관계를 매우 효율적으로 처리합니다. 예를 들어, 사용자가 로그아웃하거나 다른 계정으로 로그인할 때 `UserModel`의 상태가 변경되면, `ChangeNotifierProxyProvider`가 이를 감지하여 `UsageDataViewModel`을 새로운 `UserModel`의 정보로 즉시 업데이트해줍니다. 이를 통해 사용자별 데이터를 격리하고 상태 불일치 문제를 원천적으로 방지합니다.
 
 - **데이터 흐름 상세**:
-    1. **View**(`home_view.dart`)에서 사용자가 화면을 새로고침하면 `context.read<UsageDataViewModel>().fetchNewUsageData()`를 호출합니다.
-    2. **ViewModel**(`usage_data_viewmodel.dart`)은 네이티브 채널을 통해 스마트폰 사용 데이터를 가져옵니다.
-    3. 가져온 데이터를 가공하여 내부 상태(`_totalDurationMs` 등)를 업데이트하고, `notifyListeners()`를 호출합니다.
-    4. `context.watch<UsageDataViewModel>()`로 ViewModel을 구독하고 있던 **View**는 상태 변경을 감지하고, `viewModel.totalUsageTime`과 같은 새로운 데이터로 화면을 다시 그립니다.
+  1. **View**(`home_view.dart`)에서 사용자가 화면을 새로고침하면 `context.read<UsageDataViewModel>().fetchNewUsageData()`를 호출합니다.
+  2. **ViewModel**(`usage_data_viewmodel.dart`)은 네이티브 채널을 통해 스마트폰 사용 데이터를 가져옵니다.
+  3. 가져온 데이터를 가공하여 내부 상태(`_totalDurationMs` 등)를 업데이트하고, `notifyListeners()`를 호출합니다.
+  4. `context.watch<UsageDataViewModel>()`로 ViewModel을 구독하고 있던 **View**는 상태 변경을 감지하고, `viewModel.totalUsageTime`과 같은 새로운 데이터로 화면을 다시 그립니다.
 
 ## 4. 아키텍처 채택의 장점
 
@@ -105,15 +108,17 @@ MVVM 패턴의 구현을 위해 Flutter의 대표적인 상태 관리 라이브�
 Flutter의 장점인 크로스플랫폼 특성을 극대화하고 다양한 환경의 사용자에게 일관된 경험을 제공하기 위해 다음과 같은 전략을 사용했습니다.
 
 ### 반응형 UI 구현: `flutter_screenutil`
+
 - **목표**: 다양한 해상도와 화면 크기를 가진 모바일 기기에서 UI가 깨지거나 비례가 맞지 않는 문제를 해결하고, 디자이너의 의도를 정확하게 반영하는 것을 목표로 했습니다.
 - **구현**: `flutter_screenutil` 패키지를 도입하여 기준이 되는 디자인 시안의 해상도(412x917)를 설정했습니다. 이후 모든 위젯의 크기, 여백, 폰트 사이즈 등을 `.w`(너비), `.h`(높이), `.sp`(폰트) 확장 속성을 사용하여 지정했습니다. 이를 통해 앱이 실행되는 기기의 실제 해상도에 맞춰 모든 UI 요소가 자동으로 스케일링되어, 어떤 기기에서든 일관된 레이아웃을 유지할 수 있었습니다.
 
 ### 웹 플랫폼 대응: `kIsWeb` 상수 활용
+
 - **목표**: 모바일 앱의 핵심 코드베이스를 재사용하여 웹 브라우저에서도 애플리케이션이 원활하게 동작하도록 지원하는 것을 목표로 했습니다.
 - **구현**: Flutter에 내장된 `kIsWeb` 상수를 사용하여 현재 코드가 웹 환경에서 실행 중인지 판별했습니다. 이를 통해 플랫폼에 따라 다른 UI나 기능을 제공해야 하는 부분에 분기 처리를 적용했습니다.
-    - **예시 1 (UI 조정)**: `Padding`, `SizedBox` 등에서 모바일과 웹의 여백 값을 다르게 주어 웹 환경에 최적화된 레이아웃을 제공했습니다. (`padding: kIsWeb ? EdgeInsets.all(10.0) : EdgeInsets.all(10.0.w)`)
-    - **예시 2 (기능 분기)**: 스마트폰 사용 기록 조회와 같이 모바일에서만 사용 가능한 네이티브 기능은 `kIsWeb`이 `true`일 경우 호출되지 않도록 막아, 웹 환경에서의 오류 발생을 방지하고 대체 UI를 보여주도록 구현했습니다.
+  - **예시 1 (UI 조정)**: `Padding`, `SizedBox` 등에서 모바일과 웹의 여백 값을 다르게 주어 웹 환경에 최적화된 레이아웃을 제공했습니다. (`padding: kIsWeb ? EdgeInsets.all(10.0) : EdgeInsets.all(10.0.w)`)
+  - **예시 2 (기능 분기)**: 스마트폰 사용 기록 조회와 같이 모바일에서만 사용 가능한 네이티브 기능은 `kIsWeb`이 `true`일 경우 호출되지 않도록 막아, 웹 환경에서의 오류 발생을 방지하고 대체 UI를 보여주도록 구현했습니다.
 
 ## 6. 결론
 
-`Mili-Second` 프론트엔드 프로젝트는 **MVVM 아키텍처**와 **`provider` 상태 관리**라는 견고한 기반 위에 구축되었습니다. 여기에 **반응형 UI** 및 **크로스플랫폼 대응 전략**을 더하여, 애플리케이션의 복잡성을 효과적으로 제어하고 안정성과 확장성을 모두 확보하는 핵심적인 역할을 수행했습니다. 본 아키텍처를 통해 공모전 이후 기능 추가 및 고도화 과정에서도 높은 품질의 코드를 유지할 수 있는 기틀을 마련했습니다.
+`Milli_second` 프론트엔드 프로젝트는 **MVVM 아키텍처**와 **`provider` 상태 관리**라는 견고한 기반 위에 구축되었습니다. 여기에 **반응형 UI** 및 **크로스플랫폼 대응 전략**을 더하여, 애플리케이션의 복잡성을 효과적으로 제어하고 안정성과 확장성을 모두 확보하는 핵심적인 역할을 수행했습니다. 본 아키텍처를 통해 공모전 이후 기능 추가 및 고도화 과정에서도 높은 품질의 코드를 유지할 수 있는 기틀을 마련했습니다.

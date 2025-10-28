@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mili_second/analyze/model/screentime_category_distribution_model.dart';
+import 'package:milli_second/analyze/model/screentime_category_distribution_model.dart';
 
 class ScreentimeCategoryDistribution extends StatefulWidget {
   //final String categoryDistributionSummary;

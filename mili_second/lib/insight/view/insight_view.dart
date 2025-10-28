@@ -5,10 +5,10 @@ import '/insight/view/special_this_weeks.dart';
 import '/insight/view/engagement_analysis.dart';
 import '/insight/view/pattern_analysis_by_day_of_the_week.dart';
 import '/insight/view/weekly_changing_trends.dart';
-import 'package:mili_second/insight/view_model/special_this_weeks_view_model.dart';
-import 'package:mili_second/insight/view_model/pattern_analysis_by_day_of_the_week_view_model.dart';
-import 'package:mili_second/insight/model/pattern_analysis_by_day_of_the_week_model.dart';
-import 'package:mili_second/insight/view_model/engagement_analysis_view_model.dart';
+import 'package:milli_second/insight/view_model/special_this_weeks_view_model.dart';
+import 'package:milli_second/insight/view_model/pattern_analysis_by_day_of_the_week_view_model.dart';
+import 'package:milli_second/insight/model/pattern_analysis_by_day_of_the_week_model.dart';
+import 'package:milli_second/insight/view_model/engagement_analysis_view_model.dart';
 
 class InsightView extends StatefulWidget {
   const InsightView({super.key});
