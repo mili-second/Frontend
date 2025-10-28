@@ -655,22 +655,22 @@ class _LoginViewState extends State<LoginView> {
                   },
                   child: Align(
                     alignment: Alignment.center,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: BoxBorder.fromLTRB(
-                          bottom: BorderSide(width: kIsWeb ? 0.5 : 0.5.w),
-                        ),
-                      ),
-                      child: !kIsWeb
-                        ? Text(       // Text 위젯을 보여줌
-                          "회원가입",
-                          style: TextStyle(
-                            fontSize: kIsWeb ? 15 : 15.r,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        )
-                      : null,
-                    ),
+                    child: !kIsWeb
+                        ? Container(
+                            decoration: BoxDecoration(
+                              border: BoxBorder.fromLTRB(
+                                bottom: BorderSide(width: 0.5.w),
+                              ),
+                            ),
+                            child: Text(
+                              "회원가입",
+                              style: TextStyle(
+                                fontSize: 15.r,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          )
+                        : SizedBox.shrink(),
                   ),
                 ),
               ],
