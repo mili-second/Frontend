@@ -301,6 +301,14 @@ class _ScreentimeCategoryDistributionState
                         fontWeight: FontWeight.w700,
                       ),
                     ),
+                    Text(
+                      '   (24시간 기준)',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 99, 97, 97),
+                        fontSize: kIsWeb ? 9 : 9.r,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: kIsWeb ? 275 : 275.h),
