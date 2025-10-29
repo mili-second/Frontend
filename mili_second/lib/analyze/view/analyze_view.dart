@@ -27,11 +27,14 @@ class _AnalyzeViewState extends State<AnalyzeView> {
   final SevenDaysUsageViewModel _sevenDaysUsageViewModel =
       SevenDaysUsageViewModel();
   List<double> _sevenDaysUsageTrendDatas = [];
+  double _todayUsageData = 0.0;
 
   Future<void> _loadWeeklyUsage() async {
     final trend = await _sevenDaysUsageViewModel.fetchWeeklyUsageTrend();
+    final today = await _sevenDaysUsageViewModel.fetchTodayUsage(); 
     setState(() {
       _sevenDaysUsageTrendDatas = trend;
+      _todayUsageData = today;
     });
   }
 
@@ -135,7 +138,7 @@ class _AnalyzeViewState extends State<AnalyzeView> {
         children: [
           SizedBox(height: kIsWeb ? 20 : 20.h),
           // 7일간 사용 트렌트
-          SevenDaysUsageTrends(datas: _sevenDaysUsageTrendDatas),
+          SevenDaysUsageTrends(datas: _sevenDaysUsageTrendDatas, todayData: _todayUsageData,),
 
           SizedBox(height: kIsWeb ? 20 : 20.h),
 

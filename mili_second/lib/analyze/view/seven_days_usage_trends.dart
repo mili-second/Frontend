@@ -4,8 +4,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 
 class SevenDaysUsageTrends extends StatefulWidget {
-  final List<double> datas;
-  const SevenDaysUsageTrends({super.key, required this.datas});
+  final List<double> datas; // 지난 7일 데이터 (월~일 순서로 들어옴)
+  final double todayData; // 오늘 데이터
+
+  const SevenDaysUsageTrends({
+    super.key, 
+    required this.datas,
+    required this.todayData,
+  });
 
   @override
   State<SevenDaysUsageTrends> createState() => _SevenDaysUsageTrendsState();
@@ -14,9 +20,41 @@ class SevenDaysUsageTrends extends StatefulWidget {
 class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
   // Monday=1, Sunday=7 인데, 0~6 범위로 변환 (월=0, 일=6)
   final todayIndex = DateTime.now().weekday - 1;
+  // 분을 시간으로 변환
+  double minutesToHours(double minutes) {
+    return minutes / 60.0;
+  }
+
+  // 요일을 오늘이 맨 오른쪽에 오도록 재배열
+  List<String> get reorderedDayLabels {
+    final allDays = ['월', '화', '수', '목', '금', '토', '일'];
+    // 오늘 다음 날부터 시작해서 오늘까지
+    final reordered = <String>[];
+    for (int i = 0; i < 7; i++) {
+      reordered.add(allDays[(todayIndex + 1 + i) % 7]);
+    }
+    return reordered;
+  }
+
+ // 데이터도 같은 순서로 재배열 (월~일 데이터를 내일부터 오늘까지로)
+  List<double> get reorderedDatasInHours {
+    if (widget.datas.isEmpty) return List.filled(7, 0.0);
+    
+    final reordered = <double>[];
+    // 내일 요일부터 시작해서 오늘 전날까지
+    for (int i = 0; i < 7; i++) {
+      final index = (todayIndex + 1 + i) % 7;
+      reordered.add(minutesToHours(widget.datas[index]));
+    }
+    return reordered;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final reorderedData = reorderedDatasInHours;
+    final dayLabels = reorderedDayLabels;
+    final todayDataInHours = minutesToHours(widget.todayData);
+
     return Stack(
       children: [
         Container(
@@ -116,46 +154,45 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
                                   ),
                                 ),
                                 lineBarsData: [
+                                  // 지난 7일 데이터 (회색 선으로 연결)
                                   LineChartBarData(
-                                    spots: widget.datas.asMap().entries.map((
-                                      e,
-                                    ) {
-                                      final index = e.key;
-                                      final value = e.value;
-                                      return FlSpot(index.toDouble(), value);
+                                    spots: reorderedData.asMap().entries.map((e) {
+                                      return FlSpot(e.key.toDouble(), e.value);
                                     }).toList(),
                                     isCurved: true,
-                                    color: Color(
-                                      0xFF524E4E,
-                                    ).withValues(alpha: 0.5),
+                                    color: Color(0xFF524E4E).withValues(alpha: 0.5),
                                     barWidth: 2,
                                     isStrokeCapRound: false,
                                     dotData: FlDotData(
                                       show: true,
-                                      getDotPainter:
-                                          (spot, percent, barData, index) {
-                                            if (index == todayIndex) {
-                                              return FlDotCirclePainter(
-                                                color: Color(0xFF2F83F7),
-                                                radius: 4,
-                                                strokeWidth: 4,
-                                                strokeColor: Color(
-                                                  0xFFD9D9D9,
-                                                ).withValues(alpha: 0.4),
-                                              );
-                                            } else {
-                                              return FlDotCirclePainter(
-                                                color: Color(
-                                                  0xFF000000,
-                                                ).withValues(alpha: 0.5),
-                                                radius: 3,
-                                                strokeWidth: 4,
-                                                strokeColor: Color(
-                                                  0xFFD9D9D9,
-                                                ).withValues(alpha: 0.4),
-                                              );
-                                            }
-                                          },
+                                      getDotPainter: (spot, percent, barData, index) {
+                                        return FlDotCirclePainter(
+                                          color: Color(0xFF000000).withValues(alpha: 0.5),
+                                          radius: 3,
+                                          strokeWidth: 4,
+                                          strokeColor: Color(0xFFD9D9D9).withValues(alpha: 0.4),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  // 오늘 데이터 (파란색 점만)
+                                  LineChartBarData(
+                                    spots: [
+                                      FlSpot(6.0, widget.todayData),
+                                    ],
+                                    isCurved: false,
+                                    color: Colors.transparent,
+                                    barWidth: 0,
+                                    dotData: FlDotData(
+                                      show: true,
+                                      getDotPainter: (spot, percent, barData, index) {
+                                        return FlDotCirclePainter(
+                                          color: Color(0xFF2F83F7),
+                                          radius: 4,
+                                          strokeWidth: 4,
+                                          strokeColor: Color(0xFFD9D9D9).withValues(alpha: 0.4),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ],
@@ -167,22 +204,6 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
                     ),
                   ],
                 ),
-                //SizedBox(height: 12.h),
-
-                // SizedBox(
-                //   width: 310.w,
-                //   child: Text(
-                //     widget.sevendaysUsingSummary.replaceAllMapped(
-                //       RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
-                //       (match) => '${match[1]}\n', // 그 기호 뒤에 줄바꿈 추가
-                //     ),
-                //     style: TextStyle(
-                //       color: Color(0xFF000000),
-                //       fontSize: 15.r,
-                //       fontWeight: FontWeight.w500,
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -196,8 +217,8 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(7, (index) {
-                final dayLabels = ['월', '화', '수', '목', '금', '토', '일'];
-                final isToday = index == todayIndex;
+                final dayLabels = reorderedDayLabels;
+                final isToday = index == 6;
                 return Text(
                   dayLabels[index],
                   style: TextStyle(
