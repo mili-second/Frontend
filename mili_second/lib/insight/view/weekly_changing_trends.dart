@@ -23,17 +23,26 @@ class WeeklyChangingTrends extends StatelessWidget {
       totalUsageColor = Color(0xFF51B4FF);
     }
 
+    final List<Color> categoryColors = [
+      Color(0xFFFF8551), // 첫 번째 카테고리 색상
+      Colors.green,      // 두 번째 카테고리 색상
+      Color(0xFF51B4FF), // 세 번째 카테고리 색상
+    ];
+
     List<Widget> categoryWidgets = categoryUsageTime
         .take(3)
-        .map<Widget>((categoryData) {
-          Color changeColor = Color(0xFFFF8551);
-          if (categoryData.length > 1) {
-            if (categoryData[1].startsWith('+')) {
-              changeColor = Colors.green;
-            } else if (categoryData[1].startsWith('-')) {
-              changeColor = Color(0xFF51B4FF);
-            }
-          }
+        .toList()
+        .asMap() 
+        .entries
+        .map<Widget>((entry) {
+          int index = entry.key; // 인덱스 가져오기
+          List categoryData = entry.value; // 데이터 가져오기
+
+          // ✨ 3. 인덱스를 사용해 색상 지정 (리스트 길이보다 크면 기본색)
+          Color changeColor = (index < categoryColors.length)
+              ? categoryColors[index]
+              : Color(0xFFFF8551);
+
           return SizedBox(
             width: kIsWeb ? 80 : 80.w,
             height: kIsWeb ? 95 : 95.h,
@@ -66,7 +75,7 @@ class WeeklyChangingTrends extends StatelessWidget {
         })
         .expand((widget) => [
               widget,
-              SizedBox(width: kIsWeb ? 20 : 20.w)
+              SizedBox(width: kIsWeb ? 10 : 10.w)
             ])
         .toList();
 
