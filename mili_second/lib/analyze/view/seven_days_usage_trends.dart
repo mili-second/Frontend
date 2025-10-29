@@ -18,41 +18,57 @@ class SevenDaysUsageTrends extends StatefulWidget {
 }
 
 class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
-  // Monday=1, Sunday=7 인데, 0~6 범위로 변환 (월=0, 일=6)
-  final todayIndex = DateTime.now().weekday - 1;
   // 분을 시간으로 변환
   double minutesToHours(double minutes) {
     return minutes / 60.0;
   }
 
-  // 요일을 오늘이 맨 오른쪽에 오도록 재배열
-  List<String> get reorderedDayLabels {
-    final allDays = ['월', '화', '수', '목', '금', '토', '일'];
-    // 오늘 다음 날부터 시작해서 오늘까지
-    final reordered = <String>[];
+  // 오늘 요일의 인덱스 (월=0, 일=6)
+  int get todayWeekdayIndex => DateTime.now().weekday - 1;
+
+  // 요일 라벨 (오늘 요일이 맨 오른쪽)
+  List<String> get dayLabels {
+    final dayNames = ['월', '화', '수', '목', '금', '토', '일'];
+    final result = <String>[];
+    
+    // 내일부터 오늘까지 (7일 순환)
     for (int i = 0; i < 7; i++) {
-      reordered.add(allDays[(todayIndex + 1 + i) % 7]);
+      // (오늘+1) % 7 부터 시작해서 오늘까지
+      final index = (todayWeekdayIndex + 1 + i) % 7;
+      result.add(dayNames[index]);
     }
-    return reordered;
+    
+    return result;
   }
 
- // 데이터도 같은 순서로 재배열 (월~일 데이터를 내일부터 오늘까지로)
+ // 데이터 재배열
   List<double> get reorderedDatasInHours {
-    if (widget.datas.isEmpty) return List.filled(7, 0.0);
-    
-    final reordered = <double>[];
-    // 내일 요일부터 시작해서 오늘 전날까지
-    for (int i = 0; i < 7; i++) {
-      final index = (todayIndex + 1 + i) % 7;
-      reordered.add(minutesToHours(widget.datas[index]));
+    if (widget.datas.isEmpty || widget.datas.length < 7) {
+      return List.filled(7, 0.0);
     }
-    return reordered;
+    
+    // widget.datas = [어제, 그저께, ..., 저번주 같은 요일] (최신→과거)
+    // 1단계: 역순으로 변환 (과거→최신)
+    final reversed = <double>[];
+    for (int i = 6; i >= 0; i--) {
+      reversed.add(minutesToHours(widget.datas[i]));
+    }
+    
+    // 2단계: 저번주 다음날이 맨 왼쪽에 오도록 회전
+    final startIndex = (todayWeekdayIndex + 1) % 7; // (2+1) % 7 = 3
+    
+    final rotated = <double>[];
+    for (int i = 0; i < 7; i++) {
+      rotated.add(reversed[(startIndex + i) % 7]);
+    }
+    
+    return rotated;
   }
 
   @override
   Widget build(BuildContext context) {
-    final reorderedData = reorderedDatasInHours;
-    final dayLabels = reorderedDayLabels;
+    final displayData = reorderedDatasInHours;
+    final labels = dayLabels;
     final todayDataInHours = minutesToHours(widget.todayData);
 
     return Stack(
@@ -154,9 +170,9 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
                                   ),
                                 ),
                                 lineBarsData: [
-                                  // 지난 7일 데이터 (회색 선으로 연결)
+                                  // 7일 데이터 (회색 선)
                                   LineChartBarData(
-                                    spots: reorderedData.asMap().entries.map((e) {
+                                    spots: displayData.asMap().entries.map((e) {
                                       return FlSpot(e.key.toDouble(), e.value);
                                     }).toList(),
                                     isCurved: true,
@@ -178,7 +194,7 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
                                   // 오늘 데이터 (파란색 점만)
                                   LineChartBarData(
                                     spots: [
-                                      FlSpot(6.0, widget.todayData),
+                                      FlSpot(6.0, todayDataInHours),
                                     ],
                                     isCurved: false,
                                     color: Colors.transparent,
@@ -188,8 +204,8 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
                                       getDotPainter: (spot, percent, barData, index) {
                                         return FlDotCirclePainter(
                                           color: Color(0xFF2F83F7),
-                                          radius: 4,
-                                          strokeWidth: 4,
+                                          radius: 5,
+                                          strokeWidth: 6,
                                           strokeColor: Color(0xFFD9D9D9).withValues(alpha: 0.4),
                                         );
                                       },
@@ -217,10 +233,9 @@ class _SevenDaysUsageTrendsState extends State<SevenDaysUsageTrends> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(7, (index) {
-                final dayLabels = reorderedDayLabels;
-                final isToday = index == 6;
+                final isToday = index == 6; // 마지막이 저번주 같은 요일
                 return Text(
-                  dayLabels[index],
+                  labels[index],
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: isToday ? FontWeight.w700 : FontWeight.w600,
