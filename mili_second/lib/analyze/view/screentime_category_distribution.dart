@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:milli_second/analyze/model/screentime_category_distribution_model.dart';
+import 'package:milli_second/utils/category_translator.dart';
 
 class ScreentimeCategoryDistribution extends StatefulWidget {
   //final String categoryDistributionSummary;
@@ -237,14 +238,16 @@ class _ScreentimeCategoryDistributionState
         // 비율(ratio)을 퍼센트(%)로 변환 후 정수로 반올림
         int percentage = (item.ratio * 100.0).round();
         sumOfNonOtherPercentages += percentage;
-        processedData.add({'name': item.categoryName, 'value': percentage});
+        // 카테고리 이름을 한글로 변환
+        String translatedName = translateCategory(item.categoryName);
+        processedData.add({'name': translatedName, 'value': percentage});
       }
     }
 
     // "OTHER" 카테고리 비율 계산 (100 - 나머지 합)
     double otherPercentage = 100 - sumOfNonOtherPercentages;
     processedData.add({
-      'name': 'OTHER',
+      'name': '기타',
       'value': (otherPercentage < 0 ? 0 : otherPercentage) // 0% 미만 방지
     });
 
@@ -270,7 +273,7 @@ class _ScreentimeCategoryDistributionState
 
     return Container(
       width: kIsWeb ? 362 : 362.w,
-      height: kIsWeb ? 450 : 450.h,
+      height: kIsWeb ? 480 : 480.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(kIsWeb ? 10 : 10.r),
@@ -286,24 +289,41 @@ class _ScreentimeCategoryDistributionState
           children: [
             Column(
               children: [
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(
-                      'assets/icons/screenTimeCategoryIcon.png',
-                      width: kIsWeb ? 30 : 30.w,
-                      height: kIsWeb ? 30 : 30.w,
+                    Row(
+                      children: [
+                        Image.asset(
+                          'assets/icons/screenTimeCategoryIcon.png',
+                          width: kIsWeb ? 30 : 30.w,
+                          height: kIsWeb ? 30 : 30.w,
+                        ),
+                        Text(
+                          '  실시간 스크린 타임 카테고리 분포',
+                          style: TextStyle(
+                            color: Color(0xFF000000),
+                            fontSize: kIsWeb ? 17 : 17.r,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      '  스크린 타임 카테고리 분포',
-                      style: TextStyle(
-                        color: Color(0xFF000000),
-                        fontSize: kIsWeb ? 17 : 17.r,
-                        fontWeight: FontWeight.w700,
+                    SizedBox(height: kIsWeb ? 5 : 5.h),
+                    Padding(
+                      padding: EdgeInsets.only(left: kIsWeb ? 35 : 35.w),
+                      child: Text(
+                        '24시간 기준',
+                        style: TextStyle(
+                          color: Color(0xFF999999),
+                          fontSize: kIsWeb ? 12 : 12.r,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: kIsWeb ? 275 : 275.h),
+                SizedBox(height: kIsWeb ? 260 : 260.h),
               ],
             ),
 

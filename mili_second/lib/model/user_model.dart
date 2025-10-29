@@ -10,12 +10,14 @@ class UserModel extends ChangeNotifier {
   final String _baseUrl = "https://api.yolang.shop";
   String? _userId; // user id == inputId
   String? _userToken;
+  String? _refreshToken; // refresh token 저장
   String? _userJob;
   bool _isLoading = false; // ✨ "자동 로그인 확인 중" 상태 추가
   String? _error;
   String? _userProfileImage = 'assets/icons/profile_default.png';
   String? _userGender;
   String? _userType = 'default';
+  String? _userTypeDate; // 분류된 날짜
 
   String? get userId => _userId;
   String get baseUrl => _baseUrl;
@@ -27,6 +29,7 @@ class UserModel extends ChangeNotifier {
   String? get userProfileImage => _userProfileImage;
   String? get userGender => _userGender;
   String? get userType => _userType;
+  String? get userTypeDate => _userTypeDate;
 
   // --- 내부 저장소 로직 ---
 
@@ -62,16 +65,67 @@ class UserModel extends ChangeNotifier {
     await prefs.setString('token', usertoken);
   }
 
+  // ✨ refresh token 저장
+  Future<void> _saveRefreshToken(String refreshToken) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('refresh_token', refreshToken);
+  }
+
   // ✨ 토큰 읽기
   Future<String?> _readToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
 
+  // ✨ refresh token 읽기
+  Future<String?> _readRefreshToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('refresh_token');
+  }
+
   // ✨ 토큰 삭제
   Future<void> _deleteToken() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
+    await prefs.remove('refresh_token');
+  }
+
+  // ✨ refresh token으로 새 access token 요청
+  Future<bool> _refreshAccessToken() async {
+    try {
+      final refreshToken = await _readRefreshToken();
+      if (refreshToken == null) {
+        print('Refresh token이 없습니다.');
+        return false;
+      }
+
+      final url = Uri.parse('$_baseUrl/auth/refresh');
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'refreshToken': refreshToken}),
+      );
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        final data = json.decode(utf8.decode(response.bodyBytes));
+        final newAccessToken = data['accessToken'];
+
+        if (newAccessToken != null) {
+          _userToken = newAccessToken;
+          await _saveToken(newAccessToken);
+          print('✅ Access token 갱신 성공');
+          return true;
+        }
+      } else {
+        print('❌ Refresh token 만료 또는 실패: ${response.statusCode}');
+        await _clearLocalData(); // refresh token도 만료되면 로그아웃
+        return false;
+      }
+    } catch (e) {
+      print('⚠️ Token refresh 중 오류 발생: $e');
+      return false;
+    }
+    return false;
   }
 
   // --- Public 함수 ---
@@ -81,6 +135,7 @@ class UserModel extends ChangeNotifier {
     notifyListeners(); // "로딩 시작" 알림
 
     final savedToken = await _readToken(); // 저장된 "JWT 토큰" 읽기
+    final savedRefreshToken = await _readRefreshToken(); // refresh token 읽기
 
     if (savedToken != null && savedToken.isNotEmpty) {
       try {
@@ -103,15 +158,36 @@ class UserModel extends ChangeNotifier {
             // 4. (수정) 토큰에서 읽은 ID로 상태 업데이트
             _userId = userId; // 👈 토큰에서 꺼낸 ID
             _userToken = savedToken; // 👈 저장되어 있던 토큰
+            _refreshToken = savedRefreshToken; // refresh token도 복원
 
             // (나머지 정보는 임시로 세팅)
             _userJob = "Developer (Auto-login)";
             _userProfileImage = 'assets/icons/profile_default.png';
             _userGender = '여성';
           } else {
-            // --- 토큰 만료 또는 ID 없음 ---
-            print("토큰이 만료되었거나 유효하지 않습니다.");
-            await _deleteToken(); // 만료된 토큰 삭제
+            // --- 토큰 만료됨 - refresh token으로 갱신 시도 ---
+            print("Access token이 만료되었습니다. Refresh token으로 갱신 시도합니다.");
+
+            if (savedRefreshToken != null) {
+              _refreshToken = savedRefreshToken;
+              final refreshed = await _refreshAccessToken();
+
+              if (refreshed) {
+                print("✅ 토큰 갱신 성공. 자동 로그인합니다.");
+                // 갱신된 토큰으로 다시 정보 설정
+                final newPayload = _decodeJwtPayload(_userToken!);
+                _userId = newPayload['sub'] ?? userId;
+                _userJob = "Developer (Auto-login after refresh)";
+                _userProfileImage = 'assets/icons/profile_default.png';
+                _userGender = '여성';
+              } else {
+                print("❌ Refresh token도 만료되었습니다. 로그아웃합니다.");
+                await _deleteToken();
+              }
+            } else {
+              print("Refresh token이 없습니다. 로그아웃합니다.");
+              await _deleteToken();
+            }
           }
         }
       } catch (e) {
@@ -176,11 +252,16 @@ class UserModel extends ChangeNotifier {
         //
         final responseData = json.decode(response.body);
         final serverToken = responseData['accessToken']; // (예시)
+        final serverRefreshToken = responseData['refreshToken']; // refresh token
         // final userJob = responseData['user']['job']; // (예시)
         // final userGender = responseData['user']['gender']; // (예시)
         //
         // // 1. 서버가 준 "실제 토큰"을 저장
         await _saveToken(serverToken);
+        if (serverRefreshToken != null) {
+          await _saveRefreshToken(serverRefreshToken);
+          _refreshToken = serverRefreshToken;
+        }
         //
         // // 2. 상태 업데이트
         _userId = inputId; // (또는 responseData['user']['nickname'])
@@ -268,11 +349,16 @@ class UserModel extends ChangeNotifier {
 
   // ✨ 로컬 데이터 정리 로직을 별도 함수로 분리 (권장)
   Future<void> _clearLocalData() async {
-    await _deleteToken(); // ✨ 스토리지의 토큰 삭제
+    await _deleteToken(); // ✨ 스토리지의 토큰 삭제 (access + refresh)
     _userToken = null; // ✨ 메모리의 토큰 변수 초기화 (중요!)
+    _refreshToken = null; // refresh token도 초기화
     _userId = null;
     _userJob = null;
     _error = null;
+    _userProfileImage = 'assets/icons/profile_default.png'; // 프로필 이미지 초기화
+    _userGender = null; // 성별 초기화
+    _userType = 'default'; // 사용자 타입 초기화
+    _userTypeDate = null; // 분류 날짜 초기화
     notifyListeners();
     print('로컬 데이터 및 토큰이 모두 삭제되었습니다.');
   }
@@ -413,7 +499,8 @@ class UserModel extends ChangeNotifier {
         if (dataList is List && dataList.isNotEmpty) {
           final firstItem = dataList[0];
           _userType = firstItem['contentPreference'];
-          print('핸비티아이 파싱 성공: $_userType');
+          _userTypeDate = firstItem['date']; // 분류된 날짜 저장
+          print('핸비티아이 파싱 성공: $_userType, 날짜: $_userTypeDate');
         } else {
           print('핸bti실패: 응답이 왔으나 데이터 리스트가 비어있습니다.');
           _userType = 'balanced'; // 실패 시 임시값
@@ -428,13 +515,22 @@ class UserModel extends ChangeNotifier {
 
         // 🚨 401 에러(Unauthorized) 처리
         if (response.statusCode == 401) {
-          print('토큰이 유효하지 않습니다. 강제 로그아웃합니다.');
-          // 401 에러 시, _clearLocalData()를 호출해 로그아웃
-          // _clearLocalData가 내부적으로 notifyListeners()를 호출함
-          await _clearLocalData();
-          // 🚨 'finally'의 notifyListeners()와 중복 호출을 막기 위해
-          //    여기서 함수를 바로 종료합니다.
-          return;
+          print('토큰이 만료되었습니다. Refresh token으로 재시도합니다.');
+
+          // refresh token으로 새 access token 받기 시도
+          final refreshed = await _refreshAccessToken();
+
+          if (refreshed) {
+            // 재발급 성공 시 다시 API 호출
+            print('토큰 갱신 성공. API 재호출합니다.');
+            await get_phonebti(); // 재귀 호출
+            return;
+          } else {
+            // refresh token도 만료되었거나 실패 시 로그아웃
+            print('Refresh token도 만료되었습니다. 로그아웃합니다.');
+            await _clearLocalData();
+            return;
+          }
         } else {
           // 401이 아닌 다른 에러 (e.g., 500)
           _userType = 'balanced';

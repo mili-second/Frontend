@@ -36,7 +36,10 @@ const Map<String, String> categoryTranslations = {
   'WATCH_FACE': '워치 페이스',
   'WEATHER': '날씨',
   'GAME': '게임',
-  'UNKNOWN': '기타', // 알 수 없는 카테고리 처리
+  'OTHERS': '기타', // 알 수 없는 카테고리 처리
+  'SOCIAL_COMM': '소셜/커뮤니케이션',
+  'LEARNING': '학습',
+  'UNKNOWN': '기타'
 };
 
 String translateCategory(String englishName) {

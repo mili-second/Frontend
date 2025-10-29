@@ -43,35 +43,52 @@ class _Top3AppUsageTrendsState extends State<Top3AppUsageTrends> {
       ),
       child: Padding(
         padding: EdgeInsets.only(
-          top: kIsWeb ? 12 : 12.h,
+          top: kIsWeb ? 10 : 10.h,
           left: kIsWeb ? 20 : 20.w,
           right: kIsWeb ? 20 : 20.w,
         ),
         child: Column(
           children: [
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  'assets/icons/top3MainIcon.png',
-                  width: kIsWeb ? 30 : 30.w,
-                  height: kIsWeb ? 30 : 30.w,
+                Row(
+                  children: [
+                    Image.asset(
+                      'assets/icons/top3MainIcon.png',
+                      width: kIsWeb ? 30 : 30.w,
+                      height: kIsWeb ? 30 : 30.w,
+                    ),
+                    Text(
+                      ' 실시간 Top3 앱 사용 트렌드',
+                      style: TextStyle(
+                        color: Color(0xFF000000),
+                        fontSize: kIsWeb ? 17 : 17.r,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  ' Top3 앱 사용 트렌드',
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: kIsWeb ? 17 : 17.r,
-                    fontWeight: FontWeight.w700,
+                SizedBox(height: kIsWeb ? 5 : 5.h),
+                Padding(
+                  padding: EdgeInsets.only(left: kIsWeb ? 35 : 35.w),
+                  child: Text(
+                    '24시간 기준',
+                    style: TextStyle(
+                      color: Color(0xFF999999),
+                      fontSize: kIsWeb ? 12 : 12.r,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: kIsWeb ? 10 : 10.h),
+            SizedBox(height: kIsWeb ? 5 : 5.h),
             Stack(
               children: [
                 Container(
                   width: kIsWeb ? 362 : 362.w,
-                  height: kIsWeb ? 189 : 189.h,
+                  height: kIsWeb ? 180 : 180.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFD9D9D9).withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(kIsWeb ? 5 : 5.r),

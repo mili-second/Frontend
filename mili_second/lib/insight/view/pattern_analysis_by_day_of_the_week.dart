@@ -241,6 +241,14 @@ class DayOfTheWeek extends StatelessWidget {
     double bubbleHeight = (lineCount > 1) ? (kIsWeb ? 54 : 54.h) : (kIsWeb ? 35 : 35.h); // 높이 조절
     double rowHeight = bubbleHeight;
 
+    // 요일별 색상 결정 (토요일: 파란색, 일요일: 빨간색)
+    Color dayColor = Color(0xFF000000); // 기본 검은색
+    if (day.contains('토')) {
+      dayColor = Color(0xFF2F83F7); // 파란색
+    } else if (day.contains('일')) {
+      dayColor = Color(0xFFFF6565); // 빨간색
+    }
+
     return SizedBox(
       height: rowHeight,
       child: Row(
@@ -251,7 +259,7 @@ class DayOfTheWeek extends StatelessWidget {
             child: Text(
               day,
               style: TextStyle(
-                color: Color(0xFF000000),
+                color: dayColor,
                 fontSize: kIsWeb ? 16 : 16.r,
                 fontWeight: FontWeight.w700,
               ),
@@ -292,27 +300,57 @@ class DayOfTheWeek extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start, // 텍스트 왼쪽 정렬 (이미 설정됨)
                       children: [
                         if (behaviorComment.isNotEmpty)
-                          Text(
-                            behaviorComment,
-                            style: TextStyle(
-                              color: Color(0xFF000000),
-                              fontSize: kIsWeb ? 13 : 13.r,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                          Row(
+                            children: [
+                              Container(
+                                width: kIsWeb ? 4 : 4.w,
+                                height: kIsWeb ? 4 : 4.h,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFF3A78EB), // 파란색 - 행동 패턴
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              SizedBox(width: kIsWeb ? 5 : 5.w),
+                              Expanded(
+                                child: Text(
+                                  behaviorComment,
+                                  style: TextStyle(
+                                    color: Color(0xFF3A78EB), // 파란색
+                                    fontSize: kIsWeb ? 13 : 13.r,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ],
                           ),
-                        if (lineCount > 1) SizedBox(height: kIsWeb ? 1 : 1.h),
+                        if (lineCount > 1) SizedBox(height: kIsWeb ? 2 : 2.h),
                         if (contentComment.isNotEmpty)
-                          Text(
-                            contentComment,
-                            style: TextStyle(
-                              color: Color(0xFF000000),
-                              fontSize: kIsWeb ? 13 : 13.r,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                          Row(
+                            children: [
+                              Container(
+                                width: kIsWeb ? 4 : 4.w,
+                                height: kIsWeb ? 4 : 4.h,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFF8551), // 주황색 - 콘텐츠 유형
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              SizedBox(width: kIsWeb ? 5 : 5.w),
+                              Expanded(
+                                child: Text(
+                                  contentComment,
+                                  style: TextStyle(
+                                    color: Color(0xFFFF8551), // 주황색
+                                    fontSize: kIsWeb ? 13 : 13.r,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ],
                           ),
                       ],
                     ),

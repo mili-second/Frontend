@@ -15,9 +15,9 @@ class EngagementAnalysisModel {
     num dawnRateNum = json['dawnAccessRate'] ?? 0.0;
 
     return EngagementAnalysisModel(
-      // 2. num 값을 toInt()를 사용해 정수로 변환합니다 (소수점 버림).
-      snsUsageRate: snsRateNum.toInt(),
-      dawnAccessRate: dawnRateNum.toInt(),
+      // 2. 비율(0~1)을 퍼센트로 변환: 100을 곱하고 반올림하여 정수로 변환
+      snsUsageRate: (snsRateNum * 100).round(),
+      dawnAccessRate: (dawnRateNum * 100).round(),
       calculatedDate: json['calculatedDate'] ?? '',
     );
   }

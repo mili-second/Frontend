@@ -35,7 +35,7 @@ class _MainViewState extends State<MainView> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: HeaderView(), // 사용자 정보 - 보내기
-        toolbarHeight: kIsWeb ? 100 : 125.h,
+        toolbarHeight: kIsWeb ? 60 : 125.h,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1),
           child: Container(height: kIsWeb ? 1 : 1.h, color: Color(0xFFCDCBCB)),
@@ -57,25 +57,25 @@ class _MainViewState extends State<MainView> {
                   label: '',
                   icon: Column(
                     children: [
-                      kIsWeb ? SizedBox(height: 10) : SizedBox(height: 15.h),
+                      kIsWeb ? SizedBox(height: 5) : SizedBox(height: 15.h),
                       _selectedIndex == 0
                           ? Image.asset(
                               'assets/icons/home_blue.png',
-                              width: kIsWeb ? 42 : 42.w,
-                              height: kIsWeb ? 42 : 42.h,
+                              width: kIsWeb ? 30 : 42.w,
+                              height: kIsWeb ? 30 : 42.h,
                             )
                           : Image.asset(
                               'assets/icons/home_gray.png',
-                              width: kIsWeb ? 42 : 42.w,
-                              height: kIsWeb ? 42 : 42.h,
+                              width: kIsWeb ? 30 : 42.w,
+                              height: kIsWeb ? 30 : 42.h,
                             ),
-                      SizedBox(height: kIsWeb ? 10 : 15.h),
+                      SizedBox(height: kIsWeb ? 5 : 15.h),
                       _selectedIndex == 0
                           ? Text(
                               '홈',
                               style: TextStyle(
                                 color: Color(0xFF007BFF),
-                                fontSize: kIsWeb ? 14 : 14.r,
+                                fontSize: kIsWeb ? 12 : 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             )
@@ -83,7 +83,7 @@ class _MainViewState extends State<MainView> {
                               '홈',
                               style: TextStyle(
                                 color: Color(0xFF555555),
-                                fontSize: kIsWeb ? 14 : 14.r,
+                                fontSize: kIsWeb ? 12 : 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -94,25 +94,25 @@ class _MainViewState extends State<MainView> {
                   label: '',
                   icon: Column(
                     children: [
-                      kIsWeb ? SizedBox(height: 10) : SizedBox(height: 15.h),
+                      kIsWeb ? SizedBox(height: 5) : SizedBox(height: 15.h),
                       _selectedIndex == 1
                           ? Image.asset(
                               'assets/icons/analyze_blue.png',
-                              width: kIsWeb ? 57 : 57.w,
-                              height: kIsWeb ? 57 : 57.h,
+                              width: kIsWeb ? 40 : 57.w,
+                              height: kIsWeb ? 40 : 57.h,
                             )
                           : Image.asset(
                               'assets/icons/analyze_gray.png',
-                              width: kIsWeb ? 57 : 57.w,
-                              height: kIsWeb ? 57 : 57.h,
+                              width: kIsWeb ? 40 : 57.w,
+                              height: kIsWeb ? 40 : 57.h,
                             ),
-                      SizedBox(height: kIsWeb ? 5 : 5.h),
+                      SizedBox(height: kIsWeb ? 3 : 5.h),
                       _selectedIndex == 1
                           ? Text(
                               '분석',
                               style: TextStyle(
                                 color: Color(0xFF007BFF),
-                                fontSize: kIsWeb ? 14 : 14.r,
+                                fontSize: kIsWeb ? 12 : 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             )
@@ -120,7 +120,7 @@ class _MainViewState extends State<MainView> {
                               '분석',
                               style: TextStyle(
                                 color: Color(0xFF555555),
-                                fontSize: kIsWeb ? 14 : 14.r,
+                                fontSize: kIsWeb ? 12 : 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -131,25 +131,25 @@ class _MainViewState extends State<MainView> {
                   label: '',
                   icon: Column(
                     children: [
-                      kIsWeb ? SizedBox(height: 10) : SizedBox(height: 15.h),
+                      kIsWeb ? SizedBox(height: 5) : SizedBox(height: 15.h),
                       _selectedIndex == 2
                           ? Image.asset(
                               'assets/icons/insight_blue.png',
-                              width: kIsWeb ? 57 : 57.w,
-                              height: kIsWeb ? 57 : 57.h,
+                              width: kIsWeb ? 40 : 57.w,
+                              height: kIsWeb ? 40 : 57.h,
                             )
                           : Image.asset(
                               'assets/icons/insight_gray.png',
-                              width: kIsWeb ? 57 : 57.w,
-                              height: kIsWeb ? 57 : 57.h,
+                              width: kIsWeb ? 40 : 57.w,
+                              height: kIsWeb ? 40 : 57.h,
                             ),
-                      SizedBox(height: kIsWeb ? 5 : 5.h),
+                      SizedBox(height: kIsWeb ? 3 : 5.h),
                       _selectedIndex == 2
                           ? Text(
                               '인사이트',
                               style: TextStyle(
                                 color: Color(0xFF007BFF),
-                                fontSize: kIsWeb ? 14 : 14.r,
+                                fontSize: kIsWeb ? 12 : 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             )
@@ -157,7 +157,7 @@ class _MainViewState extends State<MainView> {
                               '인사이트',
                               style: TextStyle(
                                 color: Color(0xFF555555),
-                                fontSize: kIsWeb ? 14 : 14.r,
+                                fontSize: kIsWeb ? 12 : 14.r,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),

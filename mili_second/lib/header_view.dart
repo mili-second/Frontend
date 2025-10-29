@@ -18,7 +18,7 @@ class _HeaderViewState extends State<HeaderView> {
   Widget build(BuildContext context) {
     final userModel = context.watch<UserModel>();
     return Padding(
-      padding: EdgeInsets.all(kIsWeb ? 5.0 : 5.0.w),
+      padding: EdgeInsets.all(kIsWeb ? 3.0 : 5.0.w),
       child: Row(
         children: [
           Stack(
@@ -34,13 +34,13 @@ class _HeaderViewState extends State<HeaderView> {
                 icon: Image.asset(
                   userModel.userProfileImage ??
                       'assets/icons/profile_default.png',
-                  width: kIsWeb ? 70 : 70.w,
-                  height: kIsWeb ? 70 : 70.h,
+                  width: kIsWeb ? 45 : 70.w,
+                  height: kIsWeb ? 45 : 70.h,
                 ),
               ),
             ],
           ),
-          SizedBox(width: kIsWeb ? 10 : 10.w),
+          SizedBox(width: kIsWeb ? 5 : 10.w),
           Row(
             children: [
               Column(
@@ -50,16 +50,16 @@ class _HeaderViewState extends State<HeaderView> {
                     userModel.userId ?? 'Milli',
                     style: TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: kIsWeb ? 24 : 24.r,
+                      fontSize: kIsWeb ? 18 : 24.r,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  SizedBox(height: kIsWeb ? 5 : 5.h),
+                  SizedBox(height: kIsWeb ? 2 : 5.h),
                   Text(
                     '오늘의 디지털 습관을 분석했어요',
                     style: TextStyle(
                       color: Color(0xFF524E4E),
-                      fontSize: kIsWeb ? 12 : 12.r,
+                      fontSize: kIsWeb ? 10 : 12.r,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -67,23 +67,24 @@ class _HeaderViewState extends State<HeaderView> {
               ),
             ],
           ),
-          SizedBox(width: kIsWeb ? 55 : 55.w),
+          Spacer(),
           Column(
             children: [
-              SizedBox(height: kIsWeb ? 5 : 5.h),
+              SizedBox(height: kIsWeb ? 2 : 5.h),
               IconButton(
                 onPressed: () {
                   context.read<UserModel>().logout();
                 },
                 icon: Image.asset(
                   'assets/icons/logout.png',
-                  width: kIsWeb ? 25 : 25.w,
-                  height: kIsWeb ? 25 : 25.h,
+                  width: kIsWeb ? 20 : 25.w,
+                  height: kIsWeb ? 20 : 25.h,
                 ),
               ),
-              SizedBox(height: kIsWeb ? 10 : 10.h),
+              SizedBox(height: kIsWeb ? 5 : 10.h),
             ],
           ),
+          SizedBox(width: kIsWeb ? 10 : 5.w),
         ],
       ),
     );

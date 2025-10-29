@@ -99,7 +99,7 @@ class WeeklyChangingTrends extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.only(
-          top: kIsWeb ? 15 : 15.h,
+          top: kIsWeb ? 10 : 10.h,
           left: kIsWeb ? 20 : 20.w,
           right: kIsWeb ? 20 : 20.w,
         ),
@@ -130,10 +130,10 @@ class WeeklyChangingTrends extends StatelessWidget {
               height: kIsWeb ? 1 : 1.h,
               decoration: BoxDecoration(color: Color(0xFFBEBEBE)),
             ),
-            SizedBox(height: kIsWeb ? 15 : 15.h),
+            SizedBox(height: kIsWeb ? 10 : 10.h),
             SizedBox(
               width: kIsWeb ? 280 : 280.w,
-              height: kIsWeb ? 60 : 60.h,
+              height: kIsWeb ? 45 : 45.h,
               child: Text(
                 comment.replaceAllMapped(
                   RegExp(r'([.!?])\s*'), // . 또는 ! 또는 ? 뒤의 공백까지 매칭
@@ -146,10 +146,10 @@ class WeeklyChangingTrends extends StatelessWidget {
                 ),
               ),
             ),
-
+            SizedBox(height: kIsWeb ? 5 : 5.h),
             SizedBox(
               width: kIsWeb ? 240 : 240.w,
-              height: kIsWeb ? 70 : 70.h,
+              height: kIsWeb ? 60 : 60.h,
               child: Row(
                 children: [
                   Text(
@@ -187,6 +187,17 @@ class WeeklyChangingTrends extends StatelessWidget {
               ),
             ),
             SizedBox(height: kIsWeb ? 10 : 10.h),
+            Padding(
+              padding: EdgeInsets.only(bottom: kIsWeb ? 5 : 5.h),
+              child: Text(
+                '카테고리별 변화율 (전주 대비)',
+                style: TextStyle(
+                  color: Color(0xFF999999),
+                  fontSize: kIsWeb ? 12 : 12.r,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
             Stack(
               children: [
                 Container(

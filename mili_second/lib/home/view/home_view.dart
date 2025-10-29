@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:milli_second/model/user_model.dart';
 import 'package:provider/provider.dart';
 import '../view_model/usage_data_view_model.dart'; // ViewModel import
+import '../view_model/today_usage_stats_view_model.dart';
+import '../model/today_usage_stats_model.dart';
 //import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // secure storage can't web
 
@@ -20,6 +22,33 @@ class _HomeViewState extends State<HomeView> {
 
   //final storage = FlutterSecureStorage();
 
+  // 오늘의 사용 통계 데이터
+  final TodayUsageStatsViewModel _todayUsageStatsViewModel = TodayUsageStatsViewModel();
+  TodayUsageStatsModel? _todayStats;
+  bool _isLoadingStats = true;
+
+  Future<void> _loadTodayUsageStats() async {
+    final userModel = context.read<UserModel>();
+    final stats = await _todayUsageStatsViewModel.fetchTodayUsageStats(userModel.userToken);
+
+    if (mounted) {
+      setState(() {
+        _todayStats = stats;
+        _isLoadingStats = false;
+      });
+    }
+  }
+
+  // 날짜 포맷팅 함수: "2025-10-28" -> "10/28 분석 기준"
+  String _formatClassificationDate(String dateString) {
+    try {
+      final date = DateTime.parse(dateString);
+      return '${date.month}/${date.day} 분석 기준';
+    } catch (e) {
+      return '분석 기준';
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -28,6 +57,7 @@ class _HomeViewState extends State<HomeView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // initState에서는 context.read가 안전합니다.
       context.read<UserModel>().get_phonebti();
+      _loadTodayUsageStats(); // API에서 오늘의 사용 통계 로드
     });
   }
 
@@ -49,8 +79,8 @@ class _HomeViewState extends State<HomeView> {
 
     return Scaffold(
       body: RefreshIndicator(
-        // 새로고침 시 ViewModel의 함수 호출
-        onRefresh: () => context.read<UsageDataViewModel>().fetchNewUsageData(),
+        // 새로고침 시 API에서 데이터 다시 로드
+        onRefresh: _loadTodayUsageStats,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
@@ -63,7 +93,9 @@ class _HomeViewState extends State<HomeView> {
                 child: SizedBox(
                   height: kIsWeb ? 20 : 20.h,
                   child: Text(
-                    viewModel.status, // ViewModel의 데이터 사용
+                    _isLoadingStats
+                      ? '데이터 로딩 중...'
+                      : '',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: kIsWeb ? 14 : 14.r,
@@ -86,28 +118,45 @@ class _HomeViewState extends State<HomeView> {
                       isfront = !isfront;
                     });
                   },
-                  child: (userModel.userType == null)
-                      // 1. userType이 null일 때 (로딩 중)
-                      ? Container(
-                          // 이미지와 비슷한 높이를 주어 UI가 깨지지 않게 함
-                          height: 300.h, // 이 높이는 실제 이미지 높이에 맞게 조절하세요.
-                          alignment: Alignment.center,
-                          child: CircularProgressIndicator(),
-                        )
-                      // 2. userType이 null이 아닐 때 (로딩 완료)
-                      : isfront
-                      ? Image.asset(
-                          'assets/icons/character/${userModel.userType}_front.png',
-                          fit: BoxFit.contain,
-                        )
-                      : Image.asset(
-                          'assets/icons/character/${userModel.userType}_back.png',
-                          fit: BoxFit.contain,
+                  child: Column(
+                    children: [
+                      (userModel.userType == null)
+                          // 1. userType이 null일 때 (로딩 중)
+                          ? Container(
+                              // 이미지와 비슷한 높이를 주어 UI가 깨지지 않게 함
+                              height: 300.h, // 이 높이는 실제 이미지 높이에 맞게 조절하세요.
+                              alignment: Alignment.center,
+                              child: CircularProgressIndicator(),
+                            )
+                          // 2. userType이 null이 아닐 때 (로딩 완료)
+                          : isfront
+                          ? Image.asset(
+                              'assets/icons/character/${userModel.userType}_front.png',
+                              fit: BoxFit.contain,
+                            )
+                          : Image.asset(
+                              'assets/icons/character/${userModel.userType}_back.png',
+                              fit: BoxFit.contain,
+                            ),
+                      // 분류 날짜 표시
+                      if (userModel.userTypeDate != null)
+                        Padding(
+                          padding: EdgeInsets.only(top: kIsWeb ? 5 : 8.h),
+                          child: Text(
+                            _formatClassificationDate(userModel.userTypeDate!),
+                            style: TextStyle(
+                              color: Color(0xFF999999),
+                              fontSize: kIsWeb ? 11 : 11.r,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
+                    ],
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: kIsWeb ? 5 : 20.h),
+            SizedBox(height: kIsWeb ? 5 : 15.h),
             Padding(
               padding: kIsWeb
                   ? EdgeInsets.fromLTRB(55, 0, 55, 0)
@@ -152,7 +201,9 @@ class _HomeViewState extends State<HomeView> {
                                 ),
                               ),
                               Text(
-                                viewModel.totalUsageTime, // ViewModel의 데이터 사용
+                                _isLoadingStats
+                                  ? '로딩 중...'
+                                  : (_todayStats?.formattedUsageTime ?? '0분'),
                                 style: TextStyle(
                                   color: Color(0xFFFFFFFF),
                                   fontSize: kIsWeb ? 15 : 15.r,
@@ -175,7 +226,9 @@ class _HomeViewState extends State<HomeView> {
                                 ),
                               ),
                               Text(
-                                viewModel.totalUnlockCount, // ViewModel의 데이터 사용
+                                _isLoadingStats
+                                  ? '로딩 중...'
+                                  : (_todayStats?.formattedPickupCount ?? '0회'),
                                 style: TextStyle(
                                   color: Color(0xFFFFFFFF),
                                   fontSize: kIsWeb ? 15 : 15.r,

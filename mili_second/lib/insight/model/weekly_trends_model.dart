@@ -85,9 +85,9 @@ class CategoryChange {
     );
   }
 
-  // 카테고리별 변화율 문자열 생성 (예: "+ 150%")
+  // 카테고리별 변화율 문자열 생성 (예: "+ 150%" 또는 "- 60%")
   String get changeRateString {
-    String sign = changeRate >= 0 ? '+' : '';
+    String sign = changeRate >= 0 ? '+' : '-';
     // 소수점 없이 정수로 표시
     return '$sign ${changeRate.abs().toStringAsFixed(0)}%';
   }
