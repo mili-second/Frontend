@@ -16,7 +16,7 @@ class Top3AppUsage {
       rank: json['rank'],
       appName: json['appName'],
       packageName: json['packageName'],
-      usageMinutes: json['usageMiniutes'],
+      usageMinutes: json['usageMinutes'],
     );
   }
 

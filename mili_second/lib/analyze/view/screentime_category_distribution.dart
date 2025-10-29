@@ -226,13 +226,38 @@ class _ScreentimeCategoryDistributionState
     extends State<ScreentimeCategoryDistribution> {
   @override
   Widget build(BuildContext context) {
-    // 데이터가 부족하면 빈 데이터를 채워서 5개로 맞춤
+
+    List<ScreentimeCategoryDistributionModel> rawData = widget.chartData;
+    double sumOfNonOtherPercentages = 0.0;
+    List<Map<String, dynamic>> processedData = [];
+
+    // "OTHER"를 제외한 카테고리 처리
+    for (var item in rawData) {
+      if (item.categoryName != "OTHER") {
+        // 비율(ratio)을 퍼센트(%)로 변환 후 정수로 반올림
+        int percentage = (item.ratio * 100.0).round();
+        sumOfNonOtherPercentages += percentage;
+        processedData.add({'name': item.categoryName, 'value': percentage});
+      }
+    }
+
+    // "OTHER" 카테고리 비율 계산 (100 - 나머지 합)
+    double otherPercentage = 100 - sumOfNonOtherPercentages;
+    processedData.add({
+      'name': 'OTHER',
+      'value': (otherPercentage < 0 ? 0 : otherPercentage) // 0% 미만 방지
+    });
+
+    // 값(비율)이 큰 순서대로 정렬
+    processedData.sort((a, b) => (b['value'] as int).compareTo(a['value'] as int));
+
+    // 2. 변환된 `processedData`를 사용하여 `_Slice` 리스트 생성 (수정)
     List<_Slice> data = List.generate(5, (index) {
       if (index < widget.chartData.length) {
         return _Slice(
-          widget.chartData[index].categoryName,
-          widget.chartData[index].ratio.toDouble(),
-          _getCategoryColor(index),
+          processedData[index]['name'],
+          (processedData[index]['value'] as int).toDouble(),
+          _getCategoryColor(index), // 정렬된 순서대로 색상 적용
         );
       } else {
         return _Slice(
@@ -245,7 +270,7 @@ class _ScreentimeCategoryDistributionState
 
     return Container(
       width: kIsWeb ? 362 : 362.w,
-      height: kIsWeb ? 420 : 420.h,
+      height: kIsWeb ? 450 : 450.h,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(kIsWeb ? 10 : 10.r),
@@ -311,6 +336,59 @@ class _ScreentimeCategoryDistributionState
                       ),
                     ),
             ),
+            Positioned(
+              // 파이 차트의 SizedBox와 동일한 위치/크기
+              top: kIsWeb ? 100 : 100.h,
+              left: kIsWeb ? 80 : 80.w,
+              width: kIsWeb ? 150 : 150.w,
+              height: kIsWeb ? 150 : 150.h,
+              child: Center(
+                // data[0] (1등)의 값이 있을 때만 표시
+                child: (data.isNotEmpty && data[0].value > 0)
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // 1등 카테고리 퍼센트 (정수로 반올림)
+                          Text(
+                            '${data[0].value.round()}%',
+                            style: TextStyle(
+                              color: Color(0xFF000000),
+                              fontSize: kIsWeb ? 24 : 24.r,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          SizedBox(height: kIsWeb ? 4 : 4.h),
+                          Row(
+                            // Row가 중앙에 오도록 설정
+                            mainAxisSize: MainAxisSize.min, 
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // 1등 카테고리 색상 원
+                              Container(
+                                width: kIsWeb ? 10 : 10.w,
+                                height: kIsWeb ? 10 : 10.h,
+                                decoration: BoxDecoration(
+                                  color: data[0].color, // 1등 색상
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              SizedBox(width: kIsWeb ? 5 : 5.w),
+                              // 1등 카테고리 이름
+                              Text(
+                                data[0].name,
+                                style: TextStyle(
+                                  color: Color(0xFF6A6A6A),
+                                  fontSize: kIsWeb ? 15 : 15.r,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : SizedBox.shrink(), // 데이터가 없으면 비움
+              ),
+            ),
             // Positioned(
             //   top: kIsWeb ? 145 : 145.h,
             //   left: kIsWeb ? 117 : 117.w,
@@ -324,7 +402,14 @@ class _ScreentimeCategoryDistributionState
             //           fontWeight: FontWeight.w900,
             //         ),
             //       ),
-            //       Text('엔터테인먼트'),
+            //       Text(
+            //         data[0].name,
+            //         style: TextStyle(
+            //         color: Color(0xFF6A6A6A),
+            //         fontSize: kIsWeb ? 15 : 15.r,
+            //         fontWeight: FontWeight.w600,
+            //         ),
+            //       ),
             //     ],
             //   ),
             // ),
@@ -348,52 +433,66 @@ class _ScreentimeCategoryDistributionState
               left: kIsWeb ? 11 : 11.w,
               child: SizedBox(
                 width: kIsWeb ? 300 : 300.w,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        ChartInfo(
-                          widget: widget,
-                          colorInfo: Colors.red,
-                          title: data[0].name,
-                          percentage: data[0].value,
-                        ),
-                        SizedBox(width: kIsWeb ? 10 : 10.w),
-                        ChartInfo(
-                          widget: widget,
-                          colorInfo: Colors.orange,
-                          title: data[1].name,
-                          percentage: data[1].value,
-                        ),
-                        SizedBox(width: kIsWeb ? 10 : 10.w),
-                        ChartInfo(
-                          widget: widget,
-                          colorInfo: Colors.green,
-                          title: data[2].name,
-                          percentage: data[2].value,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: kIsWeb ? 10 : 10.h),
-                    Row(
-                      children: [
-                        ChartInfo(
-                          widget: widget,
-                          colorInfo: Colors.blue,
-                          title: data[3].name,
-                          percentage: data[3].value,
-                        ),
-                        SizedBox(width: kIsWeb ? 10 : 10.w),
-                        ChartInfo(
-                          widget: widget,
-                          colorInfo: Colors.purple,
-                          title: data[4].name,
-                          percentage: data[4].value,
-                        ),
-                      ],
-                    ),
-                  ],
+                child: Wrap(
+                  spacing: kIsWeb ? 10 : 10.w, // 아이템 간 가로 간격
+                  runSpacing: kIsWeb ? 10 : 10.h, // 줄(Row) 간 세로 간격
+                  children: data.skip(1).map((slice) {
+                  // children: data.map((slice) {
+                    // ChartInfo 위젯 생성
+                    return ChartInfo(
+                      widget: widget,
+                      colorInfo: slice.color,
+                      title: slice.name,
+                      percentage: slice.value,
+                    );
+                  }).toList(), // List<ChartInfo> 생성
                 ),
+                // child: Column(
+                //   children: [
+                //     Row(
+                //       children: [
+                //         ChartInfo(
+                //           widget: widget,
+                //           colorInfo: Colors.red,
+                //           title: data[0].name,
+                //           percentage: data[0].value,
+                //         ),
+                //         SizedBox(width: kIsWeb ? 10 : 10.w),
+                //         ChartInfo(
+                //           widget: widget,
+                //           colorInfo: Colors.orange,
+                //           title: data[1].name,
+                //           percentage: data[1].value,
+                //         ),
+                //         SizedBox(width: kIsWeb ? 10 : 10.w),
+                //         ChartInfo(
+                //           widget: widget,
+                //           colorInfo: Colors.green,
+                //           title: data[2].name,
+                //           percentage: data[2].value,
+                //         ),
+                //       ],
+                //     ),
+                //     SizedBox(height: kIsWeb ? 10 : 10.h),
+                //     Row(
+                //       children: [
+                //         ChartInfo(
+                //           widget: widget,
+                //           colorInfo: Colors.blue,
+                //           title: data[3].name,
+                //           percentage: data[3].value,
+                //         ),
+                //         SizedBox(width: kIsWeb ? 10 : 10.w),
+                //         ChartInfo(
+                //           widget: widget,
+                //           colorInfo: Colors.purple,
+                //           title: data[4].name,
+                //           percentage: data[4].value,
+                //         ),
+                //       ],
+                //     ),
+                //   ],
+                // ),
               ),
             ),
           ],
@@ -423,8 +522,8 @@ class _ScreentimeCategoryDistributionState
 
 class ChartInfo extends StatelessWidget {
   final Color colorInfo;
-  final title;
-  final percentage;
+  final String title;
+  final double percentage;
 
   const ChartInfo({
     super.key,
@@ -438,6 +537,11 @@ class ChartInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    if (title == 'data' || percentage == 0.0 ) {
+      return SizedBox.shrink(); // 빈 위젯 반환
+    }
+
     return Row(
       children: [
         Container(
@@ -446,7 +550,7 @@ class ChartInfo extends StatelessWidget {
           decoration: BoxDecoration(color: colorInfo, shape: BoxShape.circle),
         ),
         SizedBox(width: kIsWeb ? 5 : 5.w),
-        Text('${title}  ${percentage}%'),
+        Text('${title}  ${percentage.round()}%'),
       ],
     );
   }
