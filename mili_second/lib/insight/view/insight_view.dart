@@ -200,6 +200,39 @@ class _InsightViewState extends State<InsightView> {
         children: [
           SizedBox(height: kIsWeb ? 20 : 20.h),
 
+          // 어제 데이터 안내 문구
+          Container(
+            width: kIsWeb ? 362 : 362.w,
+            padding: EdgeInsets.symmetric(
+              horizontal: kIsWeb ? 16 : 16.w,
+              vertical: kIsWeb ? 12 : 12.h,
+            ),
+            decoration: BoxDecoration(
+              color: Color(0xFFF5F5F5),
+              borderRadius: BorderRadius.circular(kIsWeb ? 8 : 8.r),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  size: kIsWeb ? 16 : 16.r,
+                  color: Color(0xFF666666),
+                ),
+                SizedBox(width: kIsWeb ? 8 : 8.w),
+                Text(
+                  '어제까지의 데이터를 기반으로 분석한 결과입니다',
+                  style: TextStyle(
+                    fontSize: kIsWeb ? 13 : 13.r,
+                    color: Color(0xFF666666),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          SizedBox(height: kIsWeb ? 20 : 20.h),
+
           // 이번주 특이사항
           _isLoadingSpecial
               ? Container(

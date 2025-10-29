@@ -16,7 +16,7 @@ class UserModel extends ChangeNotifier {
   String? _error;
   String? _userProfileImage = 'assets/icons/profile_default.png';
   String? _userGender;
-  String? _userType = 'default';
+  String? _userType;
   String? _userTypeDate; // 분류된 날짜
 
   String? get userId => _userId;
@@ -357,7 +357,7 @@ class UserModel extends ChangeNotifier {
     _error = null;
     _userProfileImage = 'assets/icons/profile_default.png'; // 프로필 이미지 초기화
     _userGender = null; // 성별 초기화
-    _userType = 'default'; // 사용자 타입 초기화
+    _userType = null; // 사용자 타입 초기화
     _userTypeDate = null; // 분류 날짜 초기화
     notifyListeners();
     print('로컬 데이터 및 토큰이 모두 삭제되었습니다.');
@@ -459,8 +459,8 @@ class UserModel extends ChangeNotifier {
   // usermodel.dart
 
   Future<void> get_phonebti() async {
-    if (_userType != 'default') {
-      print('이미 핸bti를 로드했거나 로드에 실패했습니다: $_userType');
+    if (_userType != null) {
+      print('이미 핸bti를 로드했습니다: $_userType');
       return;
     }
     if (_userId == "test_front") {
@@ -498,7 +498,7 @@ class UserModel extends ChangeNotifier {
         final dataList = jsonDecode(utf8.decode(response.bodyBytes));
         if (dataList is List && dataList.isNotEmpty) {
           final firstItem = dataList[0];
-          _userType = firstItem['contentPreference'];
+          _userType = firstItem['contentPreference'].toString().toLowerCase();
           _userTypeDate = firstItem['date']; // 분류된 날짜 저장
           print('핸비티아이 파싱 성공: $_userType, 날짜: $_userTypeDate');
         } else {
