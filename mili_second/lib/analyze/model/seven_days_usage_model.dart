@@ -7,7 +7,7 @@ class WeeklyUsage {
   factory WeeklyUsage.fromJson(Map<String, dynamic> json) {
     return WeeklyUsage(
       date: json['date'],
-      totalUsageMinutes: (json['totalUsageMinutes'] ?? 0),
+      totalUsageMinutes: ((json['totalUsageMinutes'] ?? 0) as num).toDouble(),
     );
   }
 

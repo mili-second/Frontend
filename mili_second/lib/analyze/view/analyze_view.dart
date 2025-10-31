@@ -48,8 +48,8 @@ class _AnalyzeViewState extends State<AnalyzeView> {
     );
 
     setState(() {
-      _sevenDaysUsageTrendDatas = (result['data'] as List<double>?) ?? [];
-      _sevenDaysDateLabels = (result['labels'] as List<String>?) ?? [];
+      _sevenDaysUsageTrendDatas = (result['data'] as List?)?.map((e) => (e as num).toDouble()).toList() ?? [];
+      _sevenDaysDateLabels = (result['labels'] as List?)?.map((e) => e.toString()).toList() ?? [];
       _isLoadingWeekly = false;
     });
   }

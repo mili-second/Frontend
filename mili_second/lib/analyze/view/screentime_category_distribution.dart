@@ -248,11 +248,11 @@ class _ScreentimeCategoryDistributionState
     double otherPercentage = 100 - sumOfNonOtherPercentages;
     processedData.add({
       'name': '기타',
-      'value': (otherPercentage < 0 ? 0 : otherPercentage) // 0% 미만 방지
+      'value': (otherPercentage < 0 ? 0 : otherPercentage).round() // int로 변환
     });
 
     // 값(비율)이 큰 순서대로 정렬
-    processedData.sort((a, b) => (b['value'] as int).compareTo(a['value'] as int));
+    processedData.sort((a, b) => ((b['value'] as num).toInt()).compareTo((a['value'] as num).toInt()));
 
     // 2. 변환된 `processedData`를 사용하여 `_Slice` 리스트 생성 (수정)
     List<_Slice> data = List.generate(5, (index) {

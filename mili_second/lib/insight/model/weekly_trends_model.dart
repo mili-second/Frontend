@@ -43,7 +43,7 @@ class TotalUsageChange {
       yesterdayMinutes: (json['yesterdayMinutes'] ?? 0).toInt(),
       weeklyAverageMinutes: json['weeklyAverageMinutes'] ?? 0.0,
       changeMinutes: (json['changeMinutes'] ?? 0).toInt(),
-      changeRate: (json['changeRate'] ?? 0.0).toDouble(), // double로 명시적 변환
+      changeRate: ((json['changeRate'] ?? 0) as num).toDouble(), // 안전한 double 변환
     );
   }
   
@@ -81,7 +81,7 @@ class CategoryChange {
       yesterdayMinutes: (json['yesterdayMinutes'] ?? 0).toInt(),
       weeklyAverageMinutes: json['weeklyAverageMinutes'] ?? 0.0,
       changeMinutes: json['changeMinutes'] ?? 0.0,
-      changeRate: (json['changeRate'] ?? 0.0).toDouble(), // double로 명시적 변환
+      changeRate: ((json['changeRate'] ?? 0) as num).toDouble(), // 안전한 double 변환
     );
   }
 
